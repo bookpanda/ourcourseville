@@ -2,6 +2,12 @@
   "name": "ourcourseville",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun run ./src/index.js",
+    "start": "bun run ./src/index.js",
+    "build": "bun build --target=bun --outfile=build/index.js ./src"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "prettier": "^3.3.3",
@@ -9,5 +15,8 @@
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "playwright": "^1.47.2"
   }
 }
