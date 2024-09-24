@@ -4,11 +4,17 @@ import { chromium } from "playwright";
 (async () => {
   let browser: Browser | null = null;
   try {
-    const refreshToken = process.env.REFRESH_TOKEN ?? ""; // Replace with your actual refresh token
-    console.log("Refresh Token:", refreshToken);
+    const refreshToken = process.env.REFRESH_TOKEN ?? "";
+    const accessToken = process.env.ACCESS_TOKEN ?? "";
+    console.log("accessToken:", accessToken);
 
     browser = await chromium.launch({ headless: false });
     const context = await browser.newContext();
+
+    await context.setExtraHTTPHeaders({
+      Authorization: `Bearer ${accessToken}`,
+    });
+
     const page: Page = await context.newPage();
 
     await page.goto("https://alpha.mycourseville.com");
@@ -20,7 +26,11 @@ import { chromium } from "playwright";
     }, refreshToken);
 
     // Reload or go to the course page to ensure you're authenticated
-    // await page.goto("https://alpha.mycourseville.com/course/0000-KMh/");
+    await page.goto("https://alpha.mycourseville.com/course/0000-KMh/");
+
+    await page.evaluate((token) => {
+      localStorage.setItem("refresh_token", token);
+    }, refreshToken);
 
     // Scrape the data from the course page
     const scrapedData = await page.evaluate(() => {
