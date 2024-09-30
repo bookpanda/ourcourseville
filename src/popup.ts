@@ -1,10 +1,12 @@
-document.getElementById("scrapeButton").addEventListener("click", () => {
+const btn = document.getElementById("scrapeButton");
+
+btn?.addEventListener("click", () => {
   console.log("click");
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.scripting.executeScript(
       {
-        target: { tabId: tabs[0].id },
-        function: scrapePage,
+        target: { tabId: tabs[0].id ?? 0 },
+        func: scrapePage,
       },
       (results) => {
         console.log("Scraped data:", results); // Logs the result to the popup

@@ -5,9 +5,9 @@
   "description": "Scrapes elements from the current tab.",
   "permissions": ["activeTab", "scripting", "<all_urls>"],
   "background": {
-    "service_worker": "src/background.js"
+    "service_worker": "build/background.js"
   },
   "action": {
-    "default_popup": "src/popup.html"
+    "default_popup": "build/popup.html"
   }
 }
