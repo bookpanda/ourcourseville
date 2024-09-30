@@ -1,12 +1,7 @@
-// src/background.js
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  console.log("Received scraped data:", message);
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === "scrape") {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      chrome.tabs.sendMessage(tabs[0].id, { action: "scrape" }, (response) => {
-        sendResponse(response);
-      });
-    });
-    return true; // Keep the message channel open for sendResponse
-  }
+  // You can do something with the data here, like saving it or processing it
+
+  sendResponse({ status: "Data received" });
 });
