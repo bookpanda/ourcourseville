@@ -4,21 +4,12 @@
   "version": "1.0",
   "description": "Scrapes elements from the current tab.",
   "permissions": ["tabs", "activeTab", "scripting"],
-  "host_permissions": [
-    "https://alpha.mycourseville.com/",
-    "https://mycourseville.com/"
-  ],
+  "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "background.js",
     "type": "module"
   },
   "action": {
     "default_popup": "popup.html"
-  },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["scripts/scrape.js"]
-    }
-  ]
+  }
 }

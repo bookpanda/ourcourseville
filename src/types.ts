@@ -1,5 +1,5 @@
 export interface Message {
-  type: MessageType;
+  type: "scrape" | "fillin";
 }
 
 export interface ScrapeMessage extends Message {
@@ -8,11 +8,6 @@ export interface ScrapeMessage extends Message {
     question: string;
     answer: string;
   }[];
-}
-
-export enum MessageType {
-  SCRAPE = "scrape",
-  FILLIN = "fillin",
 }
 
 export function isScrapeMessage(msg: Message): msg is ScrapeMessage {

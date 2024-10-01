@@ -1,10 +1,10 @@
 import { saveRecord } from "./api";
-import { isScrapeMessage, Message, MessageType } from "./types";
+import { isScrapeMessage, Message } from "./types";
 
 chrome.runtime.onMessage.addListener(
   (message: Message, sender, sendResponse) => {
     switch (message.type) {
-      case MessageType.SCRAPE:
+      case "scrape":
         if (!isScrapeMessage(message)) return;
 
         console.log("Received scraped data:", message);

@@ -3,7 +3,7 @@
     [
       "@babel/preset-env",
       {
-        "modules": false // Keep ES modules (important for modern browsers)
+        "modules": false
       }
     ],
     "@babel/preset-typescript"
