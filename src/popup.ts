@@ -11,6 +11,8 @@ btn?.addEventListener("click", () => {
       },
       (results) => {
         console.log("Scraped data:", results); // Logs the result to the popup
+        chrome.runtime.sendMessage(results);
+
         // document.getElementById("result").textContent = JSON.stringify(
         //   results[0].result,
         //   null,
@@ -74,6 +76,6 @@ const scrapePage = (): ScrapeMessage => {
     problems: qnas,
   };
 
-  chrome.runtime.sendMessage(response);
+  // chrome.runtime.sendMessage(response);
   return response;
 };
