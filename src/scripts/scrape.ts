@@ -1,7 +1,6 @@
 import { ScrapeMessage } from "../types";
 
-export const scrapePage = (): ScrapeMessage => {
-  const pageTitle = document.title;
+export const scrape = (url: string): ScrapeMessage => {
   const mainElements = document.querySelectorAll("main");
   const innerMain = mainElements[1];
   const form = innerMain.querySelectorAll("form")[0];
@@ -49,7 +48,10 @@ export const scrapePage = (): ScrapeMessage => {
 
   const response: ScrapeMessage = {
     type: "scrape",
-    title: pageTitle,
+    courseID: "courseID",
+    course: "course",
+    assignmentID: "assignmentID",
+    assignment: "assignment",
     problems: qnas,
   };
 
