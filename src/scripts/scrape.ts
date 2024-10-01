@@ -50,6 +50,20 @@ export const scrape = (url: string): ScrapeMessage => {
   const courseID = parts[4];
   const assignmentID = parts[6].split("#")[0];
 
+  // courseCode, course
+  const courseIcon = document.querySelector('img[alt="desktop course icon"]');
+  let courseCode = "null";
+  let course = "null";
+  if (courseIcon) {
+    const siblingDiv = courseIcon.nextElementSibling;
+    const childDivs = siblingDiv?.querySelectorAll("div");
+    if (childDivs && childDivs.length >= 2) {
+      courseCode = childDivs[0].textContent?.trim() ?? "null";
+      course = childDivs[1].textContent?.trim() ?? "null";
+    }
+  }
+
+  // assignment
   const anchor = document.querySelectorAll(
     `a[href="/course/${courseID}/assignments"]`
   );
@@ -65,7 +79,8 @@ export const scrape = (url: string): ScrapeMessage => {
   const response: ScrapeMessage = {
     type: "scrape",
     courseID,
-    course: "course",
+    course,
+    courseCode,
     assignmentID,
     assignment,
     problems: qnas,

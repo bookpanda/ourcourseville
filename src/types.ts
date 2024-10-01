@@ -3,6 +3,7 @@ export interface Message {
 }
 
 export interface ScrapeMessage extends Message {
+  courseCode: string;
   courseID: string;
   course: string;
   assignmentID: string;
