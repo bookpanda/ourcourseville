@@ -1,7 +1,6 @@
 const btn = document.getElementById("scrapeButton");
 
 btn?.addEventListener("click", () => {
-  console.log("click");
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.scripting.executeScript(
       {
@@ -47,25 +46,24 @@ function scrapePage() {
         return text;
       }, "")
       .trim();
-    if (textAnswer) {
-      return { question, answer: textAnswer };
-    }
+    if (textAnswer) return { question, answer: textAnswer };
 
     const checkedButton = answerDiv.querySelector(
       'button[data-state="checked"]'
     );
-    if (!checkedButton) {
-      console.log("No checked button found in the specified <div>.");
-      return { question, answer: "No answer found" };
-    }
+    const label = document.querySelector(`label[for="${checkedButton?.id}"]`);
+    const choiceAnswer = label?.textContent?.trim();
+    if (choiceAnswer)
+      return {
+        question,
+        answer: choiceAnswer,
+      };
 
-    const label = document.querySelector(`label[for="${checkedButton.id}"]`);
-    const choiceAnswer = label?.textContent?.trim() ?? "No answer found";
+    const fileAnchor = answerDiv.querySelector("a");
+    const fileUrl = fileAnchor?.href;
+    if (fileUrl) return { question, answer: fileUrl };
 
-    return {
-      question,
-      answer: choiceAnswer,
-    };
+    return { question, answer: "No answer found" };
   });
 
   chrome.runtime.sendMessage({
