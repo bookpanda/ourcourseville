@@ -8,10 +8,6 @@
     "https://alpha.mycourseville.com/",
     "https://mycourseville.com/"
   ],
-  "background": {
-    "service_worker": "background.js",
-    "type": "module"
-  },
   "action": {
     "default_popup": "popup.html"
   }

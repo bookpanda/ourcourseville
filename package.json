@@ -1,6 +1,5 @@
 {
   "name": "ourcourseville",
-  "module": "index.ts",
   "devDependencies": {
     "@types/bun": "latest",
     "@types/chrome": "^0.0.273",
