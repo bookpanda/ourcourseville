@@ -3,13 +3,21 @@ export interface Message {
 }
 
 export interface ScrapeMessage extends Message {
-  title: string;
-  problems: {
-    question: string;
-    answer: string;
-  }[];
+  problems: Problem[];
 }
 
 export function isScrapeMessage(msg: Message): msg is ScrapeMessage {
   return (msg as ScrapeMessage).problems !== undefined;
 }
+
+export type Problem = {
+  question: string;
+  answer: string;
+};
+
+export type Metadata = {
+  courseID: string;
+  course: string;
+  assignmentID: string;
+  assignment: string;
+};

@@ -1,6 +1,6 @@
-import { ScrapeMessage } from "../types";
+import { Metadata } from "../types";
 
-export const scrapePage = (): ScrapeMessage => {
+export const scrapeMetadata = (url: string): Metadata => {
   const pageTitle = document.title;
   const mainElements = document.querySelectorAll("main");
   const innerMain = mainElements[1];
@@ -47,10 +47,11 @@ export const scrapePage = (): ScrapeMessage => {
     return { question, answer: "No answer found" };
   });
 
-  const response: ScrapeMessage = {
-    type: "scrape",
-    title: pageTitle,
-    problems: qnas,
+  const response: Metadata = {
+    courseID: "courseID",
+    course: "course",
+    assignmentID: "assignmentID",
+    assignment: "assignment",
   };
 
   // chrome.runtime.sendMessage(response);
