@@ -13,7 +13,14 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run ./src/index.js",
     "start": "bun run ./src/index.js",
-    "build": "bun run tsc && node copy-files.mjs"
+    "build": "bun run tsc --noEmit && babel src --extensions '.ts,.js' --out-dir build && node copy-files.mjs"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "@babel/cli": "^7.25.6",
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.4",
+    "@babel/preset-typescript": "^7.24.7",
+    "babel-plugin-add-import-extension": "^1.6.0"
+  }
 }

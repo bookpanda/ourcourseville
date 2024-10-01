@@ -1,0 +1,12 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "modules": false // Keep ES modules (important for modern browsers)
+      }
+    ],
+    "@babel/preset-typescript"
+  ],
+  "plugins": ["add-import-extension"]
+}
