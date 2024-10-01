@@ -1,40 +1,48 @@
 using FirebaseAdmin;
 using Google.Cloud.Firestore;
 using Google.Apis.Auth.OAuth2;
-using System;
-using System.Threading.Tasks;
+using backend.DTO;
+using backend.Models;
+using backend.Services.Interfaces;
 
-public class FirestoreService
+namespace backend.Services;
+
+public class FirestoreService : IFirestoreService
 {
     private FirestoreDb _firestoreDb;
 
     public FirestoreService()
     {
-        // Path to your service account key file
-        var pathToCredentials = @"path/to/serviceAccountKey.json";
-
-        // Initialize the Firebase Admin SDK with the service account
-        FirebaseApp.Create(new AppOptions()
+        if (FirebaseApp.DefaultInstance == null)
         {
-            Credential = GoogleCredential.FromFile(pathToCredentials)
-        });
+            var pathToCredentials = @"firebase-adminsdk.json";
 
-        // Initialize Firestore
-        _firestoreDb = FirestoreDb.Create("your-project-id"); // Your Firebase Project ID
+            FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.FromFile(pathToCredentials)
+            });
+
+        }
+        _firestoreDb = FirestoreDb.Create("ourcourseville");
     }
 
-    public async Task AddDocumentAsync()
+    public async Task AddDocumentAsync(RecordDTO recordDTO)
     {
-        CollectionReference collection = _firestoreDb.Collection("your-collection");
-        DocumentReference document = await collection.AddAsync(new
+        CollectionReference collection = _firestoreDb.Collection("records");
+        DocumentReference document = await collection.AddAsync(new Record
         {
-            Name = "Sample Document",
+            CourseCode = recordDTO.CourseCode,
+            CourseID = recordDTO.CourseID,
+            Course = recordDTO.Course,
+            AssignmentID = recordDTO.AssignmentID,
+            Assignment = recordDTO.Assignment,
+            Problems = recordDTO.Problems,
             CreatedAt = Timestamp.GetCurrentTimestamp()
         });
         Console.WriteLine($"Added document with ID: {document.Id}");
     }
 
-    public async Task GetDocumentAsync(string documentId)
+    public async Task<List<Record>> GetDocumentAsync(string documentId)
     {
         DocumentReference docRef = _firestoreDb.Collection("your-collection").Document(documentId);
         DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
@@ -46,5 +54,7 @@ public class FirestoreService
         {
             Console.WriteLine("Document does not exist.");
         }
+
+        return null;
     }
 }
