@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Google.Cloud.Firestore;
 
 namespace backend.Models;
 
@@ -10,6 +11,7 @@ public class Record
     public required string AssignmentID { get; set; }
     public required string Assignment { get; set; }
     public required List<Problem> Problems { get; set; }
+    public required Timestamp CreatedAt { get; set; }
 }
 
 public class Problem
