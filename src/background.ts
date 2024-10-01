@@ -12,8 +12,6 @@ chrome.runtime.onMessage.addListener(
         break;
     }
 
-    // You can do something with the data here, like saving it or processing it
-
     sendResponse({ status: "Data received" });
   }
 );
