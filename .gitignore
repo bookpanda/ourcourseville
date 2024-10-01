@@ -180,3 +180,4 @@ dist
 obj
 bin
 firebase-sdk.json
+firebase-adminsdk.json
