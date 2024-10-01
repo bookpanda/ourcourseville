@@ -50,12 +50,24 @@ export const scrape = (url: string): ScrapeMessage => {
   const courseID = parts[4];
   const assignmentID = parts[6].split("#")[0];
 
+  const anchor = document.querySelectorAll(
+    `a[href="/course/${courseID}/assignments"]`
+  );
+  let assignment = "No assignment name found";
+  if (anchor[1]) {
+    assignment = "asd";
+    const parentDiv = anchor[1].closest("div");
+    assignment =
+      parentDiv?.nextElementSibling?.nextElementSibling?.textContent?.trim() ??
+      "No assignment name";
+  }
+
   const response: ScrapeMessage = {
     type: "scrape",
     courseID,
     course: "course",
     assignmentID,
-    assignment: "assignment",
+    assignment,
     problems: qnas,
   };
 
