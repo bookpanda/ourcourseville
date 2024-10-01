@@ -178,3 +178,5 @@ dist
 
 
 obj
+bin
+firebase-sdk.json
