@@ -3,7 +3,7 @@
   "name": "Scraper Extension",
   "version": "1.0",
   "description": "Scrapes elements from the current tab.",
-  "permissions": ["activeTab", "scripting", "<all_urls>"],
+  "permissions": ["tabs", "activeTab", "scripting", "<all_urls>"],
   "background": {
     "service_worker": "build/background.js"
   },

@@ -1,3 +1,5 @@
+import { MessageType, ScrapeMessage } from "./types";
+
 const btn = document.getElementById("scrapeButton");
 
 btn?.addEventListener("click", () => {
@@ -19,7 +21,7 @@ btn?.addEventListener("click", () => {
   });
 });
 
-function scrapePage() {
+const scrapePage = (): ScrapeMessage => {
   const pageTitle = document.title;
   const mainElements = document.querySelectorAll("main");
   const innerMain = mainElements[1];
@@ -66,10 +68,12 @@ function scrapePage() {
     return { question, answer: "No answer found" };
   });
 
-  chrome.runtime.sendMessage({
+  const response: ScrapeMessage = {
+    type: MessageType.SCRAPE,
     title: pageTitle,
     problems: qnas,
-  });
+  };
 
-  return { title: pageTitle, problems: qnas }; // Also return it for popup use
-}
+  chrome.runtime.sendMessage(response);
+  return response;
+};
