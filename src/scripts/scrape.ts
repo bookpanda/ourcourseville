@@ -46,11 +46,15 @@ export const scrape = (url: string): ScrapeMessage => {
     return { question, answer: "No answer found" };
   });
 
+  const parts = url.split("/");
+  const courseID = parts[4];
+  const assignmentID = parts[6].split("#")[0];
+
   const response: ScrapeMessage = {
     type: "scrape",
-    courseID: "courseID",
+    courseID,
     course: "course",
-    assignmentID: "assignmentID",
+    assignmentID,
     assignment: "assignment",
     problems: qnas,
   };
