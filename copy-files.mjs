@@ -19,3 +19,13 @@ htmlFiles.forEach((file) => {
     }
   });
 });
+
+const srcPath = join(__dirname, "manifest.json");
+const destPath = join(__dirname, "build", "manifest.json");
+copyFile(srcPath, destPath, (err) => {
+  if (err) {
+    console.error(`Error copying manifest.json:`, err);
+  } else {
+    console.log(`Copied manifest.json to build folder.`);
+  }
+});
