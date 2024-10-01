@@ -1,13 +1,9 @@
 # ourcourseville
 
-To install dependencies:
-
+## Extension
 ```bash
 bun install
-```
 
-To run:
-
-```bash
-bun run index.ts
+# build folder for uploading as chrome extension
+bun run build
 ```
