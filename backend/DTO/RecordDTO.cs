@@ -1,21 +1,20 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using backend.Models;
 
 namespace backend.DTO;
 
-public class RecordDTO
+public record RecordDTO
 {
     [JsonPropertyName("course_code")]
-    public required string CourseCode { get; set; }
+    public required string CourseCode { get; init; }
     [JsonPropertyName("course_id")]
-    public required string CourseID { get; set; }
+    public required string CourseID { get; init; }
     [JsonPropertyName("course")]
-    public required string Course { get; set; }
+    public required string Course { get; init; }
     [JsonPropertyName("assignment_id")]
-    public required string AssignmentID { get; set; }
+    public required string AssignmentID { get; init; }
     [JsonPropertyName("assignment")]
-    public required string Assignment { get; set; }
+    public required string Assignment { get; init; }
     [JsonPropertyName("problems")]
-    public required List<Problem> Problems { get; set; }
+    public required List<Problem> Problems { get; init; }
 }
