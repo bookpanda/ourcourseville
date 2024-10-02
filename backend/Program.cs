@@ -20,7 +20,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMyDependencyGroup();
+builder.Services
+    .AddConfig(builder.Configuration)
+    .AddMyDependencyGroup();
 
 var app = builder.Build();
 
