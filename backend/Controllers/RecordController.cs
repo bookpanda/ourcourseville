@@ -38,8 +38,8 @@ public class RecordController : ControllerBase
     {
         try
         {
-            await _recordSvc.FindOne(id);
-            return Ok();
+            var record = await _recordSvc.FindOne(id);
+            return Ok(record);
         }
         catch (ServiceException ex)
         {
