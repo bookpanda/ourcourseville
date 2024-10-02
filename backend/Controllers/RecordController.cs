@@ -10,12 +10,12 @@ namespace backend.Controllers;
 [ApiController]
 public class RecordController : ControllerBase
 {
-    private readonly IFirestoreService _fsSvc;
+    private readonly IRecordService _recordSvc;
     private readonly ILogger<RecordController> _log;
 
-    public RecordController(IFirestoreService fsSvc, ILogger<RecordController> log)
+    public RecordController(IRecordService recordSvc, ILogger<RecordController> log)
     {
-        _fsSvc = fsSvc;
+        _recordSvc = recordSvc;
         _log = log;
     }
 
@@ -24,7 +24,21 @@ public class RecordController : ControllerBase
     {
         try
         {
-            await _fsSvc.AddDocumentAsync(recordDTO);
+            await _recordSvc.Create(recordDTO);
+            return Ok();
+        }
+        catch (ServiceException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> FindOneRecord(string id)
+    {
+        try
+        {
+            await _recordSvc.FindOne(id);
             return Ok();
         }
         catch (ServiceException ex)

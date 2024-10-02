@@ -9,7 +9,7 @@ public static class MyConfigServiceCollectionExtensions
     public static IServiceCollection AddMyDependencyGroup(this IServiceCollection services)
     {
         services.AddSingleton(FirebaseApp.Create());
-        services.AddScoped<IFirestoreService, FirestoreService>();
+        services.AddScoped<IRecordService, RecordService>();
 
         return services;
     }

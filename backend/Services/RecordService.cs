@@ -7,18 +7,18 @@ using System.Net;
 
 namespace backend.Services;
 
-public class FirestoreService : IFirestoreService
+public class RecordService : IRecordService
 {
-    private FirestoreDb _firestoreDb;
-    private readonly ILogger<FirestoreService> _log;
+    private FirestoreDb _recordDB;
+    private readonly ILogger<RecordService> _log;
 
-    public FirestoreService(ILogger<FirestoreService> log)
+    public RecordService(ILogger<RecordService> log)
     {
-        _firestoreDb = FirestoreDb.Create("ourcourseville");
+        _recordDB = FirestoreDb.Create("ourcourseville");
         _log = log;
     }
 
-    public async Task<Record> AddDocumentAsync(RecordDTO recordDTO)
+    public async Task<Record> Create(RecordDTO recordDTO)
     {
         var newRecord = new Record
         {
@@ -33,7 +33,7 @@ public class FirestoreService : IFirestoreService
 
         try
         {
-            DocumentReference document = _firestoreDb.Collection("records").Document();
+            DocumentReference document = _recordDB.Collection("records").Document();
             await document.SetAsync(newRecord);
             _log.LogInformation($"Added document with ID: {document.Id}");
         }
@@ -46,19 +46,21 @@ public class FirestoreService : IFirestoreService
         return newRecord;
     }
 
-    public async Task<List<Record>> GetDocumentAsync(string documentId)
+    public async Task<Record> FindOne(string id)
     {
-        DocumentReference docRef = _firestoreDb.Collection("your-collection").Document(documentId);
+        DocumentReference docRef = _recordDB.Collection("records").Document(id);
         DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
-        if (snapshot.Exists)
+        if (!snapshot.Exists)
         {
-            Console.WriteLine($"Document data: {snapshot.ToDictionary()}");
-        }
-        else
-        {
-            Console.WriteLine("Document does not exist.");
+            _log.LogError($"No document with id {id}");
+            throw new ServiceException($"No document with id {id}", HttpStatusCode.NotFound);
         }
 
-        return null;
+        return snapshot.ConvertTo<Record>();
+    }
+
+    public async Task<List<Record>> Find()
+    {
+        throw new NotImplementedException("This method is not implemented yet.");
     }
 }
