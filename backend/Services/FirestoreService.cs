@@ -1,35 +1,26 @@
-using FirebaseAdmin;
 using Google.Cloud.Firestore;
-using Google.Apis.Auth.OAuth2;
 using backend.DTO;
 using backend.Models;
 using backend.Services.Interfaces;
+using backend.Exceptions;
+using System.Net;
 
 namespace backend.Services;
 
 public class FirestoreService : IFirestoreService
 {
     private FirestoreDb _firestoreDb;
+    private readonly ILogger<FirestoreService> _log;
 
-    public FirestoreService()
+    public FirestoreService(ILogger<FirestoreService> log)
     {
-        if (FirebaseApp.DefaultInstance == null)
-        {
-            var pathToCredentials = @"firebase-adminsdk.json";
-
-            FirebaseApp.Create(new AppOptions()
-            {
-                Credential = GoogleCredential.FromFile(pathToCredentials)
-            });
-
-        }
         _firestoreDb = FirestoreDb.Create("ourcourseville");
+        _log = log;
     }
 
-    public async Task AddDocumentAsync(RecordDTO recordDTO)
+    public async Task<Record> AddDocumentAsync(RecordDTO recordDTO)
     {
-        CollectionReference collection = _firestoreDb.Collection("records");
-        DocumentReference document = await collection.AddAsync(new Record
+        var newRecord = new Record
         {
             CourseCode = recordDTO.CourseCode,
             CourseID = recordDTO.CourseID,
@@ -38,8 +29,21 @@ public class FirestoreService : IFirestoreService
             Assignment = recordDTO.Assignment,
             Problems = recordDTO.Problems,
             CreatedAt = Timestamp.GetCurrentTimestamp()
-        });
-        Console.WriteLine($"Added document with ID: {document.Id}");
+        };
+
+        try
+        {
+            DocumentReference document = _firestoreDb.Collection("records").Document();
+            await document.SetAsync(newRecord);
+            _log.LogInformation($"Added document with ID: {document.Id}");
+        }
+        catch (Exception ex)
+        {
+            _log.LogError(ex, "Error adding document");
+            throw new ServiceException("Error adding document", HttpStatusCode.InternalServerError, ex);
+        }
+
+        return newRecord;
     }
 
     public async Task<List<Record>> GetDocumentAsync(string documentId)
