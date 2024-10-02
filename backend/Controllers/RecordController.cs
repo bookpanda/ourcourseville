@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using backend.Services.Interfaces;
 using backend.DTO;
+using backend.Exceptions;
 
 namespace backend.Controllers;
 
@@ -18,20 +19,17 @@ public class RecordController : ControllerBase
         _log = log;
     }
 
-    [HttpPost("")]
+    [HttpPost]
     public async Task<IActionResult> CreateRecord([FromBody] RecordDTO recordDTO)
     {
-        Console.WriteLine("Creating record...");
-        _log.LogInformation("Creating record...");
         try
         {
             await _fsSvc.AddDocumentAsync(recordDTO);
             return Ok();
         }
-        catch (Exception ex)
+        catch (ServiceException ex)
         {
-            _log.LogError(ex, "Error creating record");
-            return StatusCode(500);
+            return StatusCode((int)ex.StatusCode, ex.Message);
         }
     }
 }
