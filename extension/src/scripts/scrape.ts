@@ -58,7 +58,8 @@ export const scrape = (url: string): ScrapeMessage => {
     const siblingDiv = courseIcon.nextElementSibling;
     const childDivs = siblingDiv?.querySelectorAll("div");
     if (childDivs && childDivs.length >= 2) {
-      courseCode = childDivs[0].textContent?.trim() ?? "null";
+      const rawCourseCode = childDivs[0].textContent?.trim() ?? "null";
+      courseCode = rawCourseCode.split(".")[0];
       course = childDivs[1].textContent?.trim() ?? "null";
     }
   }
