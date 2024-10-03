@@ -4,21 +4,18 @@ using backend.Models;
 using backend.Services.Interfaces;
 using backend.Config;
 using Microsoft.Extensions.Options;
+using backend.Data;
 
 namespace backend.Services;
 
 public class CourseService : ICourseService
 {
-    private readonly FirestoreConfig _config;
-    private FirestoreDb _courseDB;
-    private CollectionReference _collection;
+    private CollectionReference _courses;
     private readonly ILogger<CourseService> _log;
 
-    public CourseService(IOptions<FirestoreConfig> config, ILogger<CourseService> log)
+    public CourseService(Firestore fs, ILogger<CourseService> log)
     {
-        _config = config.Value;
-        _courseDB = FirestoreDb.Create(_config.DB);
-        _collection = _courseDB.Collection(_config.Courses);
+        _courses = fs.courses;
         _log = log;
     }
 

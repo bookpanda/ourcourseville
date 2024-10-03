@@ -4,23 +4,18 @@ using backend.Models;
 using backend.Services.Interfaces;
 using backend.Exceptions;
 using System.Net;
-using backend.Config;
-using Microsoft.Extensions.Options;
+using backend.Data;
 
 namespace backend.Services;
 
 public class RecordService : IRecordService
 {
-    private readonly FirestoreConfig _config;
-    private FirestoreDb _db;
-    private CollectionReference _collection;
+    private CollectionReference _records;
     private readonly ILogger<RecordService> _log;
 
-    public RecordService(IOptions<FirestoreConfig> config, ILogger<RecordService> log)
+    public RecordService(Firestore fs, ILogger<RecordService> log)
     {
-        _config = config.Value;
-        _db = FirestoreDb.Create(_config.DB);
-        _collection = _db.Collection(_config.Records);
+        _records = fs.records;
         _log = log;
     }
 
@@ -39,7 +34,7 @@ public class RecordService : IRecordService
 
         try
         {
-            DocumentReference document = _collection.Document();
+            DocumentReference document = _records.Document();
             await document.SetAsync(newRecord);
             _log.LogInformation($"Added document with ID: {document.Id}");
             newRecord.ID = document.Id;
@@ -57,7 +52,7 @@ public class RecordService : IRecordService
     {
         try
         {
-            DocumentReference docRef = _collection.Document(id);
+            DocumentReference docRef = _records.Document(id);
             DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
             if (!snapshot.Exists)
             {
