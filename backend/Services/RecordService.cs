@@ -11,16 +11,16 @@ namespace backend.Services;
 
 public class RecordService : IRecordService
 {
-    private readonly RecordConfig _config;
-    private FirestoreDb _recordDB;
+    private readonly FirestoreConfig _config;
+    private FirestoreDb _db;
     private CollectionReference _collection;
     private readonly ILogger<RecordService> _log;
 
-    public RecordService(IOptions<RecordConfig> config, ILogger<RecordService> log)
+    public RecordService(IOptions<FirestoreConfig> config, ILogger<RecordService> log)
     {
         _config = config.Value;
-        _recordDB = FirestoreDb.Create(_config.DB);
-        _collection = _recordDB.Collection(_config.Collection);
+        _db = FirestoreDb.Create(_config.DB);
+        _collection = _db.Collection(_config.Records);
         _log = log;
     }
 

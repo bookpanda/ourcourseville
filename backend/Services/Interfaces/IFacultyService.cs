@@ -5,7 +5,7 @@ namespace backend.Services.Interfaces;
 
 public interface IFacultyService
 {
-    Task<Record> Create(CourseDTO courseDTO);
-    Task<List<Record>> FindAll();
-    Task<Record> FindByCode(string code);
+    Task<Faculty> Create(FacultyDTO facultyDTO);
+    Task<List<Faculty>> FindAll();
+    Task<Faculty> FindByCode(string code);
 }
