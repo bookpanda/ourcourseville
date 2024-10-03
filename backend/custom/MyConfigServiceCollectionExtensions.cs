@@ -18,6 +18,8 @@ public static class MyConfigServiceCollectionExtensions
     {
         services.AddSingleton(FirebaseApp.Create());
         services.AddSingleton<Firestore>();
+        services.AddScoped<IFacultyService, FacultyService>();
+        services.AddScoped<ICourseService, CourseService>();
         services.AddScoped<IRecordService, RecordService>();
 
         return services;
