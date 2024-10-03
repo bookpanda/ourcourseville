@@ -9,7 +9,7 @@ public static class MyConfigServiceCollectionExtensions
 {
     public static IServiceCollection AddConfig(this IServiceCollection services, IConfiguration config)
     {
-        services.Configure<RecordConfig>(config.GetSection(RecordConfig.Record));
+        services.Configure<FirestoreConfig>(config.GetSection(FirestoreConfig.Firestore));
 
         return services;
     }
