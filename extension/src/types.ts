@@ -6,6 +6,7 @@ export interface ScrapeMessage extends Message {
   courseCode: string;
   courseID: string;
   course: string;
+  courseIcon: string;
   assignmentID: string;
   assignment: string;
   problems: {

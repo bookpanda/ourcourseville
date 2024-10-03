@@ -51,11 +51,14 @@ export const scrape = (url: string): ScrapeMessage => {
   const assignmentID = parts[6].split("#")[0];
 
   // courseCode, course
-  const courseIcon = document.querySelector('img[alt="desktop course icon"]');
+  const courseIconImg = document.querySelector(
+    'img[alt="desktop course icon"]'
+  );
+  let courseIcon = (courseIconImg as HTMLImageElement).src ?? "null";
   let courseCode = "null";
   let course = "null";
-  if (courseIcon) {
-    const siblingDiv = courseIcon.nextElementSibling;
+  if (courseIconImg) {
+    const siblingDiv = courseIconImg.nextElementSibling;
     const childDivs = siblingDiv?.querySelectorAll("div");
     if (childDivs && childDivs.length >= 2) {
       const rawCourseCode = childDivs[0].textContent?.trim() ?? "null";
@@ -82,6 +85,7 @@ export const scrape = (url: string): ScrapeMessage => {
     courseID,
     course,
     courseCode,
+    courseIcon,
     assignmentID,
     assignment,
     problems: qnas,
