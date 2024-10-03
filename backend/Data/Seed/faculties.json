@@ -1,0 +1,118 @@
+ [
+    {
+        "code": "01",
+        "name": "THE SIRINDHORN THAI LANGUAGE INSTITUTE"
+    },
+    {
+        "code": "02",
+        "name": "OFFICE OF ACADEMIC AFFAIRS"
+    },
+    {
+        "code": "20",
+        "name": "GRADUATE SCHOOL"
+    },
+    {
+        "code": "21",
+        "name": "FACULTY OF ENGINEERING"
+    },
+    {
+        "code": "22",
+        "name": "FACULTY OF ARTS"
+    },
+    {
+        "code": "23",
+        "name": "FACULTY OF SCIENCE"
+    },
+    {
+        "code": "24",
+        "name": "FACULTY OF POLITICAL SCIENCE"
+    },
+    {
+        "code": "25",
+        "name": "FACULTY OF ARCHITECTURE"
+    },
+    {
+        "code": "26",
+        "name": "FACULTY OF COMMERCE AND ACCOUNTANCY"
+    },
+    {
+        "code": "27",
+        "name": "FACULTY OF EDUCATION"
+    },
+    {
+        "code": "28",
+        "name": "FACULTY OF COMMUNICATION ARTS"
+    },
+    {
+        "code": "29",
+        "name": "FACULTY OF ECONOMICS"
+    },
+    {
+        "code": "30",
+        "name": "FACULTY OF MEDICINE"
+    },
+    {
+        "code": "31",
+        "name": "FACULTY OF VETERINARY SCIENCE"
+    },
+    {
+        "code": "32",
+        "name": "FACULTY OF DENTISTRY"
+    },
+    {
+        "code": "33",
+        "name": "FACULTY OF PHARMACEUTICAL SCIENCES"
+    },
+    {
+        "code": "34",
+        "name": "FACULTY OF LAW"
+    },
+    {
+        "code": "35",
+        "name": "FACULTY OF FINE AND APPLIED ARTS"
+    },
+    {
+        "code": "36",
+        "name": "FACULTY OF NURSING"
+    },
+    {
+        "code": "37",
+        "name": "FACULTY OF ALLIED HEALTH SCIENCES"
+    },
+    {
+        "code": "38",
+        "name": "FACULTY OF PSYCHOLOGY"
+    },
+    {
+        "code": "39",
+        "name": "FACULTY OF SPORTS SCIENCE"
+    },
+    {
+        "code": "40",
+        "name": "SCHOOL OF AGRICULTURAL RESOURCES"
+    },
+    {
+        "code": "51",
+        "name": "COLLEGE OF POPULATION STUDIES"
+    },
+    {
+        "code": "53",
+        "name": "COLLEGE OF PUBLIC HEALTH SCIENCES"
+    },
+    {
+        "code": "55",
+        "name": "LANGUAGE INSTITUTE"
+    },
+    {
+        "code": "56",
+        "name": "SCHOOL OF INTEGRATED INNOVATION"
+    },
+    {
+        "code": "58",
+        "name": "SASIN GRADUATE INSTITUTE OF BUSINESS ADMINISTION"
+    },
+    {
+        "code": "99",
+        "name": "OTHER UNIVERSITY"
+    }
+]

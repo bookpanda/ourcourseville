@@ -22,6 +22,8 @@ public static class MyConfigServiceCollectionExtensions
         services.AddScoped<ICourseService, CourseService>();
         services.AddScoped<IRecordService, RecordService>();
 
+        services.AddScoped<FirestoreSeeder>();
+
         return services;
     }
 }

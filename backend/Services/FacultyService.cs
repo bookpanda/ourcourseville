@@ -75,7 +75,7 @@ public class FacultyService : IFacultyService
     {
         try
         {
-            Query query = _faculties.WhereEqualTo("code", code);
+            Query query = _faculties.WhereEqualTo("Code", code);
             QuerySnapshot snapshot = await query.GetSnapshotAsync();
             DocumentSnapshot document = snapshot.Documents[0];
             if (!document.Exists)

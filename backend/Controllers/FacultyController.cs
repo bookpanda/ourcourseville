@@ -35,7 +35,7 @@ public class FacultyController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> FindAllFaculty(string id)
+    public async Task<IActionResult> FindAllFaculty()
     {
         try
         {
@@ -49,11 +49,11 @@ public class FacultyController : ControllerBase
     }
 
     [HttpGet("{code}")]
-    public async Task<IActionResult> FindFacultyByCode(string id)
+    public async Task<IActionResult> FindFacultyByCode(string code)
     {
         try
         {
-            var faculty = await _facultySvc.FindByCode(id);
+            var faculty = await _facultySvc.FindByCode(code);
             return Ok(FacultyParser.ModelToDTO(faculty));
         }
         catch (ServiceException ex)

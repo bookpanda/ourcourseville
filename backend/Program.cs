@@ -24,7 +24,16 @@ builder.Services
     .AddConfig(builder.Configuration)
     .AddMyDependencyGroup();
 
+
 var app = builder.Build();
+
+if (args.Contains("seed"))
+{
+    using var scope = app.Services.CreateScope();
+    var seeder = scope.ServiceProvider.GetRequiredService<FirestoreSeeder>();
+    await seeder.SeedFaculties();
+    return;
+}
 
 if (app.Environment.IsDevelopment())
 {
