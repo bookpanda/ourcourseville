@@ -42,27 +42,39 @@ public class RecordService : IRecordService
             DocumentReference document = _collection.Document();
             await document.SetAsync(newRecord);
             _log.LogInformation($"Added document with ID: {document.Id}");
+            newRecord.ID = document.Id;
+
+            return newRecord;
         }
         catch (Exception ex)
         {
             _log.LogError(ex, "Error adding document");
             throw new ServiceException("Error adding document", HttpStatusCode.InternalServerError, ex);
         }
-
-        return newRecord;
     }
 
     public async Task<Record> FindOne(string id)
     {
-        DocumentReference docRef = _collection.Document(id);
-        DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
-        if (!snapshot.Exists)
+        try
         {
-            _log.LogError($"No document with id {id}");
-            throw new ServiceException($"No document with id {id}", HttpStatusCode.NotFound);
-        }
+            DocumentReference docRef = _collection.Document(id);
+            DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
+            if (!snapshot.Exists)
+            {
+                _log.LogError($"No document with id {id}");
+                throw new ServiceException($"No document with id {id}", HttpStatusCode.NotFound);
+            }
 
-        return snapshot.ConvertTo<Record>();
+            var record = snapshot.ConvertTo<Record>();
+            record.ID = snapshot.Id;
+
+            return record;
+        }
+        catch (Exception ex)
+        {
+            _log.LogError(ex, $"Error finding document with id {id}");
+            throw new ServiceException($"Error finding document with id {id}", HttpStatusCode.InternalServerError, ex);
+        }
     }
 
     public async Task<List<Record>> Find()
