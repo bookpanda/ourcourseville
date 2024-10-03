@@ -10,11 +10,13 @@ namespace backend.Services;
 
 public class RecordService : IRecordService
 {
+    private CourseService _courseSvc;
     private CollectionReference _records;
     private readonly ILogger<RecordService> _log;
 
-    public RecordService(Firestore fs, ILogger<RecordService> log)
+    public RecordService(CourseService courseSvc, Firestore fs, ILogger<RecordService> log)
     {
+        _courseSvc = courseSvc;
         _records = fs.records;
         _log = log;
     }
@@ -36,15 +38,15 @@ public class RecordService : IRecordService
         {
             DocumentReference document = _records.Document();
             await document.SetAsync(newRecord);
-            _log.LogInformation($"Added document with ID: {document.Id}");
+            _log.LogInformation($"Added record with ID: {document.Id}");
             newRecord.ID = document.Id;
 
             return newRecord;
         }
         catch (Exception ex)
         {
-            _log.LogError(ex, "Error adding document");
-            throw new ServiceException("Error adding document", HttpStatusCode.InternalServerError, ex);
+            _log.LogError(ex, "Error adding record");
+            throw new ServiceException("Error adding record", HttpStatusCode.InternalServerError, ex);
         }
     }
 
@@ -56,8 +58,8 @@ public class RecordService : IRecordService
             DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
             if (!snapshot.Exists)
             {
-                _log.LogError($"No document with id {id}");
-                throw new ServiceException($"No document with id {id}", HttpStatusCode.NotFound);
+                _log.LogError($"No record with id {id}");
+                throw new ServiceException($"No record with id {id}", HttpStatusCode.NotFound);
             }
 
             var record = snapshot.ConvertTo<Record>();
@@ -67,8 +69,8 @@ public class RecordService : IRecordService
         }
         catch (Exception ex)
         {
-            _log.LogError(ex, $"Error finding document with id {id}");
-            throw new ServiceException($"Error finding document with id {id}", HttpStatusCode.InternalServerError, ex);
+            _log.LogError(ex, $"Error finding record with id {id}");
+            throw new ServiceException($"Error finding record with id {id}", HttpStatusCode.InternalServerError, ex);
         }
     }
 
