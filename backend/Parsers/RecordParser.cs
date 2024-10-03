@@ -3,7 +3,7 @@ using backend.Models;
 
 namespace backend.Parsers;
 
-public class UserParser
+public class RecordParser
 {
     public static RecordDTO ModelToDTO(Record record) =>
         new RecordDTO

@@ -6,7 +6,7 @@ namespace backend.DTO;
 public record RecordDTO
 {
     [JsonPropertyName("id")]
-    public required string ID { get; init; }
+    public string? ID { get; init; }
     [JsonPropertyName("course_code")]
     public required string CourseCode { get; init; }
     [JsonPropertyName("course_id")]
@@ -20,5 +20,5 @@ public record RecordDTO
     [JsonPropertyName("problems")]
     public required List<Problem> Problems { get; init; }
     [JsonPropertyName("created_at")]
-    public required DateTime CreatedAt { get; init; }
+    public DateTime? CreatedAt { get; init; }
 }

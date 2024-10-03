@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using backend.Services.Interfaces;
 using backend.DTO;
 using backend.Exceptions;
+using backend.Parsers;
 
 namespace backend.Controllers;
 
@@ -24,8 +25,8 @@ public class RecordController : ControllerBase
     {
         try
         {
-            await _recordSvc.Create(recordDTO);
-            return Ok();
+            var record = await _recordSvc.Create(recordDTO);
+            return Ok(RecordParser.ModelToDTO(record));
         }
         catch (ServiceException ex)
         {
@@ -39,7 +40,7 @@ public class RecordController : ControllerBase
         try
         {
             var record = await _recordSvc.FindOne(id);
-            return Ok(record);
+            return Ok(RecordParser.ModelToDTO(record));
         }
         catch (ServiceException ex)
         {
