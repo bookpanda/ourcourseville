@@ -11,7 +11,12 @@ const config: Config = {
           default: "var(--primary-default)",
           bg: "var(--primary-bg)",
         },
+        secondary: {
+          default: "var(--secondary-default)",
+        },
         medium: "var(--medium)",
+        dark: "var(--dark)",
+        high: "var(--high)",
       },
     },
   },

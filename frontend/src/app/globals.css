@@ -8,6 +8,9 @@
   --primary-default: #2b9afb;
   --primary-bg: #e6faff;
   --medium: #64748b;
+  --dark: #94a3b8;
+  --high: #0f172b;
+  --secondary-default: #fba711;
 }
 
 body {
