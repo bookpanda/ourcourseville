@@ -1,21 +1,11 @@
 "use client";
 
-import { getAllFaculty } from "@/src/api/faculty";
 import { FacultyCard } from "@/src/components/Card/FacultyCard";
 import { Header } from "@/src/components/Header";
-import { Faculty } from "@/src/types";
-import { useEffect, useState } from "react";
+import { useGetAllFaculty } from "@/src/hooks/useGetAllFaculty";
 
 export default function FacultyPage() {
-  const [faculties, setFaculties] = useState<Faculty[]>([]);
-
-  useEffect(() => {
-    (async () => {
-      const res = await getAllFaculty();
-
-      setFaculties(res);
-    })();
-  }, []);
+  const { faculties } = useGetAllFaculty();
 
   return (
     <main>

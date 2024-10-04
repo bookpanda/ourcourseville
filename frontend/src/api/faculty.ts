@@ -9,6 +9,6 @@ export const getAllFaculty = async () => {
     return parseFacultyDTOList(res.data);
   } catch (error) {
     console.error("Failed to get all faculty", error);
-    return [];
+    return Error("Failed to get all faculty");
   }
 };
