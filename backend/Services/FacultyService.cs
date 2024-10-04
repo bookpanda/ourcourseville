@@ -10,7 +10,7 @@ namespace backend.Services;
 
 public class FacultyService : IFacultyService
 {
-    private CollectionReference _faculties;
+    private readonly CollectionReference _faculties;
     private readonly ILogger<FacultyService> _log;
 
     public FacultyService(Firestore fs, ILogger<FacultyService> log)

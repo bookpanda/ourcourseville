@@ -10,8 +10,8 @@ namespace backend.Services;
 
 public class RecordService : IRecordService
 {
-    private ICourseService _courseSvc;
-    private CollectionReference _records;
+    private readonly ICourseService _courseSvc;
+    private readonly CollectionReference _records;
     private readonly ILogger<RecordService> _log;
 
     public RecordService(ICourseService courseSvc, Firestore fs, ILogger<RecordService> log)

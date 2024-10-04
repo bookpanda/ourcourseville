@@ -10,17 +10,27 @@ namespace backend.Services;
 
 public class CourseService : ICourseService
 {
-    private CollectionReference _courses;
+    private readonly FacultyService _facultySvc;
+    private readonly CollectionReference _courses;
     private readonly ILogger<CourseService> _log;
 
-    public CourseService(Firestore fs, ILogger<CourseService> log)
+    public CourseService(FacultyService facultySvc, Firestore fs, ILogger<CourseService> log)
     {
+        _facultySvc = facultySvc;
         _courses = fs.courses;
         _log = log;
     }
 
     public async Task<Course> Create(CourseDTO courseDTO)
     {
+        // check if faculty exists
+        var faculty = await _facultySvc.FindByCode(courseDTO.FacultyCode);
+        if (faculty == null)
+        {
+            _log.LogError($"Faculty with code {courseDTO.FacultyCode} does not exist");
+            throw new ServiceException($"Faculty with code {courseDTO.FacultyCode} does not exist", HttpStatusCode.NotFound);
+        }
+
         var newCourse = new Course
         {
             FacultyCode = courseDTO.FacultyCode,
