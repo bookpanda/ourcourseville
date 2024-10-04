@@ -48,7 +48,7 @@ export const scrape = (url: string): ScrapeMessage => {
 
   const parts = url.split("/");
   const courseID = parts[4];
-  const assignmentID = parts[6].split("#")[0];
+  const assignmentCode = parts[6].split("#")[0];
 
   // courseCode, course
   const courseIconImg = document.querySelector(
@@ -86,7 +86,7 @@ export const scrape = (url: string): ScrapeMessage => {
     course,
     courseCode,
     courseIcon,
-    assignmentID,
+    assignmentCode,
     assignment,
     problems: qnas,
   };

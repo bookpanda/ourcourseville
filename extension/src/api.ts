@@ -33,7 +33,7 @@ type CreateRecord = {
   course_id: string;
   course_icon: string;
   course: string;
-  assignment_id: string;
+  assignment_code: string;
   assignment: string;
   problems: {
     question: string;
@@ -47,7 +47,7 @@ const messageToDTO = (record: ScrapeMessage): CreateRecord => {
     course_id: record.courseID,
     course_icon: record.courseIcon,
     course: record.course,
-    assignment_id: record.assignmentID,
+    assignment_code: record.assignmentCode,
     assignment: record.assignment,
     problems: record.problems,
   };
