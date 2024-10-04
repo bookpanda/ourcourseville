@@ -36,6 +36,19 @@ public class RecordService : IRecordService
 
         try
         {
+            // check course exists, create if not
+            var course = await _courseSvc.FindByCode(newRecord.CourseCode);
+            if (course == null)
+            {
+                _log.LogInformation($"Course with code {newRecord.CourseCode} does not exist, creating new course");
+                var newCourse = await _courseSvc.Create(new CourseDTO
+                {
+                    FacultyCode = newRecord.CourseCode.Substring(newRecord.CourseCode.Length - 2),
+                    Code = newRecord.CourseCode,
+                    Name = newRecord.Course
+                });
+            }
+
             DocumentReference document = _records.Document();
             await document.SetAsync(newRecord);
             _log.LogInformation($"Added record with ID: {document.Id}");
