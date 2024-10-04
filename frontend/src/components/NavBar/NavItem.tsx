@@ -2,17 +2,13 @@ import clsx from "clsx";
 import Link from "next/link";
 import { FC, PropsWithChildren } from "react";
 
-interface HeaderItemProps extends PropsWithChildren {
+interface NavItemProps extends PropsWithChildren {
   isSelected: boolean;
   href: string;
   children: React.ReactNode;
 }
 
-export const HeaderItem: FC<HeaderItemProps> = ({
-  isSelected,
-  href,
-  children,
-}) => {
+export const NavItem: FC<NavItemProps> = ({ isSelected, href, children }) => {
   return (
     <Link
       href={href}
