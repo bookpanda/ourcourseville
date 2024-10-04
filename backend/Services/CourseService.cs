@@ -43,11 +43,11 @@ public class CourseService : ICourseService
             throw new ServiceException("Error adding course", HttpStatusCode.InternalServerError, ex);
         }
     }
-    public async Task<List<Course>> FindByFacultyCode(string code)
+    public async Task<List<Course>> FindByFacultyCode(string facultyCode)
     {
         try
         {
-            Query query = _courses.WhereEqualTo("Code", code);
+            Query query = _courses.WhereEqualTo("FacultyCode", facultyCode);
             QuerySnapshot snapshot = await query.GetSnapshotAsync();
             List<Course> courses = new List<Course>();
 
@@ -69,8 +69,8 @@ public class CourseService : ICourseService
         }
         catch (Exception ex)
         {
-            _log.LogError(ex, $"Error finding course with faculty code {code}");
-            throw new ServiceException($"Error finding course with faculty code {code}", HttpStatusCode.InternalServerError, ex);
+            _log.LogError(ex, $"Error finding course with faculty code {facultyCode}");
+            throw new ServiceException($"Error finding course with faculty code {facultyCode}", HttpStatusCode.InternalServerError, ex);
         }
     }
     public async Task<Course> FindByCode(string code)

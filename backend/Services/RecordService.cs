@@ -74,7 +74,12 @@ public class RecordService : IRecordService
         }
     }
 
-    public async Task<List<Record>> Find()
+    public async Task<List<Record>> FindByAssignmentID(string asgmID)
+    {
+        throw new NotImplementedException("This method is not implemented yet.");
+    }
+
+    public async Task<List<Record>> FindByCourseCode(string courseCode)
     {
         throw new NotImplementedException("This method is not implemented yet.");
     }
