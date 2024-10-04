@@ -20,6 +20,7 @@ public static class MyConfigServiceCollectionExtensions
         services.AddSingleton<Firestore>();
         services.AddScoped<IFacultyService, FacultyService>();
         services.AddScoped<ICourseService, CourseService>();
+        services.AddScoped<IAssignmentService, AssignmentService>();
         services.AddScoped<IRecordService, RecordService>();
 
         services.AddScoped<FirestoreSeeder>();
