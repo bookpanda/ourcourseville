@@ -76,11 +76,63 @@ public class RecordService : IRecordService
 
     public async Task<List<Record>> FindByAssignmentID(string asgmID)
     {
-        throw new NotImplementedException("This method is not implemented yet.");
+        try
+        {
+            Query query = _records.WhereEqualTo("AssignmentID", asgmID);
+            QuerySnapshot snapshot = await query.GetSnapshotAsync();
+            List<Record> records = new List<Record>();
+
+            foreach (DocumentSnapshot document in snapshot.Documents)
+            {
+                if (document.Exists)
+                {
+                    Record record = document.ConvertTo<Record>();
+                    record.ID = document.Id;
+                    records.Add(record);
+                }
+                else
+                {
+                    _log.LogWarning($"Record with ID {document.Id} does not exist");
+                }
+            }
+
+            return records;
+        }
+        catch (Exception ex)
+        {
+            _log.LogError(ex, $"Error finding record with AssignmentID {asgmID}");
+            throw new ServiceException($"Error finding record with AssignmentID {asgmID}", HttpStatusCode.InternalServerError, ex);
+        }
     }
 
     public async Task<List<Record>> FindByCourseCode(string courseCode)
     {
-        throw new NotImplementedException("This method is not implemented yet.");
+        try
+        {
+            Query query = _records.WhereEqualTo("CourseCode", courseCode);
+            QuerySnapshot snapshot = await query.GetSnapshotAsync();
+            List<Record> records = new List<Record>();
+
+            foreach (DocumentSnapshot document in snapshot.Documents)
+            {
+                if (document.Exists)
+                {
+                    Record record = document.ConvertTo<Record>();
+                    record.ID = document.Id;
+                    records.Add(record);
+                }
+                else
+                {
+                    _log.LogWarning($"Record with ID {document.Id} does not exist");
+                }
+            }
+
+            return records;
+        }
+        catch (Exception ex)
+        {
+            _log.LogError(ex, $"Error finding record with course code {courseCode}");
+            throw new ServiceException($"Error finding record with course code {courseCode}", HttpStatusCode.InternalServerError, ex);
+        }
     }
 }
