@@ -8,7 +8,7 @@ public class Course
     [FirestoreProperty]
     public string? ID { get; set; }
     [FirestoreProperty]
-    public required string FacultyID { get; set; }
+    public required string FacultyCode { get; set; }
     [FirestoreProperty]
     public required string Code { get; set; }
     [FirestoreProperty]
