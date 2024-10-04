@@ -9,11 +9,7 @@ public class RecordParser
         new RecordDTO
         {
             ID = record.ID ?? string.Empty,
-            CourseCode = record.CourseCode,
-            CourseID = record.CourseID,
-            Course = record.Course,
-            AssignmentID = record.AssignmentID,
-            Assignment = record.Assignment,
+            AssignmentCode = record.AssignmentCode,
             Problems = record.Problems,
             CreatedAt = record.CreatedAt.ToDateTime()
         };

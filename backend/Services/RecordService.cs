@@ -21,15 +21,11 @@ public class RecordService : IRecordService
         _log = log;
     }
 
-    public async Task<Record> Create(RecordDTO recordDTO)
+    public async Task<Record> Create(CreateRecordDTO recordDTO)
     {
         var newRecord = new Record
         {
-            CourseCode = recordDTO.CourseCode,
-            CourseID = recordDTO.CourseID,
-            Course = recordDTO.Course,
-            AssignmentID = recordDTO.AssignmentID,
-            Assignment = recordDTO.Assignment,
+            AssignmentCode = recordDTO.AssignmentCode,
             Problems = recordDTO.Problems,
             CreatedAt = Timestamp.GetCurrentTimestamp()
         };
@@ -37,10 +33,10 @@ public class RecordService : IRecordService
         try
         {
             // check course exists, create if not
-            var course = await _courseSvc.FindByCode(newRecord.CourseCode);
+            var course = await _courseSvc.FindByCode(recordDTO.CourseCode);
             if (course == null)
             {
-                _log.LogInformation($"Course with code {newRecord.CourseCode} does not exist, creating new course");
+                _log.LogInformation($"Course with code {recordDTO.CourseCode} does not exist, creating new course");
                 var newCourse = await _courseSvc.Create(new CourseDTO
                 {
                     FacultyCode = recordDTO.CourseCode.Substring(0, 2),

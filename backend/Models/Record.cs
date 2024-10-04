@@ -8,15 +8,7 @@ public class Record
     [FirestoreProperty]
     public string? ID { get; set; }
     [FirestoreProperty]
-    public required string CourseCode { get; set; }
-    [FirestoreProperty]
-    public required string CourseID { get; set; }
-    [FirestoreProperty]
-    public required string Course { get; set; }
-    [FirestoreProperty]
-    public required string AssignmentID { get; set; }
-    [FirestoreProperty]
-    public required string Assignment { get; set; }
+    public required string AssignmentCode { get; set; }
     [FirestoreProperty]
     public required List<Problem> Problems { get; set; }
     [FirestoreProperty]

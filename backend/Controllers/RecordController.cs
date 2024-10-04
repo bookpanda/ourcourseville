@@ -21,7 +21,7 @@ public class RecordController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateRecord([FromBody] RecordDTO recordDTO)
+    public async Task<IActionResult> CreateRecord([FromBody] CreateRecordDTO recordDTO)
     {
         try
         {
