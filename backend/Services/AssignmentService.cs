@@ -9,27 +9,17 @@ namespace backend.Services;
 
 public class AssignmentService : IAssignmentService
 {
-    private readonly ICourseService _courseSvc;
     private readonly CollectionReference _assignments;
     private readonly ILogger<AssignmentService> _log;
 
-    public AssignmentService(ICourseService courseSvc, Firestore fs, ILogger<AssignmentService> log)
+    public AssignmentService(Firestore fs, ILogger<AssignmentService> log)
     {
-        _courseSvc = courseSvc;
         _assignments = fs.assignments;
         _log = log;
     }
 
     public async Task<Assignment> Create(AssignmentDTO assignmentDTO)
     {
-        // check if course exists
-        var course = await _courseSvc.FindByCode(assignmentDTO.CourseCode);
-        if (course == null)
-        {
-            _log.LogError($"Course with code {assignmentDTO.CourseCode} does not exist");
-            throw new ServiceException($"Course with code {assignmentDTO.CourseCode} does not exist", HttpStatusCode.NotFound);
-        }
-
         var newAssignment = new Assignment
         {
             CourseCode = assignmentDTO.CourseCode,

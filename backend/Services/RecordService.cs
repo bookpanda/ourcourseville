@@ -10,12 +10,14 @@ namespace backend.Services;
 
 public class RecordService : IRecordService
 {
+    private readonly ICourseService _courseSvc;
     private readonly IAssignmentService _assignmentSvc;
     private readonly CollectionReference _records;
     private readonly ILogger<RecordService> _log;
 
-    public RecordService(IAssignmentService assignmentSvc, Firestore fs, ILogger<RecordService> log)
+    public RecordService(ICourseService courseSvc, IAssignmentService assignmentSvc, Firestore fs, ILogger<RecordService> log)
     {
+        _courseSvc = courseSvc;
         _assignmentSvc = assignmentSvc;
         _records = fs.records;
         _log = log;
@@ -32,6 +34,20 @@ public class RecordService : IRecordService
 
         try
         {
+            // check if course exists
+            var course = await _courseSvc.FindByCode(recordDTO.CourseCode);
+            if (course == null)
+            {
+                _log.LogInformation($"Course with code {recordDTO.CourseCode} does not exist, creating new course");
+                var newAsgm = await _courseSvc.Create(new CourseDTO
+                {
+                    FacultyCode = recordDTO.CourseCode.Substring(0, 2),
+                    Code = recordDTO.CourseCode,
+                    Icon = recordDTO.CourseIcon ?? "",
+                    Name = recordDTO.Course
+                });
+            }
+
             // check assignment exists, create if not
             var assignment = await _assignmentSvc.FindByCode(recordDTO.AssignmentCode);
             if (assignment == null)
@@ -40,8 +56,8 @@ public class RecordService : IRecordService
                 var newAsgm = await _assignmentSvc.Create(new AssignmentDTO
                 {
                     CourseCode = recordDTO.CourseCode,
-                    Code = recordDTO.CourseCode,
-                    Name = recordDTO.Course
+                    Code = recordDTO.AssignmentCode,
+                    Name = recordDTO.Assignment
                 });
             }
 
