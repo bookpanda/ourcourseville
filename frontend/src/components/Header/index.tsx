@@ -13,14 +13,14 @@ export const Header = () => {
           <FaHouse size={25} />
           Home
         </HeaderItem>
-        <HeaderItem href="/faculties" isSelected={false}>
+        <HeaderItem href="/faculty" isSelected={false}>
           <FaUniversity size={25} />
           Faculties
         </HeaderItem>
-        <HeaderItem href="/courses" isSelected={false}>
+        <HeaderItem href="/course" isSelected={false}>
           <FaGraduationCap size={25} /> Courses
         </HeaderItem>
-        <HeaderItem href="/assignments" isSelected={false}>
+        <HeaderItem href="/assignment" isSelected={false}>
           <FaFileSignature size={25} /> Assignments
         </HeaderItem>
       </div>
