@@ -91,7 +91,5 @@ export const scrape = (url: string): ScrapeMessage => {
     problems: qnas,
   };
 
-  // chrome.runtime.sendMessage(response);
-
   return response;
 };
