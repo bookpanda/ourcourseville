@@ -7,6 +7,11 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        primary: {
+          default: "var(--primary-default)",
+          bg: "var(--primary-bg)",
+        },
+        medium: "var(--medium)",
       },
     },
   },

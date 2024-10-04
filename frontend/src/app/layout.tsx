@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Sans } from "next/font/google";
+import { Header } from "../components/Header";
 import "./globals.css";
 
 const IBMPlex = IBM_Plex_Sans({
@@ -22,6 +23,7 @@ export default function RootLayout({
       <body
         className={`${IBMPlex.className} max-w-screen bg-default flex min-h-screen flex-col`}
       >
+        <Header />
         {children}
       </body>
     </html>
