@@ -10,6 +10,7 @@ public class Firestore
     private FirestoreDb _db;
     public CollectionReference faculties;
     public CollectionReference courses;
+    public CollectionReference assignments;
     public CollectionReference records;
 
     public Firestore(IOptions<FirestoreConfig> config)
@@ -18,6 +19,7 @@ public class Firestore
         _db = FirestoreDb.Create(_config.DB);
         faculties = _db.Collection(_config.Faculties);
         courses = _db.Collection(_config.Courses);
+        assignments = _db.Collection(_config.Assignments);
         records = _db.Collection(_config.Records);
     }
 }

@@ -6,5 +6,6 @@ public class FirestoreConfig
     public required string DB { get; set; }
     public required string Faculties { get; set; }
     public required string Courses { get; set; }
+    public required string Assignments { get; set; }
     public required string Records { get; set; }
 }
