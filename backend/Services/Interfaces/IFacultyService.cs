@@ -7,5 +7,5 @@ public interface IFacultyService
 {
     Task<Faculty> Create(FacultyDTO facultyDTO);
     Task<List<Faculty>> FindAll();
-    Task<Faculty> FindByCode(string code);
+    Task<Faculty?> FindByCode(string code);
 }

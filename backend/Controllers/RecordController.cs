@@ -40,6 +40,11 @@ public class RecordController : ControllerBase
         try
         {
             var record = await _recordSvc.FindOne(id);
+            if (record == null)
+            {
+                return NotFound(new JSONResponse($"No record with id {id} found"));
+            }
+
             return Ok(RecordParser.ModelToDTO(record));
         }
         catch (ServiceException ex)

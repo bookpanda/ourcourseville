@@ -54,6 +54,11 @@ public class CourseController : ControllerBase
         try
         {
             var course = await _courseSvc.FindByCode(code);
+            if (course == null)
+            {
+                return NotFound(new JSONResponse($"No course with code {code} found"));
+            }
+
             return Ok(CourseParser.ModelToDTO(course));
         }
         catch (ServiceException ex)

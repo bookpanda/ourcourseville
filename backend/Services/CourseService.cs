@@ -87,18 +87,16 @@ public class CourseService : ICourseService
             throw new ServiceException($"Error finding course with faculty code {facultyCode}", HttpStatusCode.InternalServerError, ex);
         }
     }
-    public async Task<Course> FindByCode(string code)
+    public async Task<Course?> FindByCode(string code)
     {
         try
         {
             Query query = _courses.WhereEqualTo("Code", code);
             QuerySnapshot snapshot = await query.GetSnapshotAsync();
+            if (snapshot.Documents.Count == 0) return null;
+
             DocumentSnapshot document = snapshot.Documents[0];
-            if (!document.Exists)
-            {
-                _log.LogError($"No course with code {code}");
-                throw new ServiceException($"No course with code {code}", HttpStatusCode.NotFound);
-            }
+            if (!document.Exists) return null;
 
             var course = document.ConvertTo<Course>();
             course.ID = document.Id;

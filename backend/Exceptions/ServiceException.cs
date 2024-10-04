@@ -20,15 +20,17 @@ public class ServiceException : Exception
 
     public JSONResponse ToJSON()
     {
-        return new JSONResponse
-        {
-            Message = Message
-        };
+        return new JSONResponse(Message);
     }
 }
 
 public class JSONResponse
 {
     [JsonPropertyName("message")]
-    public required string Message { get; set; }
+    public string Message { get; set; }
+
+    public JSONResponse(string message)
+    {
+        Message = message;
+    }
 }

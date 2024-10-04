@@ -71,18 +71,16 @@ public class FacultyService : IFacultyService
             throw new ServiceException("Error finding all faculties", HttpStatusCode.InternalServerError, ex);
         }
     }
-    public async Task<Faculty> FindByCode(string code)
+    public async Task<Faculty?> FindByCode(string code)
     {
         try
         {
             Query query = _faculties.WhereEqualTo("Code", code);
             QuerySnapshot snapshot = await query.GetSnapshotAsync();
+            if (snapshot.Documents.Count == 0) return null;
+
             DocumentSnapshot document = snapshot.Documents[0];
-            if (!document.Exists)
-            {
-                _log.LogError($"No faculty with code {code}");
-                throw new ServiceException($"No faculty with code {code}", HttpStatusCode.NotFound);
-            }
+            if (!document.Exists) return null;
 
             var faculty = document.ConvertTo<Faculty>();
             faculty.ID = document.Id;

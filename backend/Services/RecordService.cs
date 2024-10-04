@@ -43,7 +43,7 @@ public class RecordService : IRecordService
                 _log.LogInformation($"Course with code {newRecord.CourseCode} does not exist, creating new course");
                 var newCourse = await _courseSvc.Create(new CourseDTO
                 {
-                    FacultyCode = newRecord.CourseCode.Substring(newRecord.CourseCode.Length - 2),
+                    FacultyCode = newRecord.CourseCode.Substring(0, 2),
                     Code = newRecord.CourseCode,
                     Name = newRecord.Course
                 });
@@ -67,17 +67,13 @@ public class RecordService : IRecordService
         }
     }
 
-    public async Task<Record> FindOne(string id)
+    public async Task<Record?> FindOne(string id)
     {
         try
         {
             DocumentReference docRef = _records.Document(id);
             DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
-            if (!snapshot.Exists)
-            {
-                _log.LogError($"No record with id {id}");
-                throw new ServiceException($"No record with id {id}", HttpStatusCode.NotFound);
-            }
+            if (!snapshot.Exists) return null;
 
             var record = snapshot.ConvertTo<Record>();
             record.ID = snapshot.Id;

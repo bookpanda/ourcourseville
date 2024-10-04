@@ -54,6 +54,11 @@ public class FacultyController : ControllerBase
         try
         {
             var faculty = await _facultySvc.FindByCode(code);
+            if (faculty == null)
+            {
+                return NotFound(new JSONResponse($"No faculty with code {code} found"));
+            }
+
             return Ok(FacultyParser.ModelToDTO(faculty));
         }
         catch (ServiceException ex)
