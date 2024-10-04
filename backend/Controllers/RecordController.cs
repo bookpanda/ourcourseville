@@ -52,4 +52,34 @@ public class RecordController : ControllerBase
             return StatusCode((int)ex.StatusCode, ex.ToJSON());
         }
     }
+
+    [HttpGet("assignment/{asgmID}")]
+    public async Task<IActionResult> FindRecordByAssignmentID(string asgmID)
+    {
+        try
+        {
+            var records = await _recordSvc.FindByAssignmentID(asgmID);
+
+            return Ok(RecordParser.ModelToDTOList(records));
+        }
+        catch (ServiceException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.ToJSON());
+        }
+    }
+
+    [HttpGet("course/code/{code}")]
+    public async Task<IActionResult> FindRecordByCourseCode(string code)
+    {
+        try
+        {
+            var records = await _recordSvc.FindByCourseCode(code);
+
+            return Ok(RecordParser.ModelToDTOList(records));
+        }
+        catch (ServiceException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.ToJSON());
+        }
+    }
 }
