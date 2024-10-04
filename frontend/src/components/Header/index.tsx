@@ -1,3 +1,6 @@
+import { FaUniversity } from "react-icons/fa";
+import { FaFileSignature, FaGraduationCap, FaHouse } from "react-icons/fa6";
+
 import { HeaderItem } from "./HeaderItem";
 import { Logo } from "./Logo";
 
@@ -6,8 +9,20 @@ export const Header = () => {
     <div className="sticky top-0 z-50 flex min-h-[62px] items-center justify-between bg-white px-10">
       <Logo />
       <div className="flex items-center gap-4">
-        <HeaderItem href="/courses">Courses</HeaderItem>
-        <HeaderItem href="/faculties">Faculties</HeaderItem>
+        <HeaderItem href="/" isSelected={true}>
+          <FaHouse size={25} />
+          Home
+        </HeaderItem>
+        <HeaderItem href="/faculties" isSelected={false}>
+          <FaUniversity size={25} />
+          Faculties
+        </HeaderItem>
+        <HeaderItem href="/courses" isSelected={false}>
+          <FaGraduationCap size={25} /> Courses
+        </HeaderItem>
+        <HeaderItem href="/assignments" isSelected={false}>
+          <FaFileSignature size={25} /> Assignments
+        </HeaderItem>
       </div>
       <div className="flex items-center gap-4"></div>
     </div>
