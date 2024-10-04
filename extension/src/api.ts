@@ -7,7 +7,7 @@ export const saveRecord = async (record: ScrapeMessage) => {
   const dto = messageToDTO(record);
 
   try {
-    const response = await fetch("localhost:5203/api/v1/record", {
+    const response = await fetch("http://localhost:5203/api/v1/record", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -13,7 +13,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run ./src/index.js",
     "start": "bun run ./src/index.js",
-    "build": "bun run tsc --noEmit && babel src --extensions '.ts,.js' --out-dir build && node copy-files.mjs"
+    "build": "bun run tsc --noEmit && babel src --extensions '.ts,.js' --out-dir build && node copy-files.mjs manifest.json",
+    "build-prod": "bun run tsc --noEmit && babel src --extensions '.ts,.js' --out-dir build-prod && node copy-files.mjs manifest.prod.json"
   },
   "type": "module",
   "dependencies": {

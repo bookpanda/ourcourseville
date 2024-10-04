@@ -5,11 +5,13 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+const args = process.argv.slice(2);
+const targetFolder = args[0] === "manifest.json" ? "build" : "build-prod";
 const htmlFiles = ["popup.html"];
 
 htmlFiles.forEach((file) => {
   const srcPath = join(__dirname, "src", file);
-  const destPath = join(__dirname, "build", file);
+  const destPath = join(__dirname, targetFolder, file);
 
   copyFile(srcPath, destPath, (err) => {
     if (err) {
@@ -20,8 +22,8 @@ htmlFiles.forEach((file) => {
   });
 });
 
-const srcPath = join(__dirname, "manifest.json");
-const destPath = join(__dirname, "build", "manifest.json");
+const srcPath = join(__dirname, args[0]);
+const destPath = join(__dirname, targetFolder, "manifest.json");
 copyFile(srcPath, destPath, (err) => {
   if (err) {
     console.error(`Error copying manifest.json:`, err);

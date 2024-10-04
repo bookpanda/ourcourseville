@@ -11,5 +11,6 @@
   },
   "action": {
     "default_popup": "popup.html"
-  }
+  },
+  "api_url": "http://localhost:5203/api/v1"
 }
