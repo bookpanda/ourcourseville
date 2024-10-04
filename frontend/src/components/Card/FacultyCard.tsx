@@ -1,13 +1,14 @@
+import { Faculty } from "@/src/types";
 import { FC } from "react";
 import { Card } from ".";
 
 interface FacultyCardProps {
-  code: string;
-  name: string;
+  faculty: Faculty;
 }
 
-export const FacultyCard: FC<FacultyCardProps> = ({ code, name }) => {
-  const href = `/faculty/${code}`;
+export const FacultyCard: FC<FacultyCardProps> = ({ faculty }) => {
+  const { code, name } = faculty;
+  const href = `/faculty/${code}/course`;
   return (
     <Card href={href}>
       <div className="flex flex-col gap-2">
