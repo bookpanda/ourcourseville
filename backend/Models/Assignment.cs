@@ -1,20 +1,18 @@
-using System.Text.Json.Serialization;
-using backend.Models;
 using Google.Cloud.Firestore;
 
 namespace backend.DTO;
 
 [FirestoreData]
-public record Assignment
+public class Assignment
 {
     [FirestoreProperty]
-    public string? ID { get; init; }
+    public string? ID { get; set; }
     [FirestoreProperty]
-    public required string CourseCode { get; init; }
+    public required string CourseCode { get; set; }
     [FirestoreProperty]
-    public required string Code { get; init; }
+    public required string Code { get; set; }
     [FirestoreProperty]
-    public required string Name { get; init; }
+    public required string Name { get; set; }
     [FirestoreProperty]
-    public required DateTime CreatedAt { get; init; }
+    public required Timestamp CreatedAt { get; set; }
 }
