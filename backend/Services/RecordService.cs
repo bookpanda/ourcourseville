@@ -56,6 +56,10 @@ public class RecordService : IRecordService
 
             return newRecord;
         }
+        catch (ServiceException ex)
+        {
+            throw new ServiceException(ex.Message, HttpStatusCode.InternalServerError);
+        }
         catch (Exception ex)
         {
             _log.LogError(ex, "Error adding record");

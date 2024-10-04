@@ -10,11 +10,11 @@ namespace backend.Services;
 
 public class CourseService : ICourseService
 {
-    private readonly FacultyService _facultySvc;
+    private readonly IFacultyService _facultySvc;
     private readonly CollectionReference _courses;
     private readonly ILogger<CourseService> _log;
 
-    public CourseService(FacultyService facultySvc, Firestore fs, ILogger<CourseService> log)
+    public CourseService(IFacultyService facultySvc, Firestore fs, ILogger<CourseService> log)
     {
         _facultySvc = facultySvc;
         _courses = fs.courses;
@@ -46,6 +46,10 @@ public class CourseService : ICourseService
             newCourse.ID = document.Id;
 
             return newCourse;
+        }
+        catch (ServiceException ex)
+        {
+            throw new ServiceException(ex.Message, HttpStatusCode.InternalServerError);
         }
         catch (Exception ex)
         {

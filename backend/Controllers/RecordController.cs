@@ -30,7 +30,7 @@ public class RecordController : ControllerBase
         }
         catch (ServiceException ex)
         {
-            return StatusCode((int)ex.StatusCode, ex.Message);
+            return StatusCode((int)ex.StatusCode, ex.ToJSON());
         }
     }
 
@@ -44,7 +44,7 @@ public class RecordController : ControllerBase
         }
         catch (ServiceException ex)
         {
-            return StatusCode((int)ex.StatusCode, ex.Message);
+            return StatusCode((int)ex.StatusCode, ex.ToJSON());
         }
     }
 }

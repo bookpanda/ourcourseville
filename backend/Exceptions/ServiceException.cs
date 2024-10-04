@@ -1,9 +1,11 @@
 using System.Net;
+using System.Text.Json.Serialization;
 
 namespace backend.Exceptions;
 
 public class ServiceException : Exception
 {
+    [JsonPropertyName("status_code")]
     public HttpStatusCode StatusCode { get; set; } = HttpStatusCode.InternalServerError;
 
     public ServiceException(string message, HttpStatusCode statusCode) : base(message)
@@ -15,4 +17,18 @@ public class ServiceException : Exception
     {
         StatusCode = statusCode;
     }
+
+    public JSONResponse ToJSON()
+    {
+        return new JSONResponse
+        {
+            Message = Message
+        };
+    }
+}
+
+public class JSONResponse
+{
+    [JsonPropertyName("message")]
+    public required string Message { get; set; }
 }
