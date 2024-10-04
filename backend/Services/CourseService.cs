@@ -2,8 +2,6 @@ using Google.Cloud.Firestore;
 using backend.DTO;
 using backend.Models;
 using backend.Services.Interfaces;
-using backend.Config;
-using Microsoft.Extensions.Options;
 using backend.Data;
 using backend.Exceptions;
 using System.Net;
@@ -47,10 +45,56 @@ public class CourseService : ICourseService
     }
     public async Task<List<Course>> FindByFacultyCode(string code)
     {
-        throw new NotImplementedException();
+        try
+        {
+            Query query = _courses.WhereEqualTo("Code", code);
+            QuerySnapshot snapshot = await query.GetSnapshotAsync();
+            List<Course> courses = new List<Course>();
+
+            foreach (DocumentSnapshot document in snapshot.Documents)
+            {
+                if (document.Exists)
+                {
+                    Course course = document.ConvertTo<Course>();
+                    course.ID = document.Id;
+                    courses.Add(course);
+                }
+                else
+                {
+                    _log.LogWarning($"Course with ID {document.Id} does not exist");
+                }
+            }
+
+            return courses;
+        }
+        catch (Exception ex)
+        {
+            _log.LogError(ex, $"Error finding course with faculty code {code}");
+            throw new ServiceException($"Error finding course with faculty code {code}", HttpStatusCode.InternalServerError, ex);
+        }
     }
     public async Task<Course> FindByCode(string code)
     {
-        throw new NotImplementedException();
+        try
+        {
+            Query query = _courses.WhereEqualTo("Code", code);
+            QuerySnapshot snapshot = await query.GetSnapshotAsync();
+            DocumentSnapshot document = snapshot.Documents[0];
+            if (!document.Exists)
+            {
+                _log.LogError($"No course with code {code}");
+                throw new ServiceException($"No course with code {code}", HttpStatusCode.NotFound);
+            }
+
+            var course = document.ConvertTo<Course>();
+            course.ID = document.Id;
+
+            return course;
+        }
+        catch (Exception ex)
+        {
+            _log.LogError(ex, $"Error finding course with code {code}");
+            throw new ServiceException($"Error finding course with code {code}", HttpStatusCode.InternalServerError, ex);
+        }
     }
 }
