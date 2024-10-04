@@ -53,27 +53,12 @@ public class RecordController : ControllerBase
         }
     }
 
-    [HttpGet("assignment/{asgmID}")]
-    public async Task<IActionResult> FindRecordByAssignmentID(string asgmID)
+    [HttpGet("assignment/{asgmCode}")]
+    public async Task<IActionResult> FindRecordByAssignmentID(string asgmCode)
     {
         try
         {
-            var records = await _recordSvc.FindByAssignmentID(asgmID);
-
-            return Ok(RecordParser.ModelToDTOList(records));
-        }
-        catch (ServiceException ex)
-        {
-            return StatusCode((int)ex.StatusCode, ex.ToJSON());
-        }
-    }
-
-    [HttpGet("course/code/{code}")]
-    public async Task<IActionResult> FindRecordByCourseCode(string code)
-    {
-        try
-        {
-            var records = await _recordSvc.FindByCourseCode(code);
+            var records = await _recordSvc.FindByAssignmentCode(asgmCode);
 
             return Ok(RecordParser.ModelToDTOList(records));
         }

@@ -10,13 +10,13 @@ namespace backend.Services;
 
 public class RecordService : IRecordService
 {
-    private readonly ICourseService _courseSvc;
+    private readonly IAssignmentService _assignmentSvc;
     private readonly CollectionReference _records;
     private readonly ILogger<RecordService> _log;
 
-    public RecordService(ICourseService courseSvc, Firestore fs, ILogger<RecordService> log)
+    public RecordService(IAssignmentService assignmentSvc, Firestore fs, ILogger<RecordService> log)
     {
-        _courseSvc = courseSvc;
+        _assignmentSvc = assignmentSvc;
         _records = fs.records;
         _log = log;
     }
@@ -32,16 +32,15 @@ public class RecordService : IRecordService
 
         try
         {
-            // check course exists, create if not
-            var course = await _courseSvc.FindByCode(recordDTO.CourseCode);
-            if (course == null)
+            // check assignment exists, create if not
+            var assignment = await _assignmentSvc.FindByCode(recordDTO.AssignmentCode);
+            if (assignment == null)
             {
-                _log.LogInformation($"Course with code {recordDTO.CourseCode} does not exist, creating new course");
-                var newCourse = await _courseSvc.Create(new CourseDTO
+                _log.LogInformation($"Assignment with code {recordDTO.AssignmentCode} does not exist, creating new assignment");
+                var newAsgm = await _assignmentSvc.Create(new AssignmentDTO
                 {
-                    FacultyCode = recordDTO.CourseCode.Substring(0, 2),
+                    CourseCode = recordDTO.CourseCode,
                     Code = recordDTO.CourseCode,
-                    Icon = recordDTO.CourseIcon ?? "",
                     Name = recordDTO.Course
                 });
             }
@@ -84,11 +83,11 @@ public class RecordService : IRecordService
         }
     }
 
-    public async Task<List<Record>> FindByAssignmentID(string asgmID)
+    public async Task<List<Record>> FindByAssignmentCode(string asgmCode)
     {
         try
         {
-            Query query = _records.WhereEqualTo("AssignmentID", asgmID);
+            Query query = _records.WhereEqualTo("AssignmentCode", asgmCode);
             QuerySnapshot snapshot = await query.GetSnapshotAsync();
             List<Record> records = new List<Record>();
 
@@ -110,39 +109,8 @@ public class RecordService : IRecordService
         }
         catch (Exception ex)
         {
-            _log.LogError(ex, $"Error finding record with AssignmentID {asgmID}");
-            throw new ServiceException($"Error finding record with AssignmentID {asgmID}", HttpStatusCode.InternalServerError, ex);
-        }
-    }
-
-    public async Task<List<Record>> FindByCourseCode(string courseCode)
-    {
-        try
-        {
-            Query query = _records.WhereEqualTo("CourseCode", courseCode);
-            QuerySnapshot snapshot = await query.GetSnapshotAsync();
-            List<Record> records = new List<Record>();
-
-            foreach (DocumentSnapshot document in snapshot.Documents)
-            {
-                if (document.Exists)
-                {
-                    Record record = document.ConvertTo<Record>();
-                    record.ID = document.Id;
-                    records.Add(record);
-                }
-                else
-                {
-                    _log.LogWarning($"Record with ID {document.Id} does not exist");
-                }
-            }
-
-            return records;
-        }
-        catch (Exception ex)
-        {
-            _log.LogError(ex, $"Error finding record with course code {courseCode}");
-            throw new ServiceException($"Error finding record with course code {courseCode}", HttpStatusCode.InternalServerError, ex);
+            _log.LogError(ex, $"Error finding record with AssignmentCode {asgmCode}");
+            throw new ServiceException($"Error finding record with AssignmentCode {asgmCode}", HttpStatusCode.InternalServerError, ex);
         }
     }
 }
