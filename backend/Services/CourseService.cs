@@ -35,6 +35,7 @@ public class CourseService : ICourseService
         {
             FacultyCode = courseDTO.FacultyCode,
             Code = courseDTO.Code,
+            Icon = courseDTO.Icon,
             Name = courseDTO.Name,
             CreatedAt = Timestamp.GetCurrentTimestamp()
         };

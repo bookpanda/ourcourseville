@@ -11,6 +11,7 @@ public class CourseParser
             ID = course.ID ?? string.Empty,
             FacultyCode = course.FacultyCode,
             Code = course.Code,
+            Icon = course.Icon,
             Name = course.Name,
             CreatedAt = course.CreatedAt.ToDateTime()
         };

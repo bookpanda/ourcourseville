@@ -10,6 +10,8 @@ public record CourseDTO
     public required string FacultyCode { get; init; }
     [JsonPropertyName("code")]
     public required string Code { get; init; }
+    [JsonPropertyName("icon")]
+    public required string Icon { get; init; }
     [JsonPropertyName("name")]
     public required string Name { get; init; }
 

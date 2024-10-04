@@ -13,6 +13,8 @@ public record RecordDTO
     public required string CourseID { get; init; }
     [JsonPropertyName("course")]
     public required string Course { get; init; }
+    [JsonPropertyName("course_icon")]
+    public string? CourseIcon { get; init; }
     [JsonPropertyName("assignment_id")]
     public required string AssignmentID { get; init; }
     [JsonPropertyName("assignment")]

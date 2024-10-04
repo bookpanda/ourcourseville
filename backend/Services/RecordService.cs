@@ -43,9 +43,10 @@ public class RecordService : IRecordService
                 _log.LogInformation($"Course with code {newRecord.CourseCode} does not exist, creating new course");
                 var newCourse = await _courseSvc.Create(new CourseDTO
                 {
-                    FacultyCode = newRecord.CourseCode.Substring(0, 2),
-                    Code = newRecord.CourseCode,
-                    Name = newRecord.Course
+                    FacultyCode = recordDTO.CourseCode.Substring(0, 2),
+                    Code = recordDTO.CourseCode,
+                    Icon = recordDTO.CourseIcon ?? "",
+                    Name = recordDTO.Course
                 });
             }
 
