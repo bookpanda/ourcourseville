@@ -1,18 +1,21 @@
+import { Course } from "@/src/types";
 import Image from "next/image";
 import { FC } from "react";
 import { Card } from ".";
 
 interface CourseCardProps {
   href: string;
+  course: Course;
 }
 
-export const CourseCard: FC<CourseCardProps> = ({ href }) => {
+export const CourseCard: FC<CourseCardProps> = ({ href, course }) => {
+  const { code, name } = course;
   return (
     <Card href={href}>
       <div className="flex flex-col gap-2">
         <div className="flex flex-row justify-between">
           <Image
-            src={"/course-test.png"}
+            src={course.icon}
             alt="logo"
             className="h-[60px] w-[60px] rounded-full"
             unoptimized
@@ -23,10 +26,10 @@ export const CourseCard: FC<CourseCardProps> = ({ href }) => {
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-1">
             <div className="text-secondary-default text-sm font-semibold">
-              3401102
+              {code}
             </div>
             <div className="text-high font-ibmplex line-clamp-3 h-[72px] text-base font-semibold">
-              Tax Law in Daily Life [Section 71]
+              {name}
             </div>
           </div>
           <ul className="flex h-[26px] flex-row gap-2"></ul>

@@ -1,32 +1,30 @@
 "use client";
 
-import { getAllFaculty } from "@/src/api/faculty";
 import { CourseCard } from "@/src/components/Card/CourseCard";
 import { Header } from "@/src/components/Header";
-import { Faculty } from "@/src/types";
-import { useEffect, useState } from "react";
+import { useGetCourseByFaculty } from "@/src/hooks/useGetCourseByFaculty";
+import { usePathname } from "next/navigation";
 
 export default function CoursePage() {
-  const [faculties, setFaculties] = useState<Faculty[]>([]);
+  const pathname = usePathname();
+  const facultyCode = pathname.split("/")[2];
 
-  useEffect(() => {
-    (async () => {
-      const res = await getAllFaculty();
-
-      setFaculties(res);
-    })();
-  }, []);
+  const { courses } = useGetCourseByFaculty(facultyCode);
 
   return (
     <main>
       <div className="mx-auto my-4 max-w-[1440px] space-y-4 px-4 sm:px-8 md:w-4/5 md:px-0 lg:my-8">
         <div className="flex h-fit w-full items-center justify-between gap-3 max-md:flex-col max-md:items-start">
-          <Header title="Faculties" />
+          <Header title="Courses" />
           <div className="flex flex-row items-center gap-2"></div>
         </div>
         <div className="grid w-full grid-cols-1 justify-items-center gap-x-4 gap-y-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {faculties.map((f) => (
-            <CourseCard href="1" key={f.code} />
+          {courses.map((c) => (
+            <CourseCard
+              href={`${pathname}/${c.code}`}
+              key={c.code}
+              course={c}
+            />
           ))}
         </div>
       </div>

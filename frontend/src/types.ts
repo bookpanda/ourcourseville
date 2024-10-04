@@ -4,3 +4,12 @@ export type Faculty = {
   name: string;
   createdAt: string;
 };
+
+export type Course = {
+  id: string;
+  facultyCode: string;
+  code: string;
+  icon: string;
+  name: string;
+  createdAt: string;
+};
