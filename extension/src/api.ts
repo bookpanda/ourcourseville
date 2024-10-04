@@ -5,9 +5,10 @@ export const saveRecord = async (record: ScrapeMessage) => {
   console.log(record);
 
   const dto = messageToDTO(record);
+  const apiUrl: string = chrome.runtime.getManifest().api_url;
 
   try {
-    const response = await fetch("http://localhost:5203/api/v1/record", {
+    const response = await fetch(`${apiUrl}/record`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
