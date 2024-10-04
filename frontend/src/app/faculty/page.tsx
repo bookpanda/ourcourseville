@@ -1,8 +1,21 @@
+"use client";
+
+import { getAllFaculty } from "@/src/api/faculty";
 import { CourseCard } from "@/src/components/Card/CourseCard";
 import { Header } from "@/src/components/Header";
+import { Faculty } from "@/src/types";
+import { useEffect, useState } from "react";
 
 export default function FacultyPage() {
-  const faculties = [1, 2, 3, 4];
+  const [faculties, setFaculties] = useState<Faculty[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const res = await getAllFaculty();
+
+      setFaculties(res);
+    })();
+  }, []);
 
   return (
     <main>
@@ -13,7 +26,7 @@ export default function FacultyPage() {
         </div>
         <div className="grid w-full grid-cols-1 justify-items-center gap-x-4 gap-y-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {faculties.map((f) => (
-            <CourseCard href="1" key={f} />
+            <CourseCard href="1" key={f.code} />
           ))}
         </div>
       </div>
