@@ -31,6 +31,7 @@ export const saveRecord = async (record: ScrapeMessage) => {
 type CreateRecord = {
   course_code: string;
   course_id: string;
+  course_icon: string;
   course: string;
   assignment_id: string;
   assignment: string;
@@ -44,6 +45,7 @@ const messageToDTO = (record: ScrapeMessage): CreateRecord => {
   return {
     course_code: record.courseCode,
     course_id: record.courseID,
+    course_icon: record.courseIcon,
     course: record.course,
     assignment_id: record.assignmentID,
     assignment: record.assignment,
