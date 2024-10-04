@@ -1,4 +1,4 @@
-import { Card } from "@/src/components/Card";
+import { CourseCard } from "@/src/components/Card/CourseCard";
 import { Header } from "@/src/components/Header";
 
 export default function FacultyPage() {
@@ -13,7 +13,7 @@ export default function FacultyPage() {
         </div>
         <div className="grid w-full grid-cols-1 justify-items-center gap-x-4 gap-y-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {faculties.map((f) => (
-            <Card key={f} />
+            <CourseCard href="1" key={f} />
           ))}
         </div>
       </div>
