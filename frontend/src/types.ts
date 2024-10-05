@@ -13,3 +13,11 @@ export type Course = {
   name: string;
   createdAt: string;
 };
+
+export type Assignment = {
+  id: string;
+  courseCode: string;
+  code: string;
+  name: string;
+  createdAt: string;
+};
