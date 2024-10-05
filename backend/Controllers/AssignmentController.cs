@@ -34,4 +34,23 @@ public class AssignmentController : ControllerBase
             return StatusCode((int)ex.StatusCode, ex.ToJSON());
         }
     }
+
+    [HttpGet("{code}")]
+    public async Task<IActionResult> FindAssignmentByCode(string code)
+    {
+        try
+        {
+            var assignment = await _assignmentSvc.FindByCode(code);
+            if (assignment == null)
+            {
+                return NotFound(new JSONResponse($"No assignment with code {code} found"));
+            }
+
+            return Ok(AssignmentParser.ModelToDTO(assignment));
+        }
+        catch (ServiceException ex)
+        {
+            return StatusCode((int)ex.StatusCode, ex.ToJSON());
+        }
+    }
 }
