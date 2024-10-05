@@ -9,7 +9,7 @@ export const useGetAssignmentByCourse = (courseCode: string) => {
   const [error, setError] = useState<Error | null>(null);
   const [assignments, setAssignments] = useState<Assignment[]>([]);
 
-  const cacheKey = `assignement-from-course-${courseCode}`;
+  const cacheKey = `assignment-from-course-${courseCode}`;
 
   useEffect(() => {
     setLoading(true);

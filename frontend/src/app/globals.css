@@ -5,12 +5,14 @@
 :root {
   --default: #f1f5f9;
   --primary-default: #2b9afb;
+  --primary-medium: #1d63b9;
   --primary-bg: #e6faff;
   --medium: #64748b;
   --dark: #94a3b8;
   --high: #0f172b;
   --secondary-default: #fba711;
   --success-default: #31c55e;
+  --light: #f8fafc;
 }
 
 @layer utilities {

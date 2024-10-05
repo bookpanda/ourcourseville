@@ -8,6 +8,7 @@ const config: Config = {
         default: "var(--default)",
         primary: {
           default: "var(--primary-default)",
+          medium: "var(--primary-medium)",
           bg: "var(--primary-bg)",
         },
         secondary: {
@@ -19,6 +20,7 @@ const config: Config = {
         medium: "var(--medium)",
         dark: "var(--dark)",
         high: "var(--high)",
+        light: "var(--light)",
       },
     },
   },
