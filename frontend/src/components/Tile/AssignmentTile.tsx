@@ -31,7 +31,7 @@ export const AssignmentTile: FC<AssignmentTileProps> = ({ assignment }) => {
       <div className="flex justify-between gap-1">
         <div className="flex items-center gap-2">
           {/* click will copy */}
-          <Badge color="success-default" text={code} />
+          <Badge text={code} />
           <Link href={`/assignment/${code}`}>
             <Button text="Read Detail" />
           </Link>
