@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans } from "next/font/google";
+import { IBM_Plex_Sans_Thai } from "next/font/google";
 import { NavBar } from "../components/NavBar";
 import "./globals.css";
 
-const IBMPlex = IBM_Plex_Sans({
+const IBMPlex = IBM_Plex_Sans_Thai({
   weight: ["100", "300", "400", "600", "700"],
-  subsets: ["latin"],
+  subsets: ["thai"],
 });
 
 export const metadata: Metadata = {

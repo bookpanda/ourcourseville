@@ -1,4 +1,5 @@
 import { Assignment } from "@/src/types";
+import { formatTime } from "@/src/utils/formatTime";
 import Link from "next/link";
 import { FC } from "react";
 import { FaUser } from "react-icons/fa6";
@@ -13,6 +14,8 @@ interface AssignmentTileProps {
 export const AssignmentTile: FC<AssignmentTileProps> = ({ assignment }) => {
   const { code, name, createdAt } = assignment;
 
+  const formattedDate = formatTime(createdAt);
+
   return (
     <Tile>
       <div className="grid items-center gap-2 lg:grid-cols-[auto,188px,188px]">
@@ -24,18 +27,18 @@ export const AssignmentTile: FC<AssignmentTileProps> = ({ assignment }) => {
           <h5 className="h6 lg:h5 font-semibold text-high">{name}</h5>
         </div>
         <div className="h6 flex justify-center text-center text-medium">
-          {createdAt}
+          {formattedDate}
         </div>
       </div>
-      <div className="border-default border-b"></div>
+      <hr className="my-1" />
       <div className="flex justify-between gap-1">
         <div className="flex items-center gap-2">
           {/* click will copy */}
           <Badge text={code} />
-          <Link href={`/assignment/${code}`}>
-            <Button text="Read Detail" />
-          </Link>
         </div>
+        <Link href={`/assignment/${code}`}>
+          <Button text="Read Detail" />
+        </Link>
       </div>
     </Tile>
   );
