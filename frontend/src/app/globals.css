@@ -10,6 +10,7 @@
   --dark: #94a3b8;
   --high: #0f172b;
   --secondary-default: #fba711;
+  --success-default: #31c55e;
 }
 
 @layer utilities {

@@ -13,6 +13,9 @@ const config: Config = {
         secondary: {
           default: "var(--secondary-default)",
         },
+        success: {
+          default: "var(--success-default)",
+        },
         medium: "var(--medium)",
         dark: "var(--dark)",
         high: "var(--high)",
