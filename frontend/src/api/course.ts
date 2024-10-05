@@ -1,6 +1,10 @@
 import { AxiosResponse } from "axios";
 import { apiClient } from "./axios";
-import { CourseDTO, parseCourseDTOList } from "./dto/course.dto";
+import {
+  CourseDTO,
+  parseCourseDTO,
+  parseCourseDTOList,
+} from "./dto/course.dto";
 
 export const getCourseByFaculty = async (facultyCode: string) => {
   try {
@@ -12,5 +16,18 @@ export const getCourseByFaculty = async (facultyCode: string) => {
   } catch (error) {
     console.error("Failed to get course by faculty code", error);
     return Error("Failed to get course by faculty code");
+  }
+};
+
+export const getCourseByCode = async (code: string) => {
+  try {
+    const res: AxiosResponse<CourseDTO> = await apiClient.get(
+      `/course/${code}`
+    );
+
+    return parseCourseDTO(res.data);
+  } catch (error) {
+    console.error("Failed to get course by code", error);
+    return Error("Failed to get course by code");
   }
 };
