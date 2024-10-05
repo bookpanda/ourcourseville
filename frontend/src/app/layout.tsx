@@ -4,7 +4,7 @@ import { NavBar } from "../components/NavBar";
 import "./globals.css";
 
 const IBMPlex = IBM_Plex_Sans({
-  weight: ["100", "300", "400", "500", "600", "700"],
+  weight: ["100", "300", "400", "600", "700"],
   subsets: ["latin"],
 });
 

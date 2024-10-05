@@ -3,19 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --background: #f1f5f9;
-  --foreground: #000000;
+  --default: #f1f5f9;
   --primary-default: #2b9afb;
   --primary-bg: #e6faff;
   --medium: #64748b;
   --dark: #94a3b8;
   --high: #0f172b;
   --secondary-default: #fba711;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
 }
 
 @layer utilities {
