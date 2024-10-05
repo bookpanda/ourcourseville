@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FC } from "react";
 import { FaArrowLeft } from "react-icons/fa";
+import { FaFileSignature, FaHouse } from "react-icons/fa6";
+import { SideBarItem } from "./SideBarItem";
 
 interface SideBarProps {
   course: Course | null;
@@ -12,6 +14,7 @@ interface SideBarProps {
 export const SideBar: FC<SideBarProps> = ({ course }) => {
   const pathname = usePathname();
   const facultyCode = pathname.split("/")[2];
+  const courseCode = pathname.split("/")[4];
 
   if (!course) {
     return null;
@@ -49,6 +52,12 @@ export const SideBar: FC<SideBarProps> = ({ course }) => {
             </div>
           </div>
           <hr className="my-3" />
+          <SideBarItem icon={<FaHouse size={20} />} text="Home" href="/" />
+          <SideBarItem
+            icon={<FaFileSignature size={20} />}
+            text="Assignments"
+            href={`/faculty/${facultyCode}/course/${courseCode}/assignment`}
+          />
         </div>
       </div>
     </div>
