@@ -5,7 +5,7 @@ import { useGetAssignmentByCourse } from "@/src/hooks/useGetAssignmentByCourse";
 import { usePathname } from "next/navigation";
 import { FaFileSignature } from "react-icons/fa6";
 
-export default function AssignmentPage() {
+export default function AssignmentsPage() {
   const pathname = usePathname();
   const courseCode = pathname.split("/")[4];
 
@@ -28,7 +28,11 @@ export default function AssignmentPage() {
           </div>
           <div className="flex flex-col gap-3">
             {assignments.map((assignment) => (
-              <AssignmentTile key={assignment.id} assignment={assignment} />
+              <AssignmentTile
+                key={assignment.id}
+                href={`${pathname}/${assignment.code}`}
+                assignment={assignment}
+              />
             ))}
           </div>
         </div>

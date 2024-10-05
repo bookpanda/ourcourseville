@@ -8,10 +8,14 @@ import { Badge } from "../Badge";
 import { Button } from "../Button";
 
 interface AssignmentTileProps {
+  href: string;
   assignment: Assignment;
 }
 
-export const AssignmentTile: FC<AssignmentTileProps> = ({ assignment }) => {
+export const AssignmentTile: FC<AssignmentTileProps> = ({
+  href,
+  assignment,
+}) => {
   const { code, name, createdAt } = assignment;
 
   const formattedDate = formatTime(createdAt);
@@ -36,7 +40,7 @@ export const AssignmentTile: FC<AssignmentTileProps> = ({ assignment }) => {
           {/* click will copy */}
           <Badge text={code} />
         </div>
-        <Link href={`/assignment/${code}`}>
+        <Link href={href}>
           <Button text="Read Detail" />
         </Link>
       </div>
