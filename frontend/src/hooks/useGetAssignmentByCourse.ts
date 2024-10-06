@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { getAssignmentByCourse } from "../api/assignment";
-import { cache } from "../cache/localStorage";
-import { COURSE_TTL } from "../config/config";
 import { Assignment } from "../types";
 
 export const useGetAssignmentByCourse = (courseCode: string) => {
@@ -9,17 +7,8 @@ export const useGetAssignmentByCourse = (courseCode: string) => {
   const [error, setError] = useState<Error | null>(null);
   const [assignments, setAssignments] = useState<Assignment[]>([]);
 
-  const cacheKey = `assignment-from-course-${courseCode}`;
-
   useEffect(() => {
     setLoading(true);
-
-    const res = cache.getItem<Assignment[]>(cacheKey);
-    if (res) {
-      setAssignments(res);
-      setLoading(false);
-      return;
-    }
 
     (async () => {
       const res = await getAssignmentByCourse(courseCode);
@@ -29,12 +18,11 @@ export const useGetAssignmentByCourse = (courseCode: string) => {
 
       res.sort((a, b) => a.code.localeCompare(b.code));
 
-      cache.setItem(cacheKey, res, COURSE_TTL);
       setAssignments(res);
     })();
 
     setLoading(false);
-  }, [cacheKey, courseCode]);
+  }, [courseCode]);
 
   return { assignments, loading, error };
 };

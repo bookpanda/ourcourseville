@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { getAssignmentByCode } from "../api/assignment";
-import { cache } from "../cache/localStorage";
-import { COURSE_TTL } from "../config/config";
 import { Assignment } from "../types";
 
 export const useGetAssignmentByCode = (code: string) => {
@@ -9,17 +7,8 @@ export const useGetAssignmentByCode = (code: string) => {
   const [error, setError] = useState<Error | null>(null);
   const [assignment, setAssignment] = useState<Assignment | null>();
 
-  const cacheKey = `assignment-from-code-${code}`;
-
   useEffect(() => {
     setLoading(true);
-
-    const res = cache.getItem<Assignment>(cacheKey);
-    if (res) {
-      setAssignment(res);
-      setLoading(false);
-      return;
-    }
 
     (async () => {
       const res = await getAssignmentByCode(code);
@@ -27,12 +16,11 @@ export const useGetAssignmentByCode = (code: string) => {
         return setError(res);
       }
 
-      cache.setItem(cacheKey, res, COURSE_TTL);
       setAssignment(res);
     })();
 
     setLoading(false);
-  }, [cacheKey, code]);
+  }, [code]);
 
   return { assignment, loading, error };
 };
