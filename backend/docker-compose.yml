@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  cache:
+    image: redis
+    container_name: cache
+    restart: unless-stopped
+    environment:
+      REDIS_HOST: localhost
+      REDIS_PASSWORD: "5678"
+    ports:
+      - "6379:6379"
