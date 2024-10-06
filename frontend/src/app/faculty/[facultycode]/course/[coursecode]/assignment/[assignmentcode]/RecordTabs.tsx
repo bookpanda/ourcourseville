@@ -1,7 +1,6 @@
 "use client";
 
 import { Tab } from "@/src/components/Tab/Tab";
-import { useGetAssignmentByCode } from "@/src/hooks/useGetAssignmentByCode";
 import { selectCurrentRecord } from "@/src/store/recordSlice";
 import { useAppSelector } from "@/src/store/store";
 import { usePathname } from "next/navigation";
@@ -29,9 +28,6 @@ export const RecordTabs = () => {
       isEnabled: currentRecord !== null,
     },
   ];
-
-  const { currentAssignment } = useGetAssignmentByCode(assignmentCode);
-  if (!currentAssignment) return null;
 
   return <Tab currentIndex={currentTab} items={tabs} />;
 };
