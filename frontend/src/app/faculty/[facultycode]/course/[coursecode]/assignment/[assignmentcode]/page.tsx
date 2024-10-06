@@ -18,7 +18,11 @@ export default function AssignmentPage() {
       </div>
       <div className="flex flex-col gap-3">
         {records.map((r) => (
-          <RecordCard key={r.id} href={`${pathname}/${r.id}`} record={r} />
+          <RecordCard
+            key={r.id}
+            href={`${pathname}/record/${r.id}`}
+            record={r}
+          />
         ))}
       </div>
     </div>

@@ -13,10 +13,18 @@ const AssignmentLayout: FC<PropsWithChildren> = ({ children }) => {
   const courseCode = pathParts[4];
   const assignmentCode = pathParts[6];
 
+  const assignmentsPath = `/faculty/${facultyCode}/course/${courseCode}/assignment`;
+
   const currentTab = pathParts.length > 7 ? 1 : 0;
   const tabs = [
-    { text: "Records", href: pathname },
-    { text: "Solution", href: `${pathname}/solution` },
+    {
+      text: "Records",
+      href: `${assignmentsPath}/${assignmentCode}`,
+    },
+    {
+      text: "Solution",
+      href: `${assignmentsPath}/${assignmentCode}/record/{currentID}`,
+    },
   ];
 
   const { assignment } = useGetAssignmentByCode(assignmentCode);
@@ -26,9 +34,7 @@ const AssignmentLayout: FC<PropsWithChildren> = ({ children }) => {
     <div className="py-1 lg:p-0">
       <div className="flex py-2 text-sm text-medium">
         <div className="flex">
-          <Link
-            href={`/faculty/${facultyCode}/course/${courseCode}/assignment`}
-          >
+          <Link href={assignmentsPath}>
             <div className="h-fit cursor-pointer whitespace-nowrap">
               Assignment
             </div>
