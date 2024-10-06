@@ -1,3 +1,5 @@
+"use client";
+
 import { toast } from "@/hooks/use-toast";
 import { Record } from "@/src/types";
 import { formatTime } from "@/src/utils/formatTime";
