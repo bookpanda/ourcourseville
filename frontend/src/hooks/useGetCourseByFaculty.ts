@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { getCourseByFaculty } from "../api/course";
 import { cache } from "../cache/localStorage";
 import { COURSE_TTL } from "../config/config";
+import { selectCourses, setCourses } from "../store/courseSlice";
+import { useAppDispatch, useAppSelector } from "../store/store";
 import { Course } from "../types";
 
 export const useGetCourseByFaculty = (facultyCode: string) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const [courses, setCourses] = useState<Course[]>([]);
+
+  const dispatch = useAppDispatch();
+  const courses = useAppSelector(selectCourses);
 
   const cacheKey = `course-from-faculty-${facultyCode}`;
 
@@ -16,7 +20,7 @@ export const useGetCourseByFaculty = (facultyCode: string) => {
 
     const res = cache.getItem<Course[]>(cacheKey);
     if (res) {
-      setCourses(res);
+      dispatch(setCourses(res));
       setLoading(false);
       return;
     }
@@ -30,7 +34,7 @@ export const useGetCourseByFaculty = (facultyCode: string) => {
       res.sort((a, b) => a.code.localeCompare(b.code));
 
       cache.setItem(cacheKey, res, COURSE_TTL);
-      setCourses(res);
+      dispatch(setCourses(res));
     })();
 
     setLoading(false);
