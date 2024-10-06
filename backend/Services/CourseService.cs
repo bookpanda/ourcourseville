@@ -5,17 +5,24 @@ using backend.Services.Interfaces;
 using backend.Data;
 using backend.Exceptions;
 using System.Net;
+using backend.Config;
+using backend.Repositories.Interfaces;
+using Microsoft.Extensions.Options;
 
 namespace backend.Services;
 
 public class CourseService : ICourseService
 {
+    private readonly TTLConfig _conf;
+    private readonly ICacheRepository _cache;
     private readonly IFacultyService _facultySvc;
     private readonly CollectionReference _courses;
     private readonly ILogger<CourseService> _log;
 
-    public CourseService(IFacultyService facultySvc, Firestore fs, ILogger<CourseService> log)
+    public CourseService(IOptions<TTLConfig> conf, ICacheRepository cache, IFacultyService facultySvc, Firestore fs, ILogger<CourseService> log)
     {
+        _conf = conf.Value;
+        _cache = cache;
         _facultySvc = facultySvc;
         _courses = fs.courses;
         _log = log;
@@ -62,6 +69,9 @@ public class CourseService : ICourseService
     {
         try
         {
+            var cacheVal = await _cache.GetAsync<List<Course>>(FindByFacultyKey(facultyCode));
+            if (cacheVal != null) return cacheVal;
+
             Query query = _courses.WhereEqualTo("FacultyCode", facultyCode);
             QuerySnapshot snapshot = await query.GetSnapshotAsync();
             List<Course> courses = new List<Course>();
@@ -79,6 +89,8 @@ public class CourseService : ICourseService
                     _log.LogWarning($"Course with ID {document.Id} does not exist");
                 }
             }
+
+            await _cache.SetAsync(FindByFacultyKey(facultyCode), courses, _conf.CourseTTL);
 
             return courses;
         }
@@ -110,4 +122,7 @@ public class CourseService : ICourseService
             throw new ServiceException($"Error finding course with code {code}", HttpStatusCode.InternalServerError, ex);
         }
     }
+
+    private string FindByFacultyKey(string code) => $"course-faculty-:{code}";
+    private string FindByCodeKey(string code) => $"course-code-:{code}";
 }

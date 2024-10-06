@@ -5,16 +5,23 @@ using backend.Services.Interfaces;
 using backend.Data;
 using backend.Exceptions;
 using System.Net;
+using backend.Config;
+using Microsoft.Extensions.Options;
+using backend.Repositories.Interfaces;
 
 namespace backend.Services;
 
 public class FacultyService : IFacultyService
 {
+    private readonly TTLConfig _conf;
+    private readonly ICacheRepository _cache;
     private readonly CollectionReference _faculties;
     private readonly ILogger<FacultyService> _log;
 
-    public FacultyService(Firestore fs, ILogger<FacultyService> log)
+    public FacultyService(IOptions<TTLConfig> conf, ICacheRepository cache, Firestore fs, ILogger<FacultyService> log)
     {
+        _conf = conf.Value;
+        _cache = cache;
         _faculties = fs.faculties;
         _log = log;
     }
@@ -46,6 +53,9 @@ public class FacultyService : IFacultyService
     {
         try
         {
+            var cacheVal = await _cache.GetAsync<List<Faculty>>(FindAllKey());
+            if (cacheVal != null) return cacheVal;
+
             QuerySnapshot snapshot = await _faculties.GetSnapshotAsync();
             List<Faculty> faculties = new List<Faculty>();
 
@@ -63,6 +73,8 @@ public class FacultyService : IFacultyService
                 }
             }
 
+            await _cache.SetAsync(FindAllKey(), faculties, _conf.FacultyTTL);
+
             return faculties;
         }
         catch (Exception ex)
@@ -75,6 +87,9 @@ public class FacultyService : IFacultyService
     {
         try
         {
+            var cacheVal = await _cache.GetAsync<Faculty>(FindByCodeKey(code));
+            if (cacheVal != null) return cacheVal;
+
             Query query = _faculties.WhereEqualTo("Code", code);
             QuerySnapshot snapshot = await query.GetSnapshotAsync();
             if (snapshot.Documents.Count == 0) return null;
@@ -85,6 +100,8 @@ public class FacultyService : IFacultyService
             var faculty = document.ConvertTo<Faculty>();
             faculty.ID = document.Id;
 
+            await _cache.SetAsync(FindByCodeKey(code), faculty, _conf.FacultyTTL);
+
             return faculty;
         }
         catch (Exception ex)
@@ -93,4 +110,7 @@ public class FacultyService : IFacultyService
             throw new ServiceException($"Error finding faculty with code {code}", HttpStatusCode.InternalServerError, ex);
         }
     }
+
+    private string FindAllKey() => $"faculty-all";
+    private string FindByCodeKey(string code) => $"faculty-code-:{code}";
 }
