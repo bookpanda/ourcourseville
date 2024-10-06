@@ -3,6 +3,8 @@ using backend.Services;
 using FirebaseAdmin;
 using backend.Config;
 using backend.Data;
+using backend.Repositories.Interfaces;
+using backend.Repositories;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -19,6 +21,9 @@ public static class MyConfigServiceCollectionExtensions
     {
         services.AddSingleton(FirebaseApp.Create());
         services.AddSingleton<Firestore>();
+
+        services.AddSingleton<ICacheRepository, CacheRepository>();
+
         services.AddScoped<IFacultyService, FacultyService>();
         services.AddScoped<ICourseService, CourseService>();
         services.AddScoped<IAssignmentService, AssignmentService>();
