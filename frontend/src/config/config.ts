@@ -1,4 +1,5 @@
 export const API_URL = process.env.NEXT_PUBLIC_API_URL;
+export const API_KEY = process.env.API_KEY;
 export const FACULTY_TTL = parseInt(
   process.env.NEXT_PUBLIC_FACULTY_TTL ?? "",
   10
