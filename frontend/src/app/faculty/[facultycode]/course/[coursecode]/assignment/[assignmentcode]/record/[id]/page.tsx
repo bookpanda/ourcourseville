@@ -1,18 +1,18 @@
-"use client";
-
+import { getRecordByID } from "@/src/api/record";
 import { Badge } from "@/src/components/Badge";
 import { CopyButton } from "@/src/components/CopyButton/CopyButton";
-import { useGetRecordByID } from "@/src/hooks/useGetRecordByID";
 import { Problem } from "@/src/types";
 import { formatTime } from "@/src/utils/formatTime";
-import { usePathname } from "next/navigation";
+import { getPathname } from "@/src/utils/getPathname";
 
-export default function RecordPage() {
-  const pathname = usePathname();
+export const RecordPage = async () => {
+  const pathname = getPathname();
   const recordID = pathname.split("/")[8];
 
-  const { currentRecord } = useGetRecordByID(recordID);
-  if (!currentRecord) return null;
+  const currentRecord = await getRecordByID(recordID);
+  if (currentRecord instanceof Error) {
+    return <div>Error: {currentRecord.message}</div>;
+  }
   const { id, createdAt, problems } = currentRecord;
 
   const formattedDate = formatTime(createdAt);
@@ -40,4 +40,6 @@ export default function RecordPage() {
       </div>
     </>
   );
-}
+};
+
+export default RecordPage;

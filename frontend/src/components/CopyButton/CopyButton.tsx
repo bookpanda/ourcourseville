@@ -1,3 +1,5 @@
+"use client";
+
 import { toast } from "@/hooks/use-toast";
 import { FC } from "react";
 import { FaCopy } from "react-icons/fa";
