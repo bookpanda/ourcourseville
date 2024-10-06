@@ -1,3 +1,7 @@
+"use client";
+
+import { setCurrentCourse } from "@/src/store/courseSlice";
+import { useAppDispatch } from "@/src/store/store";
 import { Course } from "@/src/types";
 import Image from "next/image";
 import { FC } from "react";
@@ -10,8 +14,14 @@ interface CourseCardProps {
 
 export const CourseCard: FC<CourseCardProps> = ({ href, course }) => {
   const { code, name } = course;
+  const dispatch = useAppDispatch();
+
+  const handleClick = () => {
+    dispatch(setCurrentCourse(course));
+  };
+
   return (
-    <Card href={href}>
+    <Card href={href} onClick={handleClick}>
       <div className="flex flex-col gap-2">
         <div className="flex flex-row justify-between">
           <Image
@@ -25,17 +35,17 @@ export const CourseCard: FC<CourseCardProps> = ({ href, course }) => {
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-1">
-            <div className="text-secondary-default text-sm font-semibold">
+            <div className="text-sm font-semibold text-secondary-default">
               {code}
             </div>
-            <div className="text-high font-ibmplex line-clamp-3 h-[72px] text-base font-semibold">
+            <div className="font-ibmplex line-clamp-3 h-[72px] text-base font-semibold text-high">
               {name}
             </div>
           </div>
           <ul className="flex h-[26px] flex-row gap-2"></ul>
         </div>
       </div>
-      <div className="bg-dark h-[1px] w-full rounded-full"></div>
+      <div className="h-[1px] w-full rounded-full bg-dark"></div>
     </Card>
   );
 };
