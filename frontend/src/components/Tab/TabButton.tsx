@@ -4,11 +4,17 @@ import { FC } from "react";
 interface TabButtonProps {
   text: string;
   isActive: boolean;
+  isEnabled: boolean;
 }
 
-export const TabButton: FC<TabButtonProps> = ({ text, isActive }) => {
+export const TabButton: FC<TabButtonProps> = ({
+  text,
+  isActive,
+  isEnabled,
+}) => {
   return (
     <button
+      disabled={!isEnabled}
       className={clsx(
         isActive
           ? "border-b-2 border-primary-default"
