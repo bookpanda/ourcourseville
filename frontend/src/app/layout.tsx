@@ -35,7 +35,6 @@ export default function RootLayout({
         sizes="180x180"
         href="/favicon/apple-touch-icon.png"
       />
-      <link rel="manifest" href="/site.webmanifest" />
       <body
         className={`${IBMPlex.className} max-w-screen bg-default flex min-h-screen flex-col`}
       >
