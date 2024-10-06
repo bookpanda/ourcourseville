@@ -1,14 +1,15 @@
-"use client";
-
+import { getRecordByAssignment } from "@/src/api/record";
 import { RecordCard } from "@/src/components/Card/RecordCard";
-import { useGetRecordByAssignment } from "@/src/hooks/useGetRecordByAssignment";
-import { usePathname } from "next/navigation";
+import { getPathname } from "@/src/utils/getPathname";
 
-export default function AssignmentPage() {
-  const pathname = usePathname();
+export const AssignmentPage = async () => {
+  const pathname = getPathname();
   const assignmentCode = pathname.split("/")[6];
 
-  const { records } = useGetRecordByAssignment(assignmentCode);
+  const records = await getRecordByAssignment(assignmentCode);
+  if (records instanceof Error) {
+    return <div>Error: {records.message}</div>;
+  }
 
   return (
     <div className="flex w-full flex-col gap-3">
@@ -27,4 +28,6 @@ export default function AssignmentPage() {
       </div>
     </div>
   );
-}
+};
+
+export default AssignmentPage;

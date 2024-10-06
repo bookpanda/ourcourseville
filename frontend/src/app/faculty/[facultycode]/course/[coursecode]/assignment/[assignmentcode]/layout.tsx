@@ -1,39 +1,21 @@
-"use client";
-
-import { Tab } from "@/src/components/Tab/Tab";
-import { useGetAssignmentByCode } from "@/src/hooks/useGetAssignmentByCode";
-import { selectCurrentRecord } from "@/src/store/recordSlice";
-import { useAppSelector } from "@/src/store/store";
+import { getAssignmentByCode } from "@/src/api/assignment";
+import { getPathname } from "@/src/utils/getPathname";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { FC, PropsWithChildren } from "react";
+import { RecordTabs } from "./RecordTabs";
 
-const AssignmentLayout: FC<PropsWithChildren> = ({ children }) => {
-  const pathname = usePathname();
+const AssignmentLayout: FC<PropsWithChildren> = async ({ children }) => {
+  const pathname = getPathname();
   const pathParts = pathname.split("/");
   const facultyCode = pathParts[2];
   const courseCode = pathParts[4];
   const assignmentCode = pathParts[6];
   const assignmentsPath = `/faculty/${facultyCode}/course/${courseCode}/assignment`;
 
-  const currentRecord = useAppSelector(selectCurrentRecord);
-
-  const currentTab = pathParts.length > 7 ? 1 : 0;
-  const tabs = [
-    {
-      text: "Records",
-      href: `${assignmentsPath}/${assignmentCode}`,
-      isEnabled: true,
-    },
-    {
-      text: "Solution",
-      href: `${assignmentsPath}/${assignmentCode}/record/${currentRecord?.id}`,
-      isEnabled: currentRecord !== null,
-    },
-  ];
-
-  const { currentAssignment } = useGetAssignmentByCode(assignmentCode);
-  if (!currentAssignment) return null;
+  const currentAssignment = await getAssignmentByCode(assignmentCode);
+  if (currentAssignment instanceof Error) {
+    return <div>Error: {currentAssignment.message}</div>;
+  }
 
   const breadcrumb = () => (
     <div className="py-1 lg:p-0">
@@ -55,7 +37,7 @@ const AssignmentLayout: FC<PropsWithChildren> = ({ children }) => {
     <main className="flex w-full flex-col max-md:mb-16 md:max-w-[calc(100vw-260px)]">
       <div className="m-4 flex flex-col gap-4 rounded-lg bg-white p-4 lg:mx-8 lg:my-6 lg:p-6">
         {breadcrumb()}
-        <Tab currentIndex={currentTab} items={tabs} />
+        <RecordTabs />
         <div className="flex flex-col gap-0.5 pb-1">
           <h2 className="h4 lg:h3 font-bold text-high">
             {currentAssignment.name}
