@@ -29,7 +29,6 @@ export const NavBar = () => {
   const coursesPath = `/faculty/${currentFaculty?.code}/course`;
 
   const isAssignmentsEnabled = isCoursesEnabled && currentCourse !== null;
-  console.log("FFF", currentFaculty?.code, currentCourse);
   const assignmentsPath = `/faculty/${currentFaculty?.code}/course/${currentCourse?.code}/assignment`;
 
   return (
