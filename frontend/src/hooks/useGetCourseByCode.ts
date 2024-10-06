@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { getCourseByCode } from "../api/course";
 import { cache } from "../cache/localStorage";
 import { COURSE_TTL } from "../config/config";
+import { selectCurrentCourse, setCurrentCourse } from "../store/courseSlice";
+import { useAppDispatch, useAppSelector } from "../store/store";
 import { Course } from "../types";
 
 export const useGetCourseByCode = (code: string) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const [course, setCourse] = useState<Course | null>(null);
+
+  const dispatch = useAppDispatch();
+  const currentCourse = useAppSelector(selectCurrentCourse);
 
   const cacheKey = `course-from-code-${code}`;
 
@@ -16,7 +20,7 @@ export const useGetCourseByCode = (code: string) => {
 
     const res = cache.getItem<Course>(cacheKey);
     if (res) {
-      setCourse(res);
+      dispatch(setCurrentCourse(res));
       setLoading(false);
       return;
     }
@@ -28,11 +32,11 @@ export const useGetCourseByCode = (code: string) => {
       }
 
       cache.setItem(cacheKey, res, COURSE_TTL);
-      setCourse(res);
+      dispatch(setCurrentCourse(res));
     })();
 
     setLoading(false);
   }, [cacheKey, code]);
 
-  return { course, loading, error };
+  return { currentCourse, loading, error };
 };

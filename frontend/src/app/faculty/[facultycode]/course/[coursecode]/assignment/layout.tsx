@@ -9,12 +9,12 @@ const AssignmentLayout: FC<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
   const courseCode = pathname.split("/")[4];
 
-  const { course } = useGetCourseByCode(courseCode);
+  const { currentCourse } = useGetCourseByCode(courseCode);
 
   return (
     <main>
       <div className="flex">
-        <SideBar course={course} />
+        <SideBar course={currentCourse} />
         {children}
       </div>
     </main>
