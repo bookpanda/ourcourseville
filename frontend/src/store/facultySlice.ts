@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Faculty } from "../types";
+import { RootState } from "./store";
 
 interface FacultyState {
   faculties: Faculty[];
@@ -13,12 +14,13 @@ export const facultySlice = createSlice({
   name: "faculty",
   initialState,
   reducers: {
-    set: (state, action: PayloadAction<Faculty[]>) => {
+    setFaculties: (state, action: PayloadAction<Faculty[]>) => {
       state.faculties = action.payload;
     },
   },
 });
 
-export const { set } = facultySlice.actions;
+export const { setFaculties } = facultySlice.actions;
+export const selectFaculties = (state: RootState) => state.faculty.faculties;
 
 export default facultySlice.reducer;
