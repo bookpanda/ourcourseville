@@ -1,18 +1,26 @@
 "use client";
 
-import { useGetAssignmentByCode } from "@/src/hooks/useGetAssignmentByCode";
+import { RecordCard } from "@/src/components/Card/RecordCard";
+import { useGetRecordByAssignment } from "@/src/hooks/useGetRecordByAssignment";
 import { usePathname } from "next/navigation";
 
 export default function AssignmentPage() {
   const pathname = usePathname();
-  const facultyCode = pathname.split("/")[2];
-  const courseCode = pathname.split("/")[4];
   const assignmentCode = pathname.split("/")[6];
 
-  const { assignment } = useGetAssignmentByCode(assignmentCode);
-  if (!assignment) return null;
+  const { records } = useGetRecordByAssignment(assignmentCode);
 
   return (
-    <main className="flex w-full flex-col max-md:mb-16 md:max-w-[calc(100vw-260px)]"></main>
+    <div className="flex w-full flex-col gap-3">
+      <div className="h5 hidden gap-2 px-4 font-semibold text-medium lg:grid lg:grid-cols-[auto,188px,188px]">
+        <p className="font-medium">Records</p>
+        <p className="text-center font-medium">Created At</p>
+      </div>
+      <div className="flex flex-col gap-3">
+        {records.map((r) => (
+          <RecordCard key={r.id} href={`${pathname}/${r.id}`} record={r} />
+        ))}
+      </div>
+    </div>
   );
 }

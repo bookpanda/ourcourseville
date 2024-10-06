@@ -45,6 +45,10 @@ const AssignmentLayout: FC<PropsWithChildren> = ({ children }) => {
       <div className="m-4 flex flex-col gap-4 rounded-lg bg-white p-4 lg:mx-8 lg:my-6 lg:p-6">
         {breadcrumb()}
         <Tab currentIndex={currentTab} items={tabs} />
+        <div className="flex flex-col gap-0.5 pb-1">
+          <h2 className="h4 lg:h3 font-bold text-high">{assignment.name}</h2>
+          <hr className="my-1" />
+        </div>
         {children}
       </div>
     </main>
