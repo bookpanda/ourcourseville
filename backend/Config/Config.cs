@@ -13,6 +13,30 @@ public class FirestoreConfig
 public class TTLConfig
 {
     public const string TTL = "TTL";
-    public required int Faculty { get; set; }
-    public required int Course { get; set; }
+
+    private int? facultyTTL;
+    private int? courseTTL;
+
+    public required int Faculty
+    {
+        get => facultyTTL ?? throw new ArgumentNullException(nameof(facultyTTL));
+        set
+        {
+            facultyTTL = value;
+            FacultyTTL = TimeSpan.FromSeconds(value);
+        }
+    }
+
+    public required int Course
+    {
+        get => courseTTL ?? throw new ArgumentNullException(nameof(courseTTL));
+        set
+        {
+            courseTTL = value;
+            CourseTTL = TimeSpan.FromSeconds(value);
+        }
+    }
+
+    public TimeSpan FacultyTTL { get; private set; }
+    public TimeSpan CourseTTL { get; private set; }
 }
