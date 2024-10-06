@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "@/src/components/Badge";
+import { CopyButton } from "@/src/components/CopyButton/CopyButton";
 import { useGetRecordByID } from "@/src/hooks/useGetRecordByID";
 import { Problem } from "@/src/types";
 import { formatTime } from "@/src/utils/formatTime";
@@ -27,8 +28,11 @@ export default function RecordPage() {
 
   return (
     <>
-      <div className="flex flex-col justify-between gap-3 lg:flex-row lg:gap-2">
-        <Badge text={id} />
+      <div className="flex flex-col items-start justify-between gap-3 lg:flex-row lg:items-center lg:gap-2">
+        <div className="flex items-center gap-3">
+          <Badge text={id} />
+          <CopyButton text={id} />
+        </div>
         <h5 className="h6 lg:h5 text-medium">{formattedDate}</h5>
       </div>
       <div className="flex flex-col gap-6">
