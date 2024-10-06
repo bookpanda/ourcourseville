@@ -22,22 +22,16 @@ scrapeBtn?.addEventListener("click", () => {
 });
 
 const loadBtn = document.getElementById("loadButton");
-const loadInput = document.getElementById("solutionInput");
 
 loadBtn?.addEventListener("click", () => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const currentTab = tabs[0];
+    const loadInput = document.querySelector("input");
 
-    chrome.scripting.executeScript(
-      {
-        target: { tabId: currentTab.id ?? 0 },
-        func: load,
-        args: [loadInput?.nodeValue ?? ""],
-      },
-      (results) => {
-        const message = results[0].result;
-        chrome.runtime.sendMessage(message);
-      }
-    );
+    chrome.scripting.executeScript({
+      target: { tabId: currentTab.id ?? 0 },
+      func: load,
+      args: [loadInput?.value ?? ""],
+    });
   });
 });
