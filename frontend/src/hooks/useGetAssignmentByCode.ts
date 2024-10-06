@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
 import { getAssignmentByCode } from "../api/assignment";
-import { Assignment } from "../types";
+import {
+  selectCurrentAssignment,
+  setCurrentAssignment,
+} from "../store/assignmentSlice";
+import { useAppDispatch, useAppSelector } from "../store/store";
 
 export const useGetAssignmentByCode = (code: string) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const [assignment, setAssignment] = useState<Assignment | null>();
+
+  const dispatch = useAppDispatch();
+  const currentAssignment = useAppSelector(selectCurrentAssignment);
 
   useEffect(() => {
     setLoading(true);
@@ -16,11 +22,11 @@ export const useGetAssignmentByCode = (code: string) => {
         return setError(res);
       }
 
-      setAssignment(res);
+      dispatch(setCurrentAssignment(res));
     })();
 
     setLoading(false);
   }, [code]);
 
-  return { assignment, loading, error };
+  return { currentAssignment, loading, error };
 };

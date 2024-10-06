@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { getAssignmentByCourse } from "../api/assignment";
-import { Assignment } from "../types";
+import { selectAssignments, setAssignments } from "../store/assignmentSlice";
+import { useAppDispatch, useAppSelector } from "../store/store";
 
 export const useGetAssignmentByCourse = (courseCode: string) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const [assignments, setAssignments] = useState<Assignment[]>([]);
+
+  const dispatch = useAppDispatch();
+  const assignments = useAppSelector(selectAssignments);
 
   useEffect(() => {
     setLoading(true);
@@ -18,7 +21,7 @@ export const useGetAssignmentByCourse = (courseCode: string) => {
 
       res.sort((a, b) => a.code.localeCompare(b.code));
 
-      setAssignments(res);
+      dispatch(setAssignments(res));
     })();
 
     setLoading(false);

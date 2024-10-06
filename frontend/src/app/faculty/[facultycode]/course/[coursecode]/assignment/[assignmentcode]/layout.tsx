@@ -27,8 +27,8 @@ const AssignmentLayout: FC<PropsWithChildren> = ({ children }) => {
     },
   ];
 
-  const { assignment } = useGetAssignmentByCode(assignmentCode);
-  if (!assignment) return null;
+  const { currentAssignment } = useGetAssignmentByCode(assignmentCode);
+  if (!currentAssignment) return null;
 
   const breadcrumb = () => (
     <div className="py-1 lg:p-0">
@@ -41,7 +41,7 @@ const AssignmentLayout: FC<PropsWithChildren> = ({ children }) => {
           </Link>
           <div className="mx-1">{">"}</div>
         </div>
-        <div className="text-primary-default">{assignment.name}</div>
+        <div className="text-primary-default">{currentAssignment.name}</div>
       </div>
     </div>
   );
@@ -52,7 +52,9 @@ const AssignmentLayout: FC<PropsWithChildren> = ({ children }) => {
         {breadcrumb()}
         <Tab currentIndex={currentTab} items={tabs} />
         <div className="flex flex-col gap-0.5 pb-1">
-          <h2 className="h4 lg:h3 font-bold text-high">{assignment.name}</h2>
+          <h2 className="h4 lg:h3 font-bold text-high">
+            {currentAssignment.name}
+          </h2>
           <hr className="my-1" />
         </div>
         {children}
