@@ -11,6 +11,7 @@ public static class MyConfigServiceCollectionExtensions
     public static IServiceCollection AddConfig(this IServiceCollection services, IConfiguration config)
     {
         services.Configure<FirestoreConfig>(config.GetSection(FirestoreConfig.Firestore));
+        services.Configure<TTLConfig>(config.GetSection(TTLConfig.TTL));
 
         return services;
     }
