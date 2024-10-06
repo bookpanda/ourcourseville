@@ -1,19 +1,12 @@
-"use client";
-
+import { getAllFaculty } from "@/src/api/faculty";
 import { FacultyCard } from "@/src/components/Card/FacultyCard";
 import { Header } from "@/src/components/Header";
-import { useGetAllFaculty } from "@/src/hooks/useGetAllFaculty";
-import { setCurrentFaculty } from "@/src/store/facultySlice";
-import { useAppDispatch } from "@/src/store/store";
-import { Faculty } from "@/src/types";
 
-export default function FacultyPage() {
-  const { faculties } = useGetAllFaculty();
-  const dispatch = useAppDispatch();
-
-  const handleClick = (f: Faculty) => {
-    dispatch(setCurrentFaculty(f));
-  };
+const FacultiesPage = async () => {
+  const faculties = await getAllFaculty();
+  if (faculties instanceof Error) {
+    return <div>Error: {faculties.message}</div>;
+  }
 
   return (
     <main>
@@ -24,14 +17,12 @@ export default function FacultyPage() {
         </div>
         <div className="grid w-full grid-cols-1 justify-items-center gap-x-4 gap-y-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {faculties.map((f) => (
-            <FacultyCard
-              key={f.code}
-              faculty={f}
-              onClick={() => handleClick(f)}
-            />
+            <FacultyCard key={f.code} faculty={f} />
           ))}
         </div>
       </div>
     </main>
   );
-}
+};
+
+export default FacultiesPage;

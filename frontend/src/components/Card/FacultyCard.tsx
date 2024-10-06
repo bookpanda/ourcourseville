@@ -1,18 +1,27 @@
+"use client";
+
+import { setCurrentFaculty } from "@/src/store/facultySlice";
+import { useAppDispatch } from "@/src/store/store";
 import { Faculty } from "@/src/types";
 import { FC } from "react";
 import { Card } from ".";
 
 interface FacultyCardProps {
   faculty: Faculty;
-  onClick?: () => void;
 }
 
-export const FacultyCard: FC<FacultyCardProps> = ({ faculty, onClick }) => {
+export const FacultyCard: FC<FacultyCardProps> = ({ faculty }) => {
+  const dispatch = useAppDispatch();
   const { code, name } = faculty;
   const href = `/faculty/${code}/course`;
+
+  const handleClick = () => {
+    dispatch(setCurrentFaculty(faculty));
+  };
+
   return (
     <Card href={href}>
-      <div className="flex flex-col gap-2" onClick={onClick}>
+      <div className="flex flex-col gap-2" onClick={handleClick}>
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-1">
             <div className="text-sm font-semibold text-secondary-default">
