@@ -11,6 +11,7 @@ export const getCourseByFaculty = async (facultyCode: string) => {
     const res: AxiosResponse<CourseDTO[]> = await apiClient.get(
       `/course/faculty/${facultyCode}`
     );
+    res.data.sort((a, b) => a.code.localeCompare(b.code));
 
     return parseCourseDTOList(res.data);
   } catch (error) {

@@ -11,6 +11,7 @@ export const getAssignmentByCourse = async (facultyCode: string) => {
     const res: AxiosResponse<AssignmentDTO[]> = await apiClient.get(
       `/assignment/course/${facultyCode}`
     );
+    res.data.sort((a, b) => a.name.localeCompare(b.name));
 
     return parseAssignmentDTOList(res.data);
   } catch (error) {

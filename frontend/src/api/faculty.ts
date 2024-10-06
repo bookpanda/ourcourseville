@@ -5,6 +5,7 @@ import { FacultyDTO, parseFacultyDTOList } from "./dto/faculty.dto";
 export const getAllFaculty = async () => {
   try {
     const res: AxiosResponse<FacultyDTO[]> = await apiClient.get("/faculty");
+    res.data.sort((a, b) => a.code.localeCompare(b.code));
 
     return parseFacultyDTOList(res.data);
   } catch (error) {
