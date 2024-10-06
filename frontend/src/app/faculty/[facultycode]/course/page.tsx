@@ -22,7 +22,7 @@ export const CoursesPage = async () => {
         <div className="grid w-full grid-cols-1 justify-items-center gap-x-4 gap-y-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {courses.map((c) => (
             <CourseCard
-              href={`${facultyCode}/${c.code}/assignment`}
+              href={`/faculty/${facultyCode}/course/${c.code}/assignment`}
               key={c.code}
               course={c}
             />
