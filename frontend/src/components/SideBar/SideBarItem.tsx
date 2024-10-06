@@ -1,6 +1,6 @@
+import { getPathname } from "@/src/utils/getPathname";
 import clsx from "clsx";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { FC } from "react";
 
 interface SideBarItemProps {
@@ -9,8 +9,12 @@ interface SideBarItemProps {
   href: string;
 }
 
-export const SideBarItem: FC<SideBarItemProps> = ({ icon, text, href }) => {
-  const pathname = usePathname();
+export const SideBarItem: FC<SideBarItemProps> = async ({
+  icon,
+  text,
+  href,
+}) => {
+  const pathname = getPathname();
   const isActive = pathname === href;
 
   return (

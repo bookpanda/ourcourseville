@@ -1,15 +1,16 @@
-"use client";
-
+import { getAssignmentByCourse } from "@/src/api/assignment";
 import { AssignmentTile } from "@/src/components/Tile/AssignmentTile";
-import { useGetAssignmentByCourse } from "@/src/hooks/useGetAssignmentByCourse";
-import { usePathname } from "next/navigation";
+import { getPathname } from "@/src/utils/getPathname";
 import { FaFileSignature } from "react-icons/fa6";
 
-export default function AssignmentsPage() {
-  const pathname = usePathname();
+export const AssignmentsPage = async () => {
+  const pathname = getPathname();
   const courseCode = pathname.split("/")[4];
 
-  const { assignments } = useGetAssignmentByCourse(courseCode);
+  const assignments = await getAssignmentByCourse(courseCode);
+  if (assignments instanceof Error) {
+    return <div>Error: {assignments.message}</div>;
+  }
 
   return (
     <main className="flex w-full flex-col max-md:mb-16 md:max-w-[calc(100vw-260px)]">
@@ -39,4 +40,6 @@ export default function AssignmentsPage() {
       </div>
     </main>
   );
-}
+};
+
+export default AssignmentsPage;

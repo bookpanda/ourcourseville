@@ -1,7 +1,7 @@
 import { Course } from "@/src/types";
+import { getPathname } from "@/src/utils/getPathname";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { FC } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaFileSignature, FaHouse } from "react-icons/fa6";
@@ -11,8 +11,8 @@ interface SideBarProps {
   course: Course | null;
 }
 
-export const SideBar: FC<SideBarProps> = ({ course }) => {
-  const pathname = usePathname();
+export const SideBar: FC<SideBarProps> = async ({ course }) => {
+  const pathname = getPathname();
   const facultyCode = pathname.split("/")[2];
   const courseCode = pathname.split("/")[4];
 

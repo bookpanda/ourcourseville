@@ -1,15 +1,16 @@
-"use client";
-
+import { getCourseByCode } from "@/src/api/course";
 import { SideBar } from "@/src/components/SideBar";
-import { useGetCourseByCode } from "@/src/hooks/useGetCourseByCode";
-import { usePathname } from "next/navigation";
+import { getPathname } from "@/src/utils/getPathname";
 import { FC, PropsWithChildren } from "react";
 
-const AssignmentLayout: FC<PropsWithChildren> = ({ children }) => {
-  const pathname = usePathname();
+const AssignmentLayout: FC<PropsWithChildren> = async ({ children }) => {
+  const pathname = getPathname();
   const courseCode = pathname.split("/")[4];
 
-  const { currentCourse } = useGetCourseByCode(courseCode);
+  const currentCourse = await getCourseByCode(courseCode);
+  if (currentCourse instanceof Error) {
+    return <div>Error: {currentCourse.message}</div>;
+  }
 
   return (
     <main>
