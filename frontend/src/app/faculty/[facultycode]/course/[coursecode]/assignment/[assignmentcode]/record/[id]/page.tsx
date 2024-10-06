@@ -10,9 +10,9 @@ export default function RecordPage() {
   const pathname = usePathname();
   const recordID = pathname.split("/")[8];
 
-  const { record } = useGetRecordByID(recordID);
-  if (!record) return null;
-  const { id, createdAt, problems } = record;
+  const { currentRecord } = useGetRecordByID(recordID);
+  if (!currentRecord) return null;
+  const { id, createdAt, problems } = currentRecord;
 
   const formattedDate = formatTime(createdAt);
 
