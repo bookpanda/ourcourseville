@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Sans_Thai } from "next/font/google";
 import { NavBar } from "../components/NavBar";
+import { Toaster } from "../components/ui/toaster";
 import "./globals.css";
 import Providers from "./providers";
 
@@ -26,6 +27,7 @@ export default function RootLayout({
       >
         <Providers>
           <NavBar />
+          <Toaster />
           {children}
         </Providers>
       </body>
