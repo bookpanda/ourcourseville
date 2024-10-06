@@ -104,6 +104,9 @@ public class CourseService : ICourseService
     {
         try
         {
+            var cacheVal = await _cache.GetAsync<Course>(FindByCodeKey(code));
+            if (cacheVal != null) return cacheVal;
+
             Query query = _courses.WhereEqualTo("Code", code);
             QuerySnapshot snapshot = await query.GetSnapshotAsync();
             if (snapshot.Documents.Count == 0) return null;
@@ -113,6 +116,8 @@ public class CourseService : ICourseService
 
             var course = document.ConvertTo<Course>();
             course.ID = document.Id;
+
+            await _cache.SetAsync(FindByCodeKey(code), course, _conf.CourseTTL);
 
             return course;
         }
