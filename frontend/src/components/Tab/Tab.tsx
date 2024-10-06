@@ -15,12 +15,8 @@ export const Tab: FC<TabProps> = ({ currentIndex, items }) => {
     <>
       <div className="flex">
         {items.map((item, index) => (
-          <Link href={item.href} className="w-full">
-            <TabButton
-              key={index}
-              text={item.text}
-              isActive={index === currentIndex}
-            />
+          <Link key={index} href={item.href} className="w-full">
+            <TabButton text={item.text} isActive={index === currentIndex} />
           </Link>
         ))}
       </div>
