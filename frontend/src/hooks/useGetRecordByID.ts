@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { getRecordByID } from "../api/record";
-import { Record } from "../types";
+import { selectCurrentRecord, setCurrentRecord } from "../store/recordSlice";
+import { useAppDispatch, useAppSelector } from "../store/store";
 
 export const useGetRecordByID = (id: string) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const [record, setRecord] = useState<Record | null>();
+
+  const dispatch = useAppDispatch();
+  const currentRecord = useAppSelector(selectCurrentRecord);
 
   useEffect(() => {
     setLoading(true);
@@ -16,11 +19,11 @@ export const useGetRecordByID = (id: string) => {
         return setError(res);
       }
 
-      setRecord(res);
+      dispatch(setCurrentRecord(res));
     })();
 
     setLoading(false);
   }, [id]);
 
-  return { record, loading, error };
+  return { currentRecord, loading, error };
 };

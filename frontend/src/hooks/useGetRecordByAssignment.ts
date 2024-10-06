@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { getRecordByAssignment } from "../api/record";
-import { Record } from "../types";
+import { selectRecords, setRecords } from "../store/recordSlice";
+import { useAppDispatch, useAppSelector } from "../store/store";
 
 export const useGetRecordByAssignment = (asgmCode: string) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const [records, setRecords] = useState<Record[]>([]);
+
+  const dispatch = useAppDispatch();
+  const records = useAppSelector(selectRecords);
 
   useEffect(() => {
     setLoading(true);
@@ -18,7 +21,7 @@ export const useGetRecordByAssignment = (asgmCode: string) => {
 
       res.sort((a, b) => a.id.localeCompare(b.id));
 
-      setRecords(res);
+      dispatch(setRecords(res));
     })();
 
     setLoading(false);
