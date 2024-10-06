@@ -1,8 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "Scraper Extension",
+  "name": "ourcourseville",
   "version": "1.0",
-  "description": "Scrapes elements from the current tab.",
+  "description": "Productivity tool for students",
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
   "permissions": ["tabs", "activeTab", "scripting"],
   "host_permissions": ["<all_urls>"],
   "background": {

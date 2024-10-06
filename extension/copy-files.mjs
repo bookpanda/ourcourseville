@@ -22,6 +22,21 @@ htmlFiles.forEach((file) => {
   });
 });
 
+const iconsFiles = ["icon16.png", "icon48.png", "icon128.png"];
+
+iconsFiles.forEach((file) => {
+  const srcPath = join(__dirname, "icons", file);
+  const destPath = join(__dirname, targetFolder, file);
+
+  copyFile(srcPath, destPath, (err) => {
+    if (err) {
+      console.error(`Error copying file ${file}:`, err);
+    } else {
+      console.log(`Copied ${file} to build folder.`);
+    }
+  });
+});
+
 const srcPath = join(__dirname, args[0]);
 const destPath = join(__dirname, targetFolder, "manifest.json");
 copyFile(srcPath, destPath, (err) => {
