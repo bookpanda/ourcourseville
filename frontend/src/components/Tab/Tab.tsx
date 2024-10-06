@@ -1,26 +1,28 @@
-import { useState } from "react";
+import Link from "next/link";
+import { FC } from "react";
 import { TabButton } from "./TabButton";
 
-export const Tab = () => {
-  const [currentTab, setCurrentTab] = useState(0);
+interface TabProps {
+  currentIndex: number;
+  items: {
+    text: string;
+    href: string;
+  }[];
+}
 
-  const handleClick = (index: number) => {
-    setCurrentTab(() => index);
-  };
-
+export const Tab: FC<TabProps> = ({ currentIndex, items }) => {
   return (
     <>
       <div className="flex">
-        <TabButton
-          onClick={() => handleClick(0)}
-          text="Records"
-          isActive={currentTab === 0}
-        />
-        <TabButton
-          onClick={() => handleClick(1)}
-          text="Solution"
-          isActive={currentTab === 1}
-        />
+        {items.map((item, index) => (
+          <Link href={item.href} className="w-full">
+            <TabButton
+              key={index}
+              text={item.text}
+              isActive={index === currentIndex}
+            />
+          </Link>
+        ))}
       </div>
     </>
   );

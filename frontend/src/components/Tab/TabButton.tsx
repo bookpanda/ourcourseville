@@ -4,13 +4,11 @@ import { FC } from "react";
 interface TabButtonProps {
   text: string;
   isActive: boolean;
-  onClick: () => void;
 }
 
-export const TabButton: FC<TabButtonProps> = ({ text, isActive, onClick }) => {
+export const TabButton: FC<TabButtonProps> = ({ text, isActive }) => {
   return (
     <button
-      onClick={onClick}
       className={clsx(
         isActive
           ? "border-b-2 border-primary-default"
