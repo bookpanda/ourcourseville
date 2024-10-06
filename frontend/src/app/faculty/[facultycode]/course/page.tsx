@@ -1,15 +1,16 @@
-"use client";
-
+import { getCourseByFaculty } from "@/src/api/course";
 import { CourseCard } from "@/src/components/Card/CourseCard";
 import { Header } from "@/src/components/Header";
-import { useGetCourseByFaculty } from "@/src/hooks/useGetCourseByFaculty";
-import { usePathname } from "next/navigation";
+import { getPathname } from "@/src/utils/getPathname";
 
-export default function CoursePage() {
-  const pathname = usePathname();
+export const CoursesPage = async () => {
+  const pathname = getPathname();
   const facultyCode = pathname.split("/")[2];
 
-  const { courses } = useGetCourseByFaculty(facultyCode);
+  const courses = await getCourseByFaculty(facultyCode);
+  if (courses instanceof Error) {
+    return <div>Error: {courses.message}</div>;
+  }
 
   return (
     <main>
@@ -21,7 +22,7 @@ export default function CoursePage() {
         <div className="grid w-full grid-cols-1 justify-items-center gap-x-4 gap-y-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {courses.map((c) => (
             <CourseCard
-              href={`${pathname}/${c.code}/assignment`}
+              href={`${facultyCode}/${c.code}/assignment`}
               key={c.code}
               course={c}
             />
@@ -30,4 +31,6 @@ export default function CoursePage() {
       </div>
     </main>
   );
-}
+};
+
+export default CoursesPage;
