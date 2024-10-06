@@ -1,12 +1,10 @@
 import { ScrapeMessage } from "./types";
 
-export const saveRecord = async (record: ScrapeMessage) => {
-  console.log(`api:`);
-  console.log(record);
+const apiUrl: string = chrome.runtime.getManifest().api_url;
+const apiKey: string = chrome.runtime.getManifest().api_key;
 
+export const saveRecord = async (record: ScrapeMessage) => {
   const dto = messageToDTO(record);
-  const apiUrl: string = chrome.runtime.getManifest().api_url;
-  const apiKey: string = chrome.runtime.getManifest().api_key;
 
   try {
     const response = await fetch(`${apiUrl}/record`, {
@@ -30,6 +28,30 @@ export const saveRecord = async (record: ScrapeMessage) => {
   }
 };
 
+export const getRecord = async (recordID: string) => {
+  console.log("getRecord", recordID);
+  try {
+    const response = await fetch(`${apiUrl}/record/${recordID}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.error(`HTTP error! status: ${response.status}`);
+      return "error status" + response.status;
+    }
+
+    const result: RecordDTO = await response.json();
+    console.log("Success:", result);
+    return result;
+  } catch (error) {
+    console.error("Error:", error);
+    return "error";
+  }
+};
+
 type CreateRecord = {
   course_code: string;
   course_id: string;
@@ -41,6 +63,16 @@ type CreateRecord = {
     question: string;
     answer: string;
   }[];
+};
+
+type RecordDTO = {
+  id: string;
+  assignment_code: string;
+  problems: {
+    question: string;
+    answer: string;
+  }[];
+  created_at: string;
 };
 
 const messageToDTO = (record: ScrapeMessage): CreateRecord => {
