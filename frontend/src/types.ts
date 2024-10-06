@@ -21,3 +21,15 @@ export type Assignment = {
   name: string;
   createdAt: string;
 };
+
+export type Record = {
+  id: string;
+  assignmentCode: string;
+  problems: Problem[];
+  createdAt: string;
+};
+
+export type Problem = {
+  question: string;
+  answer: string;
+};
