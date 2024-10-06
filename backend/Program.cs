@@ -1,4 +1,5 @@
 using DotNetEnv;
+using StackExchange.Redis;
 
 Env.Load();
 string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
@@ -10,6 +11,9 @@ WebApplicationOptions options = new WebApplicationOptions
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddEnvironmentVariables();
+
+var redisConnString = builder.Configuration.GetConnectionString("Redis");
+builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnString ?? ""));
 
 builder.Services.AddControllers(opt =>
 {
