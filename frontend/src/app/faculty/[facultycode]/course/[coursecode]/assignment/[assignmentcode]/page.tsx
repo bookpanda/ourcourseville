@@ -2,7 +2,7 @@ import { getRecordByAssignment } from "@/src/api/record";
 import { RecordCard } from "@/src/components/Card/RecordCard";
 import { getPathname } from "@/src/utils/getPathname";
 
-export const AssignmentPage = async () => {
+const AssignmentPage = async () => {
   const pathname = getPathname();
   const assignmentCode = pathname.split("/")[6];
 
