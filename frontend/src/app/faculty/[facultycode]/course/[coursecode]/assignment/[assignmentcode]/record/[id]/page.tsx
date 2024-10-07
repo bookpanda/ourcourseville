@@ -5,7 +5,7 @@ import { Problem } from "@/src/types";
 import { formatTime } from "@/src/utils/formatTime";
 import { getPathname } from "@/src/utils/getPathname";
 
-export const RecordPage = async () => {
+const RecordPage = async () => {
   const pathname = getPathname();
   const recordID = pathname.split("/")[8];
 

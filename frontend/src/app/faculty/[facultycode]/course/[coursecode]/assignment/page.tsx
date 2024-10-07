@@ -3,7 +3,7 @@ import { AssignmentTile } from "@/src/components/Tile/AssignmentTile";
 import { getPathname } from "@/src/utils/getPathname";
 import { FaFileSignature } from "react-icons/fa6";
 
-export const AssignmentsPage = async () => {
+const AssignmentsPage = async () => {
   const pathname = getPathname();
   const courseCode = pathname.split("/")[4];
 

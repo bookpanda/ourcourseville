@@ -3,7 +3,7 @@ import { CourseCard } from "@/src/components/Card/CourseCard";
 import { Header } from "@/src/components/Header";
 import { getPathname } from "@/src/utils/getPathname";
 
-export const CoursesPage = async () => {
+const CoursesPage = async () => {
   const pathname = getPathname();
   const facultyCode = pathname.split("/")[2];
 
