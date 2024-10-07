@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Sans_Thai } from "next/font/google";
 import { FC, PropsWithChildren } from "react";
+import { getAssignmentByCode } from "../api/assignment";
 import { getCourseByCode } from "../api/course";
 import { getFacultyByCode } from "../api/faculty";
+import { getRecordByID } from "../api/record";
 import { NavBar } from "../components/NavBar";
 import { Toaster } from "../components/ui/toaster";
 import { getPathname } from "../utils/getPathname";
@@ -33,6 +35,16 @@ export const RootLayout: FC<PropsWithChildren> = async ({ children }) => {
   const currentCourse =
     currentCourse_ instanceof Error ? undefined : currentCourse_;
 
+  const assignmentCode = pathParts.length >= 6 ? pathParts[6] : "";
+  const currentAssignment_ = await getAssignmentByCode(assignmentCode);
+  const currentAssignment =
+    currentAssignment_ instanceof Error ? undefined : currentAssignment_;
+
+  const recordID = pathParts.length >= 8 ? pathParts[8] : "";
+  const currentRecord_ = await getRecordByID(recordID);
+  const currentRecord =
+    currentRecord_ instanceof Error ? undefined : currentRecord_;
+
   return (
     <html lang="en">
       <link
@@ -55,6 +67,8 @@ export const RootLayout: FC<PropsWithChildren> = async ({ children }) => {
           <LoadState
             currentFaculty={currentFaculty}
             currentCourse={currentCourse}
+            currentAssignment={currentAssignment}
+            currentRecord={currentRecord}
           />
           <NavBar />
           <Toaster />
