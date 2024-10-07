@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  ourcourseville:
+    image: ghcr.io/bookpanda/ourcourseville:latest
+    container_name: ourcourseville
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: "http://+:5203"
+      API__Key: apikey
+      ConnectionStrings__Redis: "cache:6379,password=5678"
+      TTL__Faculty: 86400 # 1 day
+      TTL__Course: 3600 # 1 hour
+      Firestore__DB: ourcourseville
+      Firestore__Faculties: faculties_dev
+      Firestore__Courses: courses_dev
+      Firestore__Assignments: assignments_dev
+      Firestore__Records: records_dev
+      GOOGLE_APPLICATION_CREDENTIALS: firebase-adminsdk.json
+    volumes:
+      - ./firebase-adminsdk.json:/app/firebase-adminsdk.json
+    networks:
+      - ourcourseville
+    ports:
+      - "5203:5203"
+
+  cache:
+    image: redis
+    container_name: cache
+    restart: unless-stopped
+    environment:
+      REDIS_HOST: localhost
+      REDIS_PASSWORD: "5678"
+    networks:
+      - ourcourseville
+    expose:
+      - 6379
+
+networks:
+  ourcourseville:
+    name: ourcourseville
+
