@@ -1,3 +1,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --default: #f1f5f9;
+  --primary-default: #2b9afb;
+  --primary-medium: #1d63b9;
+  --primary-bg: #e6faff;
+  --medium: #64748b;
+  --dark: #94a3b8;
+  --high: #0f172b;
+  --secondary-default: #fba711;
+  --success-default: #31c55e;
+  --light: #f8fafc;
+}
+
+@layer utilities {
+  .h1 {
+    font-size: 2.25rem;
+  }
+  .h2 {
+    font-size: 32px;
+    line-height: 44px;
+  }
+  .h3 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+  .h4 {
+    font-size: 20px;
+    line-height: 26px;
+  }
+  .h5 {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .h6 {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
