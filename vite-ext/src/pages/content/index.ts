@@ -5,11 +5,11 @@ import { scrape } from "./scripts/scrape";
 async function share(url: string) {
   const warnings: string[] = [];
 
-  const res = scrape(url);
+  const scrapeRecord = scrape(url);
 
-  await saveRecord(res);
+  await saveRecord(scrapeRecord);
 
-  return { res, warnings };
+  return { scrapeRecord, warnings };
 }
 
 async function load(recordID: string) {
@@ -17,9 +17,9 @@ async function load(recordID: string) {
 
   const record = await getRecord(recordID);
   //warnings when cannot load
-  const res = fillin(record);
+  await fillin(record);
 
-  return { res, warnings };
+  return { record, warnings };
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -27,22 +27,39 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     try {
       console.log({ message });
 
-      if (message.action !== "share") {
+      if (message.action !== "share" && message.action !== "load") {
         throw new Error(`Unknown action: ${message.action}`);
       }
 
-      const url: string | undefined = message.url;
-      if (!url) {
-        throw new Error("no url provided");
+      if (message.action === "share") {
+        const url: string | undefined = message.url;
+        if (!url) {
+          throw new Error("no url provided");
+        }
+
+        const { scrapeRecord, warnings } = await share(url!);
+
+        sendResponse({
+          status: "success",
+          message: `Shared assignment: ${scrapeRecord.assignment} (${scrapeRecord.problems.length} problems)`,
+          warning: warnings.join("\n"),
+        });
+      } else if (message.action === "load") {
+        const recordID: string | undefined = message.recordID;
+        if (!recordID) {
+          throw new Error("no recordID provided");
+        }
+
+        const { record, warnings } = await load(recordID!);
+
+        sendResponse({
+          status: "success",
+          message: `Loaded assignment with record ${record.id} (${record.problems.length} problems)`,
+          warning: warnings.join("\n"),
+        });
+
+        return;
       }
-
-      const { res, warnings } = await share(url!);
-
-      sendResponse({
-        status: "success",
-        message: `Shared assignment: ${res.assignment} (${res.problems.length} problems)`,
-        warning: warnings.join("\n"),
-      });
     } catch (e) {
       console.error(e);
       sendResponse({ status: "error", message: `${e}` });

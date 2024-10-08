@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { FaFileSignature } from "react-icons/fa6";
 import { Button } from "./components/Button";
+import { Input } from "./components/Input";
 import { Tile } from "./components/Tile";
 
 export default function Popup(): JSX.Element {
   const [success, setSuccess] = useState("");
   const [warning, setWarning] = useState("");
   const [error, setError] = useState("");
+
+  const [recordID, setRecordID] = useState("");
 
   async function share() {
     const [tab] = await chrome.tabs.query({
@@ -35,6 +38,37 @@ export default function Popup(): JSX.Element {
     setWarning(response.warning);
   }
 
+  async function load() {
+    const [tab] = await chrome.tabs.query({
+      active: true,
+      currentWindow: true,
+    });
+
+    if (!tab || tab.id === undefined) {
+      setError("Tab not found");
+      throw new Error("Tab not found");
+    }
+
+    const response = await chrome.tabs.sendMessage(tab.id, {
+      action: "share",
+      recordID: recordID,
+    });
+
+    console.log({ response });
+
+    if (response.status === "error") {
+      setError(response.message);
+      return;
+    }
+
+    setSuccess(response.message);
+    setWarning(response.warning);
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRecordID(e.target.value);
+  };
+
   return (
     <div className="m-4 flex flex-col gap-4 bg-white p-2 lg:mx-8 lg:my-6 lg:p-6">
       <div className="flex items-center gap-2 border-0 pb-0 font-semibold">
@@ -53,10 +87,16 @@ export default function Popup(): JSX.Element {
           </p>
           <hr className="my-1" />
           <Button text="Share solution" onClick={share} />
+          <hr className="my-1" />
           <div className="h6 text-medium flex justify-center text-center">
-            nd
+            Load solutions using record ID
           </div>
-          <Button text="Load solution" />
+          <Input
+            value={recordID}
+            onChange={(e) => handleChange(e)}
+            placeholder="input recordID here..."
+          />
+          <Button text="Load solution" onClick={load} />
         </div>
       </Tile>
       {success && <p className="text-green-500">{success}</p>}
