@@ -1,7 +1,9 @@
 import { RecordDTO } from "@src/types";
 import { useState } from "react";
 import { FaFileSignature } from "react-icons/fa6";
+import { Badge } from "./components/Badge";
 import { Button } from "./components/Button";
+import { CopyButton } from "./components/CopyButton";
 import { Input } from "./components/Input";
 import { Tile } from "./components/Tile";
 
@@ -54,7 +56,7 @@ export default function Popup(): JSX.Element {
     }
 
     const response = await chrome.tabs.sendMessage(tab.id, {
-      action: "share",
+      action: "load",
       recordID: recordID,
     });
 
@@ -91,7 +93,19 @@ export default function Popup(): JSX.Element {
           </p>
           <hr className="my-1" />
           <Button text="Share solution" onClick={share} />
-          {sharedRecord && <p>{sharedRecord.url}</p>}
+          {sharedRecord && (
+            <>
+              <div className="flex items-center gap-3">
+                <CopyButton text={sharedRecord.id} />
+                <Badge text={sharedRecord.id} />
+              </div>
+              <a href={sharedRecord.url} target="_blank">
+                <p className="text-primary-default hover:underline">
+                  View Solution
+                </p>
+              </a>
+            </>
+          )}
           <hr className="my-1" />
           <div className="h6 text-medium flex justify-center text-center">
             Load solutions using record ID
