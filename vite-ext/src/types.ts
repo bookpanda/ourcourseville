@@ -13,6 +13,7 @@ export interface ScrapeRecord {
 
 export type RecordDTO = {
   id: string;
+  url?: string;
   assignment_code: string;
   problems: {
     question: string;

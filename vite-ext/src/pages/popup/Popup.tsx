@@ -1,3 +1,4 @@
+import { RecordDTO } from "@src/types";
 import { useState } from "react";
 import { FaFileSignature } from "react-icons/fa6";
 import { Button } from "./components/Button";
@@ -10,6 +11,7 @@ export default function Popup(): JSX.Element {
   const [error, setError] = useState("");
 
   const [recordID, setRecordID] = useState("");
+  const [sharedRecord, setSharedRecord] = useState<RecordDTO | null>(null);
 
   async function share() {
     const [tab] = await chrome.tabs.query({
@@ -28,6 +30,8 @@ export default function Popup(): JSX.Element {
     });
 
     console.log({ response });
+    const record: RecordDTO = response.record;
+    setSharedRecord(record);
 
     if (response.status === "error") {
       setError(response.message);
@@ -87,6 +91,7 @@ export default function Popup(): JSX.Element {
           </p>
           <hr className="my-1" />
           <Button text="Share solution" onClick={share} />
+          {sharedRecord && <p>{sharedRecord.url}</p>}
           <hr className="my-1" />
           <div className="h6 text-medium flex justify-center text-center">
             Load solutions using record ID

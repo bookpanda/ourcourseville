@@ -7,9 +7,9 @@ async function share(url: string) {
 
   const scrapeRecord = scrape(url);
 
-  await saveRecord(scrapeRecord);
+  const record = await saveRecord(scrapeRecord);
 
-  return { scrapeRecord, warnings };
+  return { record, scrapeRecord, warnings };
 }
 
 async function load(recordID: string) {
@@ -37,11 +37,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           throw new Error("no url provided");
         }
 
-        const { scrapeRecord, warnings } = await share(url!);
+        const { record, scrapeRecord, warnings } = await share(url!);
 
         sendResponse({
           status: "success",
-          message: `Shared assignment: ${scrapeRecord.assignment} (${scrapeRecord.problems.length} problems)`,
+          message: `Shared assignment: ${scrapeRecord.assignment} (${record.problems.length} problems)`,
+          record: record,
           warning: warnings.join("\n"),
         });
       } else if (message.action === "load") {

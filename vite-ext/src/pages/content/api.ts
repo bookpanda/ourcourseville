@@ -20,7 +20,7 @@ export const saveRecord = async (record: ScrapeRecord) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const result = await response.json();
+    const result: RecordDTO = await response.json();
     return result;
   } catch (error) {
     console.error("Error:", error);
