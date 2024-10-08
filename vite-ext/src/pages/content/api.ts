@@ -1,9 +1,9 @@
-import { ScrapeMessage } from "@src/types";
+import { RecordDTO, ScrapeRecord } from "@src/types";
 
 const apiUrl: string = chrome.runtime.getManifest().api_url;
 const apiKey: string = chrome.runtime.getManifest().api_key;
 
-export const saveRecord = async (record: ScrapeMessage) => {
+export const saveRecord = async (record: ScrapeRecord) => {
   const dto = messageToDTO(record);
 
   try {
@@ -17,14 +17,14 @@ export const saveRecord = async (record: ScrapeMessage) => {
     });
 
     if (!response.ok) {
-      console.error(`HTTP error! status: ${response.status}`);
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const result = await response.json();
-    console.log("Success:", result);
     return result;
   } catch (error) {
     console.error("Error:", error);
+    throw error;
   }
 };
 
@@ -39,16 +39,14 @@ export const getRecord = async (recordID: string) => {
     });
 
     if (!response.ok) {
-      console.error(`HTTP error! status: ${response.status}`);
-      return "error status" + response.status;
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const result: RecordDTO = await response.json();
-    console.log("Success:", result);
     return result;
   } catch (error) {
     console.error("Error:", error);
-    return "error";
+    throw error;
   }
 };
 
@@ -65,17 +63,7 @@ type CreateRecord = {
   }[];
 };
 
-type RecordDTO = {
-  id: string;
-  assignment_code: string;
-  problems: {
-    question: string;
-    answer: string;
-  }[];
-  created_at: string;
-};
-
-const messageToDTO = (record: ScrapeMessage): CreateRecord => {
+const messageToDTO = (record: ScrapeRecord): CreateRecord => {
   return {
     course_code: record.courseCode,
     course_id: record.courseID,

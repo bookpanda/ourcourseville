@@ -1,4 +1,5 @@
-import { saveRecord } from "./api";
+import { getRecord, saveRecord } from "./api";
+import { fillin } from "./scripts/fillin";
 import { scrape } from "./scripts/scrape";
 
 async function share(url: string) {
@@ -7,6 +8,16 @@ async function share(url: string) {
   const res = scrape(url);
 
   await saveRecord(res);
+
+  return { res, warnings };
+}
+
+async function load(recordID: string) {
+  const warnings: string[] = [];
+
+  const record = await getRecord(recordID);
+  //warnings when cannot load
+  const res = fillin(record);
 
   return { res, warnings };
 }

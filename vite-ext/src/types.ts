@@ -1,8 +1,4 @@
-export interface Message {
-  type: "scrape" | "fillin";
-}
-
-export interface ScrapeMessage extends Message {
+export interface ScrapeRecord {
   courseCode: string;
   courseID: string;
   course: string;
@@ -15,6 +11,12 @@ export interface ScrapeMessage extends Message {
   }[];
 }
 
-export function isScrapeMessage(msg: Message): msg is ScrapeMessage {
-  return (msg as ScrapeMessage).problems !== undefined;
-}
+export type RecordDTO = {
+  id: string;
+  assignment_code: string;
+  problems: {
+    question: string;
+    answer: string;
+  }[];
+  created_at: string;
+};

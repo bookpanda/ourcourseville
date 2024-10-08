@@ -19,7 +19,6 @@ export default function Popup(): JSX.Element {
       throw new Error("Tab not found");
     }
 
-    console.log("Sending message to tab", tab.url);
     const response = await chrome.tabs.sendMessage(tab.id, {
       action: "share",
       url: tab.url,
@@ -47,8 +46,13 @@ export default function Popup(): JSX.Element {
       </div>
       <Tile>
         <div className="grid items-center gap-2 lg:grid-cols-[auto,188px,188px]">
-          <Button text="Share solution" onClick={share} />
+          <p className="text-high">Both buttons only works in Alpha MCV</p>
+          <p className="text-high">
+            Make sure you are on the assignment page (assignment tab, not detail
+            tab)
+          </p>
           <hr className="my-1" />
+          <Button text="Share solution" onClick={share} />
           <div className="h6 text-medium flex justify-center text-center">
             nd
           </div>
