@@ -9,7 +9,6 @@
   },
   "scripts": {
     "build": "vite build",
-    "ui": "vite",
     "dev": "nodemon"
   },
   "type": "module",
