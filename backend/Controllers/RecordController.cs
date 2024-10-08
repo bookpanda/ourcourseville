@@ -11,11 +11,13 @@ namespace backend.Controllers;
 [ApiController]
 public class RecordController : ControllerBase
 {
+    private readonly string _webUrl;
     private readonly IRecordService _recordSvc;
     private readonly ILogger<RecordController> _log;
 
-    public RecordController(IRecordService recordSvc, ILogger<RecordController> log)
+    public RecordController(IRecordService recordSvc, ILogger<RecordController> log, IConfiguration configuration)
     {
+        _webUrl = configuration.GetValue<string>("Web:Url") ?? throw new ArgumentNullException("Web:Url");
         _recordSvc = recordSvc;
         _log = log;
     }
@@ -26,7 +28,7 @@ public class RecordController : ControllerBase
         try
         {
             var record = await _recordSvc.Create(recordDTO);
-            return Ok(RecordParser.ModelToDTO(record));
+            return Ok(RecordParser.ModelToCreatedDTO(record, recordDTO, _webUrl));
         }
         catch (ServiceException ex)
         {

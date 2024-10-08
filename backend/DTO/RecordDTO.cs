@@ -25,6 +25,8 @@ public record RecordDTO
 {
     [JsonPropertyName("id")]
     public string? ID { get; init; }
+    [JsonPropertyName("url")]
+    public string? url { get; init; }
     [JsonPropertyName("assignment_code")]
     public required string AssignmentCode { get; init; }
     [JsonPropertyName("problems")]

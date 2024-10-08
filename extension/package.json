@@ -1,29 +1,49 @@
 {
-  "name": "ourcourseville",
-  "devDependencies": {
-    "@types/bun": "latest",
-    "@types/chrome": "^0.0.273",
-    "prettier": "^3.3.3",
-    "prettier-plugin-organize-imports": "^4.1.0"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
+  "name": "vite-web-extension",
+  "version": "1.2.0",
+  "description": "A simple chrome extension template with Vite, React, TypeScript and Tailwind CSS.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JohnBra/web-extension.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run ./src/index.js",
-    "start": "bun run ./src/index.js",
-    "build-dev": "bun run tsc --noEmit && babel src --extensions '.ts,.js' --out-dir build && node copy-files.mjs manifest.json",
-    "build-prod": "bun run tsc --noEmit && babel src --extensions '.ts,.js' --out-dir build-prod && node copy-files.mjs manifest.prod.json",
-    "zip-prod": "zip -r build-prod.zip build-prod",
-    "build": "bun run build-dev && bun run build-prod && bun run zip-prod"
+    "build": "vite build",
+    "dev": "nodemon"
   },
   "type": "module",
   "dependencies": {
-    "@babel/cli": "^7.25.6",
-    "@babel/core": "^7.25.2",
-    "@babel/preset-env": "^7.25.4",
-    "@babel/preset-typescript": "^7.24.7",
-    "babel-plugin-add-import-extension": "^1.6.0"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.3.0",
+    "webextension-polyfill": "^0.11.0"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.0.0-beta.23",
+    "@types/chrome": "^0.0.268",
+    "@types/node": "^20.12.11",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
+    "@types/webextension-polyfill": "^0.10.7",
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/parser": "^7.8.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "fs-extra": "^11.2.0",
+    "nodemon": "^3.1.0",
+    "postcss": "^8.4.38",
+    "prettier": "^3.3.3",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "prettier-plugin-tailwindcss": "^0.6.8",
+    "tailwindcss": "^3.4.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11"
   }
 }

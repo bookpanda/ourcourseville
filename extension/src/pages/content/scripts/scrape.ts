@@ -1,6 +1,6 @@
-import { ScrapeMessage } from "../types";
+import { ScrapeRecord } from "@src/types";
 
-export const scrape = (url: string): ScrapeMessage => {
+export const scrape = (url: string): ScrapeRecord => {
   const mainElements = document.querySelectorAll("main");
   const innerMain = mainElements[1];
   const form = innerMain.querySelectorAll("form")[0];
@@ -80,8 +80,7 @@ export const scrape = (url: string): ScrapeMessage => {
       "No assignment name";
   }
 
-  const response: ScrapeMessage = {
-    type: "scrape",
+  const response: ScrapeRecord = {
     courseID,
     course,
     courseCode,

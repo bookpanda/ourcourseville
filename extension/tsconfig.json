@@ -1,15 +1,27 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "ES6",
-    "moduleResolution": "Node",
-    "noEmit": true, // No need to emit .js files, Babel will handle that
-    "strict": true,
-    "esModuleInterop": true,
+    "target": "esnext",
+    "types": ["vite/client", "node", "chrome"],
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": false,
     "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["@types/chrome"]
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["src/*"],
+      "@assets/*": ["src/assets/*"],
+      "@pages/*": ["src/pages/*"]
+    }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["src",
+    "utils", "vite.config.ts"],
 }
