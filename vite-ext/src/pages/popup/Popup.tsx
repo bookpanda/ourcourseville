@@ -19,8 +19,11 @@ export default function Popup(): JSX.Element {
       throw new Error("Tab not found");
     }
 
-    console.log("Sending message to tab", tab.id);
-    const response = await chrome.tabs.sendMessage(tab.id, { action: "share" });
+    console.log("Sending message to tab", tab.url);
+    const response = await chrome.tabs.sendMessage(tab.id, {
+      action: "share",
+      url: tab.url,
+    });
 
     console.log({ response });
 

@@ -1,5 +1,14 @@
-async function share() {
-  console.log("Share button clicked");
+import { saveRecord } from "./api";
+import { scrape } from "./scripts/scrape";
+
+async function share(url: string) {
+  const warnings: string[] = [];
+
+  const res = scrape(url);
+
+  await saveRecord(res);
+
+  return { res, warnings };
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -11,12 +20,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         throw new Error(`Unknown action: ${message.action}`);
       }
 
-      await share();
+      const url: string | undefined = message.url;
+      if (!url) {
+        throw new Error("no url provided");
+      }
+
+      const { res, warnings } = await share(url!);
 
       sendResponse({
         status: "success",
-        message: `Total Prompt Tokens:`,
-        warning: "no",
+        message: `Shared assignment: ${res.assignment} (${res.problems.length} problems)`,
+        warning: warnings.join("\n"),
       });
     } catch (e) {
       console.error(e);
