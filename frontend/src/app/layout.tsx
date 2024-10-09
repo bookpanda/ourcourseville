@@ -25,22 +25,22 @@ export const metadata: Metadata = {
 export const RootLayout: FC<PropsWithChildren> = async ({ children }) => {
   const pathParts = getPathname().split("/");
 
-  const facultyCode = pathParts.length >= 2 ? pathParts[2] : "";
+  const facultyCode = pathParts.length > 2 ? pathParts[2] : "";
   const currentFaculty_ = await getFacultyByCode(facultyCode);
   const currentFaculty =
     currentFaculty_ instanceof Error ? undefined : currentFaculty_;
 
-  const courseCode = pathParts.length >= 4 ? pathParts[4] : "";
+  const courseCode = pathParts.length > 4 ? pathParts[4] : "";
   const currentCourse_ = await getCourseByCode(courseCode);
   const currentCourse =
     currentCourse_ instanceof Error ? undefined : currentCourse_;
 
-  const assignmentCode = pathParts.length >= 6 ? pathParts[6] : "";
+  const assignmentCode = pathParts.length > 6 ? pathParts[6] : "";
   const currentAssignment_ = await getAssignmentByCode(assignmentCode);
   const currentAssignment =
     currentAssignment_ instanceof Error ? undefined : currentAssignment_;
 
-  const recordID = pathParts.length >= 8 ? pathParts[8] : "";
+  const recordID = pathParts.length > 8 ? pathParts[8] : "";
   const currentRecord_ = await getRecordByID(recordID);
   const currentRecord =
     currentRecord_ instanceof Error ? undefined : currentRecord_;
