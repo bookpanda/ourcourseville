@@ -25,7 +25,7 @@ const Home = async () => {
             <div className="flex w-[calc(50%-4px)] flex-col gap-2 rounded-lg bg-white p-3 max-lg:w-full lg:min-h-[356px] lg:py-4">
               <Intro />
             </div>
-            <div className="h-full w-[calc(50%-4px)] max-lg:w-full">
+            <div className="flex w-[calc(50%-4px)] flex-col gap-2 rounded-lg bg-white p-3 max-lg:w-full lg:min-h-[356px] lg:py-4">
               <HowTo />
             </div>
           </div>
