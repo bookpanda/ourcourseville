@@ -1,7 +1,7 @@
 import { getRecordByID } from "@/src/api/record";
 import { AttachmentFile } from "@/src/components/AttachmentFile";
 import { Badge } from "@/src/components/Badge";
-import { CopyButton } from "@/src/components/CopyButton/CopyButton";
+import { CopyButton } from "@/src/components/IconButton/CopyButton";
 import { Problem } from "@/src/types";
 import { formatTime } from "@/src/utils/formatTime";
 import { getPathname } from "@/src/utils/getPathname";
