@@ -8,6 +8,7 @@ const config: Config = {
       fontSize: {
         "2xl": ["32px", { lineHeight: "44px" }],
         xl: ["24px", { lineHeight: "32px" }],
+        lg: ["20px", { lineHeight: "26px" }],
       },
       colors: {
         default: "var(--default)",
