@@ -38,14 +38,12 @@ jobs:
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.1.26
-    
-      - name: Change to extension directory
+
+      - name: Update manifest.json
         working-directory: ./extension
-        run: echo "Changed directory to extension"
-  
-      - name: Check working directory
-        working-directory: ./extension
-        run: pwd
+        run: |
+          sed -i 's|"api_url": ".*"|"api_url": "hi"|' manifest.json
+          sed -i 's|"api_key": ".*"|"api_key": "bro"|' manifest.json
 
       - name: Install dependencies
         working-directory: ./extension
