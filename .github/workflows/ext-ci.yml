@@ -1,0 +1,36 @@
+name: Build and Zip Extension
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Change directory to "extension"
+        run: cd extension
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn --cwd extension # Install dependencies in "extension" directory
+
+      - name: Build
+        run: yarn build --cwd extension # Build from the "extension" directory
+
+      - name: Upload extension artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: vite-web-extension
+          path: extension/dist # Specify the correct path to the build artifacts
