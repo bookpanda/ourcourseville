@@ -49,14 +49,14 @@ jobs:
 
       - name: Install dependencies
         working-directory: ./extension
-        run: bun install # Install dependencies in "extension" directory
+        run: bun install
 
       - name: Build
         working-directory: ./extension
-        run: bun run build # Build from the "extension" directory
+        run: bun run build
 
       - name: Upload extension artifacts
         uses: actions/upload-artifact@v3
         with:
           name: vite-web-extension
-          path: extension/dist # Specify the correct path to the build artifacts
+          path: extension/dist
