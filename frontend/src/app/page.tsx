@@ -1,5 +1,6 @@
 import { FaHouse } from "react-icons/fa6";
 import { getAllFaculty } from "../api/faculty";
+import { HowTo } from "./HowTo";
 import { RecentCourses } from "./RecentCourses";
 
 const Home = async () => {
@@ -19,6 +20,7 @@ const Home = async () => {
             </div>
           </div>
           <RecentCourses faculties={faculties} />
+          <HowTo />
         </div>
       </div>
     </main>
