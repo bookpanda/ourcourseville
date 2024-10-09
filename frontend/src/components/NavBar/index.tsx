@@ -15,6 +15,9 @@ import { NavItem } from "./NavItem";
 
 export const NavBar = () => {
   const pathname = usePathname();
+  const pathParts = pathname.split("/");
+  const facultyCode = pathParts.length > 2 ? pathParts[2] : "";
+  const courseCode = pathParts.length > 4 ? pathParts[4] : "";
 
   const matchFaculty = pathname === "/faculty";
 
@@ -27,11 +30,19 @@ export const NavBar = () => {
   const currentFaculty = useAppSelector(selectCurrentFaculty);
   const currentCourse = useAppSelector(selectCurrentCourse);
 
-  const isCoursesEnabled = currentFaculty !== null;
-  const coursesPath = `/faculty/${currentFaculty?.code}/course`;
+  const facultyCode_ = currentFaculty?.code
+    ? currentFaculty?.code
+    : facultyCode;
+  const courseCode_ = currentCourse?.code ? currentCourse?.code : courseCode;
 
-  const isAssignmentsEnabled = isCoursesEnabled && currentCourse !== null;
-  const assignmentsPath = `/faculty/${currentFaculty?.code}/course/${currentCourse?.code}/assignment`;
+  const isCoursesEnabled =
+    currentFaculty?.code !== undefined || facultyCode !== "";
+  const coursesPath = `/faculty/${facultyCode_}/course`;
+
+  const isAssignmentsEnabled =
+    isCoursesEnabled &&
+    (currentCourse?.code !== undefined || courseCode !== "");
+  const assignmentsPath = `/faculty/${facultyCode_}/course/${courseCode_}/assignment`;
 
   return (
     <div className="sticky top-0 z-50 flex min-h-[62px] items-center justify-between bg-white px-10">

@@ -1,8 +1,9 @@
 "use client";
 
 import { pushRecentCourses, setCurrentCourse } from "@/src/store/courseSlice";
+import { setCurrentFaculty } from "@/src/store/facultySlice";
 import { useAppDispatch } from "@/src/store/store";
-import { Course } from "@/src/types";
+import { Course, Faculty } from "@/src/types";
 import Image from "next/image";
 import { FC } from "react";
 import { Card } from ".";
@@ -10,13 +11,15 @@ import { Card } from ".";
 interface CourseCardProps {
   href: string;
   course: Course;
+  faculty?: Faculty;
 }
 
-export const CourseCard: FC<CourseCardProps> = ({ href, course }) => {
+export const CourseCard: FC<CourseCardProps> = ({ href, course, faculty }) => {
   const { code, name, count } = course;
   const dispatch = useAppDispatch();
 
   const handleClick = () => {
+    if (faculty) dispatch(setCurrentFaculty(faculty));
     dispatch(setCurrentCourse(course));
     dispatch(pushRecentCourses(course));
   };

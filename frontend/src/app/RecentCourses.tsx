@@ -1,10 +1,16 @@
 "use client";
 
+import { FC } from "react";
 import { FaChalkboard } from "react-icons/fa6";
 import { CourseCard } from "../components/Card/CourseCard";
 import { useGetRecentCourses } from "../hooks/useGetRecentCourses";
+import { Faculty } from "../types";
 
-export const RecentCourses = () => {
+interface RecentCoursesProps {
+  faculties: Faculty[];
+}
+
+export const RecentCourses: FC<RecentCoursesProps> = ({ faculties }) => {
   const { recentCourses } = useGetRecentCourses();
 
   if (recentCourses.length === 0) {
@@ -29,13 +35,17 @@ export const RecentCourses = () => {
             className="border-disable h-px border-b"
           />
           <div className="grid grid-cols-3 gap-2 overflow-x-auto pt-2 max-md:flex">
-            {recentCourses.map((c) => (
-              <CourseCard
-                href={`/faculty/${c.facultyCode}/course/${c.code}/assignment`}
-                key={c.code}
-                course={c}
-              />
-            ))}
+            {recentCourses.map((c) => {
+              const faculty = faculties.find((f) => f.code === c.facultyCode);
+              return (
+                <CourseCard
+                  href={`/faculty/${c.facultyCode}/course/${c.code}/assignment`}
+                  key={c.code}
+                  course={c}
+                  faculty={faculty}
+                />
+              );
+            })}
           </div>
         </div>
       </div>

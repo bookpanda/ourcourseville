@@ -1,7 +1,13 @@
 import { FaHouse } from "react-icons/fa6";
+import { getAllFaculty } from "../api/faculty";
 import { RecentCourses } from "./RecentCourses";
 
-const Home = () => {
+const Home = async () => {
+  const faculties = await getAllFaculty();
+  if (faculties instanceof Error) {
+    return <div>Error: {faculties.message}</div>;
+  }
+
   return (
     <main>
       <div className="mx-auto max-w-[1440px] md:w-4/5">
@@ -12,7 +18,7 @@ const Home = () => {
               Home
             </div>
           </div>
-          <RecentCourses />
+          <RecentCourses faculties={faculties} />
         </div>
       </div>
     </main>
