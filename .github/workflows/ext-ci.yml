@@ -39,12 +39,15 @@ jobs:
           curl -fsSL https://bun.sh/install | bash
           export BUN_INSTALL="$HOME/.bun"
           export PATH="$BUN_INSTALL/bin:$PATH"
+          echo 'export BUN_INSTALL="$HOME/.bun"' >> $HOME/.bashrc
+          echo 'export PATH="$BUN_INSTALL/bin:$PATH"' >> $HOME/.bashrc
+          source $HOME/.bashrc
 
       - name: Install dependencies
-        run: bun --cwd extension # Install dependencies in "extension" directory
+        run: bun install --cwd extension # Install dependencies in "extension" directory
 
       - name: Build
-        run: bun build --cwd extension # Build from the "extension" directory
+        run: bun run build --cwd extension # Build from the "extension" directory
 
       - name: Upload extension artifacts
         uses: actions/upload-artifact@v3
