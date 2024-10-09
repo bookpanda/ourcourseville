@@ -25,6 +25,7 @@ const AssignmentsPage = async () => {
         <div className="flex w-full flex-col gap-3">
           <div className="h5 hidden gap-2 px-4 font-semibold text-medium lg:grid lg:grid-cols-[auto,188px,188px]">
             <p className="font-medium">Assignments</p>
+            <p className="text-center font-medium">Records Count</p>
             <p className="text-center font-medium">Created At</p>
           </div>
           <div className="flex flex-col gap-3">

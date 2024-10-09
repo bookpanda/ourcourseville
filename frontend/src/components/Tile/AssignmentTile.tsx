@@ -16,7 +16,7 @@ export const AssignmentTile: FC<AssignmentTileProps> = ({
   href,
   assignment,
 }) => {
-  const { code, name, createdAt } = assignment;
+  const { code, name, count, createdAt } = assignment;
 
   const formattedDate = formatTime(createdAt);
 
@@ -29,6 +29,9 @@ export const AssignmentTile: FC<AssignmentTileProps> = ({
             className="w-4 pt-0.5 text-medium lg:w-5 lg:text-lg"
           />
           <h5 className="h6 lg:h5 font-semibold text-high">{name}</h5>
+        </div>
+        <div className="h6 flex justify-center text-center text-medium">
+          {count}
         </div>
         <div className="h6 flex justify-center text-center text-medium">
           {formattedDate}
