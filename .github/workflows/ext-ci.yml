@@ -2,6 +2,18 @@ name: Build and Zip Extension
 
 on:
   workflow_dispatch:
+  pull_request:
+    types:
+        - closed
+    branches:
+        - main
+        - dev
+  push:
+    branches:
+        - main
+        - dev
+    tags:
+        - v*
 
 jobs:
   build:
