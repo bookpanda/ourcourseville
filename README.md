@@ -1,4 +1,5 @@
 # ourcourseville
+Platform for students to publish and access assignments' solutions in order to enhance their learning experience and collaboration.
 
 ## Frontend
 ### Stack
