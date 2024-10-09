@@ -2,6 +2,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/webstorm+all,visualstudiocode,sublimetext,node,react,windows,macos,linux
 # Edit at https://www.toptal.com/developers/gitignore?templates=webstorm+all,visualstudiocode,sublimetext,node,react,windows,macos,linux
 manifest.json
+manifest.prod.json
 ### Linux ###
 *~
 

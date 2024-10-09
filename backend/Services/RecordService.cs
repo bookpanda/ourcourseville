@@ -5,6 +5,8 @@ using backend.Services.Interfaces;
 using backend.Exceptions;
 using System.Net;
 using backend.Data;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace backend.Services;
 
@@ -61,7 +63,23 @@ public class RecordService : IRecordService
                 });
             }
 
+            // check if record with exact problem solution already exists
+            var problemsHash = ComputeProblemsHash(newRecord.Problems);
+            var snapshot = await _records
+                .WhereEqualTo("ProblemsHash", problemsHash)
+                .WhereEqualTo("AssignmentCode", recordDTO.AssignmentCode)
+                .Limit(1).GetSnapshotAsync();
+            if (snapshot.Count > 0)
+            {
+                _log.LogInformation($"Record with exact problem solution already exists");
+                var record = snapshot[0].ConvertTo<Record>();
+                record.ID = snapshot[0].Id;
+
+                return record;
+            }
+
             DocumentReference document = _records.Document();
+            newRecord.ProblemsHash = ComputeProblemsHash(newRecord.Problems);
             await document.SetAsync(newRecord);
             _log.LogInformation($"Added record with ID: {document.Id}");
             newRecord.ID = document.Id;
@@ -127,6 +145,27 @@ public class RecordService : IRecordService
         {
             _log.LogError(ex, $"Error finding record with AssignmentCode {asgmCode}");
             throw new ServiceException($"Error finding record with AssignmentCode {asgmCode}", HttpStatusCode.InternalServerError, ex);
+        }
+    }
+
+    private string ComputeProblemsHash(List<Problem> problems)
+    {
+        using (SHA256 sha256 = SHA256.Create())
+        {
+            string problemsConcat = "";
+            foreach (var problem in problems)
+            {
+                problemsConcat += $"{problem.Question}:{problem.Answer},";
+            }
+
+            byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(problemsConcat));
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in bytes)
+            {
+                sb.Append(b.ToString("x2"));
+            }
+
+            return sb.ToString();
         }
     }
 }

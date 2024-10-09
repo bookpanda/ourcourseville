@@ -12,6 +12,8 @@ public class Record
     [FirestoreProperty]
     public required List<Problem> Problems { get; set; }
     [FirestoreProperty]
+    public string? ProblemsHash { get; set; }
+    [FirestoreProperty]
     public required Timestamp CreatedAt { get; set; }
 }
 
