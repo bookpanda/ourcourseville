@@ -42,8 +42,8 @@ jobs:
       - name: Update manifest.json
         working-directory: ./extension
         run: |
-          sed -i 's|"api_url": ".*"|"api_url": "hi"|' manifest.json
-          sed -i 's|"api_key": ".*"|"api_key": "bro"|' manifest.json
+          sed -i 's|"api_url": ".*"|"api_url": "${{ secrets.API_URL }}"|' manifest.json
+          sed -i 's|"api_key": ".*"|"api_key": "${{ secrets.API_KEY }}"|' manifest.json
 
       - name: Install dependencies
         working-directory: ./extension
