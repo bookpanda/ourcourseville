@@ -1,17 +1,21 @@
 "use client";
 
 import { FaUniversity } from "react-icons/fa";
+import { FaBars } from "react-icons/fa6";
+
 import { FaFileSignature, FaGraduationCap, FaHouse } from "react-icons/fa6";
 
 import { usePathname } from "next/navigation";
 
 import { EXTENSION_URL } from "@/src/config/config";
-import { useIsUnderLargeViewport } from "@/src/hooks/useIsUnderLargeViewport";
+import { useIsMobileViewport } from "@/src/hooks/useIsUnderLargeViewport";
 import { selectCurrentCourse } from "@/src/store/courseSlice";
 import { selectCurrentFaculty } from "@/src/store/facultySlice";
 import { useAppSelector } from "@/src/store/store";
 import clsx from "clsx";
+import { useState } from "react";
 import { ExtensionButton } from "../IconButton/ExtensionButton";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Logo } from "./Logo";
 import { NavItem } from "./NavItem";
 
@@ -46,44 +50,100 @@ export const NavBar = () => {
     (currentCourse?.code !== undefined || courseCode !== "");
   const assignmentsPath = `/faculty/${facultyCode_}/course/${courseCode_}/assignment`;
 
-  const { isUnderLarge } = useIsUnderLargeViewport();
+  const { isMobile } = useIsMobileViewport();
+
+  const nav = () => (
+    <>
+      <NavItem
+        href="/"
+        isSelected={pathname === "/"}
+        isEnabled
+        isMobile={isMobile}
+        text="Home"
+      >
+        <FaHouse size={25} className={isMobile ? "text-medium" : ""} />
+      </NavItem>
+      <NavItem
+        href="/faculty"
+        isSelected={matchFaculty}
+        isEnabled
+        isMobile={isMobile}
+        text="Faculties"
+      >
+        <FaUniversity size={25} className={isMobile ? "text-medium" : ""} />
+      </NavItem>
+      <NavItem
+        href={coursesPath}
+        isSelected={matchCourse}
+        isEnabled={isCoursesEnabled}
+        isMobile={isMobile}
+        text="Courses"
+      >
+        <FaGraduationCap size={25} className={isMobile ? "text-medium" : ""} />
+      </NavItem>
+      <NavItem
+        href={assignmentsPath}
+        isSelected={matchAssignment}
+        isEnabled={isAssignmentsEnabled}
+        isMobile={isMobile}
+        text="Assignments"
+      >
+        <FaFileSignature size={25} className={isMobile ? "text-medium" : ""} />
+      </NavItem>
+    </>
+  );
+
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+  const mobile = () => {
+    return (
+      <>
+        <Popover open={isOpen} onOpenChange={setIsOpen}>
+          <PopoverTrigger asChild>
+            <button className="h-8 w-8 text-medium" onClick={toggleMenu}>
+              <FaBars className="p-1" size={30} />
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="w-screen">
+            <div className="z-50 flex h-[calc(100vh-61px)] w-screen flex-col gap-4 bg-white p-4">
+              <div className="flex flex-col gap-1">
+                <div className="h6 font-semibold text-primary-default">
+                  Menu
+                </div>
+                <div className="flex flex-col" onClick={() => setIsOpen(false)}>
+                  {nav()}
+                </div>
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
+        <Logo />
+        <ExtensionButton url={EXTENSION_URL} />
+      </>
+    );
+  };
+
+  const desktop = () => (
+    <>
+      <Logo />
+      <div className="flex items-center gap-4 font-light">{nav()}</div>
+      <div className="flex items-center gap-2 font-light">
+        <ExtensionButton url={EXTENSION_URL} />
+        <p>Get extension</p>
+      </div>
+    </>
+  );
 
   return (
     <div
       className={clsx(
         "pt-safe sticky top-0 z-50 flex items-center justify-between bg-white",
-        isUnderLarge ? "shadow-default min-h-[60px] px-5" : "min-h-[62px] px-10"
+        isMobile ? "shadow-default min-h-[60px] px-5" : "min-h-[62px] px-10"
       )}
     >
-      <Logo />
-      <div className="flex items-center gap-4 font-light">
-        <NavItem href="/" isSelected={pathname === "/"} isEnabled>
-          <FaHouse size={25} />
-          Home
-        </NavItem>
-        <NavItem href="/faculty" isSelected={matchFaculty} isEnabled>
-          <FaUniversity size={25} />
-          Faculties
-        </NavItem>
-        <NavItem
-          href={coursesPath}
-          isSelected={matchCourse}
-          isEnabled={isCoursesEnabled}
-        >
-          <FaGraduationCap size={25} /> Courses
-        </NavItem>
-        <NavItem
-          href={assignmentsPath}
-          isSelected={matchAssignment}
-          isEnabled={isAssignmentsEnabled}
-        >
-          <FaFileSignature size={25} /> Assignments
-        </NavItem>
-      </div>
-      <div className="flex items-center gap-2 font-light">
-        <ExtensionButton url={EXTENSION_URL} />
-        <p>Get extension</p>
-      </div>
+      {isMobile ? mobile() : desktop()}
     </div>
   );
 };

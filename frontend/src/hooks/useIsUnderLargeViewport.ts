@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 
-export const useIsUnderLargeViewport = () => {
-  const [isUnderLarge, setIsUnderLarge] = useState(
-    () => window.innerWidth < 1024
-  );
+export const useIsMobileViewport = () => {
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 1024);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsUnderLarge(window.innerWidth < 1024);
+      setIsMobile(window.innerWidth < 1024);
     };
 
     window.addEventListener("resize", handleResize);
@@ -17,5 +15,5 @@ export const useIsUnderLargeViewport = () => {
     };
   }, []);
 
-  return { isUnderLarge };
+  return { isMobile };
 };

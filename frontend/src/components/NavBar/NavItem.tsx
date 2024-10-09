@@ -5,16 +5,38 @@ import { FC, PropsWithChildren } from "react";
 interface NavItemProps extends PropsWithChildren {
   isSelected: boolean;
   isEnabled: boolean;
+  isMobile: boolean;
   href: string;
+  text: string;
   children: React.ReactNode;
 }
 
 export const NavItem: FC<NavItemProps> = ({
   isEnabled,
   isSelected,
+  isMobile,
   href,
+  text,
   children,
 }) => {
+  if (isMobile)
+    return (
+      <Link
+        href={isEnabled ? href : "#"}
+        className={clsx(
+          "h5 hover:bg-default flex items-center gap-2 rounded-lg px-2 py-3 text-high",
+          isSelected ? "bg-default" : "bg-white"
+        )}
+      >
+        {isEnabled && (
+          <>
+            {children}
+            {text}
+          </>
+        )}
+      </Link>
+    );
+
   return (
     <Link
       href={isEnabled ? href : "#"}
@@ -34,6 +56,7 @@ export const NavItem: FC<NavItemProps> = ({
         )}
       >
         {children}
+        {text}
       </div>
     </Link>
   );
