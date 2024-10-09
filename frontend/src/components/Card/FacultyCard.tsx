@@ -12,7 +12,7 @@ interface FacultyCardProps {
 
 export const FacultyCard: FC<FacultyCardProps> = ({ faculty }) => {
   const dispatch = useAppDispatch();
-  const { code, name } = faculty;
+  const { code, name, count } = faculty;
   const href = `/faculty/${code}/course`;
 
   const handleClick = () => {
@@ -35,6 +35,7 @@ export const FacultyCard: FC<FacultyCardProps> = ({ faculty }) => {
         </div>
       </div>
       <div className="h-[1px] w-full rounded-full bg-dark"></div>
+      <div className="text-sm text-medium">Courses: {count}</div>
     </Card>
   );
 };
