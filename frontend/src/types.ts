@@ -2,6 +2,7 @@ export type Faculty = {
   id: string;
   code: string;
   name: string;
+  count: number;
   createdAt: string;
 };
 
@@ -11,6 +12,7 @@ export type Course = {
   code: string;
   icon: string;
   name: string;
+  count: number;
   createdAt: string;
 };
 
@@ -19,6 +21,7 @@ export type Assignment = {
   courseCode: string;
   code: string;
   name: string;
+  count: number;
   createdAt: string;
 };
 

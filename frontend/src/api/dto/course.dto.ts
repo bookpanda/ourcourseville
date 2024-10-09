@@ -6,6 +6,7 @@ export type CourseDTO = {
   code: string;
   icon: string;
   name: string;
+  count: number;
   created_at: string;
 };
 
@@ -15,6 +16,7 @@ export const parseCourseDTO = (data: CourseDTO): Course => ({
   code: data.code,
   icon: data.icon,
   name: data.name,
+  count: data.count,
   createdAt: data.created_at,
 });
 

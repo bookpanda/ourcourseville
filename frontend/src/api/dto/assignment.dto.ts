@@ -5,6 +5,7 @@ export type AssignmentDTO = {
   course_code: string;
   code: string;
   name: string;
+  count: number;
   created_at: string;
 };
 
@@ -13,6 +14,7 @@ export const parseAssignmentDTO = (data: AssignmentDTO): Assignment => ({
   courseCode: data.course_code,
   code: data.code,
   name: data.name,
+  count: data.count,
   createdAt: data.created_at,
 });
 
