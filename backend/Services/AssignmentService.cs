@@ -7,13 +7,18 @@ using System.Net;
 
 namespace backend.Services;
 
+#pragma warning disable CS1998 // disable warning for RunTransactionAsync having no await
 public class AssignmentService : IAssignmentService
 {
+    private readonly FirestoreDb _db;
+    private readonly CollectionReference _courses;
     private readonly CollectionReference _assignments;
     private readonly ILogger<AssignmentService> _log;
 
     public AssignmentService(Firestore fs, ILogger<AssignmentService> log)
     {
+        _db = fs.db;
+        _courses = fs.courses;
         _assignments = fs.assignments;
         _log = log;
     }
@@ -30,9 +35,24 @@ public class AssignmentService : IAssignmentService
 
         try
         {
-            DocumentReference document = _assignments.Document();
-            await document.SetAsync(newAssignment);
-            newAssignment.ID = document.Id;
+            var courseSnapshot = await _courses
+                   .WhereEqualTo("Code", assignmentDTO.CourseCode)
+                   .Limit(1).GetSnapshotAsync();
+            if (courseSnapshot.Documents.Count == 0)
+            {
+                _log.LogInformation($"Course with code {assignmentDTO.CourseCode} does not exist");
+                throw new ServiceException($"Course with code {assignmentDTO.CourseCode} does not exist", HttpStatusCode.NotFound);
+            }
+
+            DocumentReference courseDoc = courseSnapshot.Documents[0].Reference;
+            DocumentReference asgmDoc = _assignments.Document();
+
+            await _db.RunTransactionAsync(async transaction =>
+            {
+                transaction.Set(asgmDoc, newAssignment);
+                transaction.Set(courseDoc, new { Count = FieldValue.Increment(1) }, SetOptions.MergeAll);
+                newAssignment.ID = asgmDoc.Id;
+            });
 
             return newAssignment;
         }

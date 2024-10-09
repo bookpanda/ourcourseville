@@ -10,10 +10,13 @@ using System.Text;
 
 namespace backend.Services;
 
+#pragma warning disable CS1998 // disable warning for RunTransactionAsync having no await
 public class RecordService : IRecordService
 {
     private readonly ICourseService _courseSvc;
     private readonly IAssignmentService _assignmentSvc;
+    private readonly FirestoreDb _db;
+    private readonly CollectionReference _assignments;
     private readonly CollectionReference _records;
     private readonly ILogger<RecordService> _log;
 
@@ -21,6 +24,8 @@ public class RecordService : IRecordService
     {
         _courseSvc = courseSvc;
         _assignmentSvc = assignmentSvc;
+        _db = fs.db;
+        _assignments = fs.assignments;
         _records = fs.records;
         _log = log;
     }
@@ -78,11 +83,25 @@ public class RecordService : IRecordService
                 return record;
             }
 
-            DocumentReference document = _records.Document();
-            newRecord.ProblemsHash = ComputeProblemsHash(newRecord.Problems);
-            await document.SetAsync(newRecord);
-            _log.LogInformation($"Added record with ID: {document.Id}");
-            newRecord.ID = document.Id;
+            var asgmSnapshot = await _assignments
+                .WhereEqualTo("Code", recordDTO.AssignmentCode)
+                .Limit(1).GetSnapshotAsync();
+            if (asgmSnapshot.Documents.Count == 0)
+            {
+                _log.LogInformation($"Assignment with code {recordDTO.AssignmentCode} does not exist");
+                throw new ServiceException($"Assignment with code {recordDTO.AssignmentCode} does not exist", HttpStatusCode.NotFound);
+            }
+
+            DocumentReference asgmDoc = asgmSnapshot.Documents[0].Reference;
+            DocumentReference recordDoc = _records.Document();
+
+            await _db.RunTransactionAsync(async transaction =>
+            {
+                newRecord.ProblemsHash = ComputeProblemsHash(newRecord.Problems);
+                transaction.Set(recordDoc, newRecord);
+                transaction.Set(asgmDoc, new { Count = FieldValue.Increment(1) }, SetOptions.MergeAll);
+                newRecord.ID = recordDoc.Id;
+            });
 
             return newRecord;
         }

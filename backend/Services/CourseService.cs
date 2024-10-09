@@ -11,11 +11,14 @@ using Microsoft.Extensions.Options;
 
 namespace backend.Services;
 
+#pragma warning disable CS1998 // disable warning for RunTransactionAsync having no await
 public class CourseService : ICourseService
 {
     private readonly TTLConfig _conf;
     private readonly ICacheRepository _cache;
     private readonly IFacultyService _facultySvc;
+    private readonly FirestoreDb _db;
+    private readonly CollectionReference _faculties;
     private readonly CollectionReference _courses;
     private readonly ILogger<CourseService> _log;
 
@@ -24,6 +27,8 @@ public class CourseService : ICourseService
         _conf = conf.Value;
         _cache = cache;
         _facultySvc = facultySvc;
+        _db = fs.db;
+        _faculties = fs.faculties;
         _courses = fs.courses;
         _log = log;
     }
@@ -49,9 +54,24 @@ public class CourseService : ICourseService
 
         try
         {
-            DocumentReference document = _courses.Document();
-            await document.SetAsync(newCourse);
-            newCourse.ID = document.Id;
+            var facultySnapshot = await _faculties
+                .WhereEqualTo("Code", courseDTO.FacultyCode)
+                .Limit(1).GetSnapshotAsync();
+            if (facultySnapshot.Documents.Count == 0)
+            {
+                _log.LogInformation($"Faculty with code {courseDTO.FacultyCode} does not exist");
+                throw new ServiceException($"Faculty with code {courseDTO.FacultyCode} does not exist", HttpStatusCode.NotFound);
+            }
+
+            DocumentReference facultyDoc = facultySnapshot.Documents[0].Reference;
+            DocumentReference courseDoc = _courses.Document();
+
+            await _db.RunTransactionAsync(async transaction =>
+            {
+                transaction.Set(courseDoc, newCourse);
+                transaction.Set(facultyDoc, new { Count = FieldValue.Increment(1) }, SetOptions.MergeAll);
+                newCourse.ID = courseDoc.Id;
+            });
 
             return newCourse;
         }
