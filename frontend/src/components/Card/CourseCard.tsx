@@ -1,6 +1,6 @@
 "use client";
 
-import { setCurrentCourse } from "@/src/store/courseSlice";
+import { pushRecentCourses, setCurrentCourse } from "@/src/store/courseSlice";
 import { useAppDispatch } from "@/src/store/store";
 import { Course } from "@/src/types";
 import Image from "next/image";
@@ -18,6 +18,7 @@ export const CourseCard: FC<CourseCardProps> = ({ href, course }) => {
 
   const handleClick = () => {
     dispatch(setCurrentCourse(course));
+    dispatch(pushRecentCourses(course));
   };
 
   return (

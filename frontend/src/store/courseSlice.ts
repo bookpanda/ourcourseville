@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { cache } from "../cache/localStorage";
+import { RECENT_COURSES_TTL } from "../config/config";
 import { Course } from "../types";
 import { RootState } from "./store";
 
@@ -27,7 +29,25 @@ export const courseSlice = createSlice({
     setRecentCourses: (state, action: PayloadAction<Course[]>) => {
       state.recentCourses = action.payload;
     },
-    pushRecentCourses: (state, action: PayloadAction<Course>) => {},
+    pushRecentCourses: (state, action: PayloadAction<Course>) => {
+      // Prevent duplicate courses
+      const index = state.recentCourses.findIndex(
+        (course) => course.id === action.payload.id
+      );
+      if (index !== -1) {
+        // Move the course to the top
+        state.recentCourses.splice(index, 1);
+        state.recentCourses = [action.payload, ...state.recentCourses];
+        return;
+      }
+
+      state.recentCourses = [action.payload, ...state.recentCourses];
+      if (state.recentCourses.length > 3) {
+        state.recentCourses.pop();
+      }
+
+      cache.setItem("recentCourses", state.recentCourses, RECENT_COURSES_TTL);
+    },
   },
 });
 
