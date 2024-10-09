@@ -11,6 +11,7 @@ public class FacultyParser
             ID = faculty.ID ?? string.Empty,
             Code = faculty.Code,
             Name = faculty.Name,
+            Count = faculty.Count,
             CreatedAt = faculty.CreatedAt.ToDateTime()
         };
 

@@ -13,6 +13,8 @@ public record AssignmentDTO
     public required string Code { get; init; }
     [JsonPropertyName("name")]
     public required string Name { get; init; }
+    [JsonPropertyName("count")]
+    public int Count { get; init; } = 0;
     [JsonPropertyName("created_at")]
     public DateTime? CreatedAt { get; init; }
 }

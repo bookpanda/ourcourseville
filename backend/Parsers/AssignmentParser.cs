@@ -10,6 +10,7 @@ public class AssignmentParser
             CourseCode = assignment.CourseCode,
             Code = assignment.Code,
             Name = assignment.Name,
+            Count = assignment.Count,
             CreatedAt = assignment.CreatedAt.ToDateTime()
         };
 

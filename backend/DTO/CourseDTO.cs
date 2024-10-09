@@ -14,6 +14,8 @@ public record CourseDTO
     public required string Icon { get; init; }
     [JsonPropertyName("name")]
     public required string Name { get; init; }
+    [JsonPropertyName("count")]
+    public int Count { get; init; } = 0;
 
     [JsonPropertyName("created_at")]
     public DateTime? CreatedAt { get; init; }

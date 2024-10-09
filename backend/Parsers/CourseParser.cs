@@ -13,6 +13,7 @@ public class CourseParser
             Code = course.Code,
             Icon = course.Icon,
             Name = course.Name,
+            Count = course.Count,
             CreatedAt = course.CreatedAt.ToDateTime()
         };
 

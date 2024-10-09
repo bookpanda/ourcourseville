@@ -7,7 +7,7 @@ namespace backend.Data;
 public class Firestore
 {
     private readonly FirestoreConfig _config;
-    private FirestoreDb _db;
+    public FirestoreDb db;
     public CollectionReference faculties;
     public CollectionReference courses;
     public CollectionReference assignments;
@@ -16,10 +16,10 @@ public class Firestore
     public Firestore(IOptions<FirestoreConfig> config)
     {
         _config = config.Value;
-        _db = FirestoreDb.Create(_config.DB);
-        faculties = _db.Collection(_config.Faculties);
-        courses = _db.Collection(_config.Courses);
-        assignments = _db.Collection(_config.Assignments);
-        records = _db.Collection(_config.Records);
+        db = FirestoreDb.Create(_config.DB);
+        faculties = db.Collection(_config.Faculties);
+        courses = db.Collection(_config.Courses);
+        assignments = db.Collection(_config.Assignments);
+        records = db.Collection(_config.Records);
     }
 }

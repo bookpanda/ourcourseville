@@ -16,5 +16,7 @@ public class Course
     [FirestoreProperty]
     public required string Name { get; set; }
     [FirestoreProperty]
+    public int Count { get; set; } = 0;
+    [FirestoreProperty]
     public required Timestamp CreatedAt { get; set; }
 }
