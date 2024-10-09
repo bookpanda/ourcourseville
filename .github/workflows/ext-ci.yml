@@ -39,14 +39,15 @@ jobs:
         with:
           bun-version: 1.1.26
     
-      - name: Change working directory
-        run: cd extension
+      - name: Change to extension directory
+        working-directory: ./extension
+        run: echo "Changed directory to extension"
+  
+      - name: Check working directory
+        run: pwd
 
       - name: Install dependencies
         run: bun install # Install dependencies in "extension" directory
-
-      - name: Check working directory
-        run: pwd
 
       - name: Build
         run: bun run build # Build from the "extension" directory
