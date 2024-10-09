@@ -1,30 +1,21 @@
 "use client";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
-import { toast } from "@/hooks/use-toast";
+import Link from "next/link";
 import { FC } from "react";
-import { FaCopy } from "react-icons/fa";
 
 interface ExtensionButtonProps {
-  text: string;
+  url: string;
 }
 
-export const ExtensionButton: FC<ExtensionButtonProps> = ({ text }) => {
-  const handleClick = () => {
-    navigator.clipboard.writeText(text);
-
-    toast({
-      title: "Copied",
-      description: text,
-    });
-  };
-
+export const ExtensionButton: FC<ExtensionButtonProps> = ({ url }) => {
   return (
-    <button
-      type="button"
-      onClick={handleClick}
-      className="hover:bg-default h-12 w-full rounded-lg px-2 py-3 text-medium"
+    <Link
+      href={url}
+      target="_blank"
+      className="rounded-full p-2 text-medium hover:bg-primary-bg hover:text-primary-default"
     >
-      <FaCopy size={20} />
-    </button>
+      <FaExternalLinkAlt className="outline-none" size={20} />
+    </Link>
   );
 };

@@ -5,9 +5,11 @@ import { FaFileSignature, FaGraduationCap, FaHouse } from "react-icons/fa6";
 
 import { usePathname } from "next/navigation";
 
+import { EXTENSION_URL } from "@/src/config/config";
 import { selectCurrentCourse } from "@/src/store/courseSlice";
 import { selectCurrentFaculty } from "@/src/store/facultySlice";
 import { useAppSelector } from "@/src/store/store";
+import { ExtensionButton } from "../IconButton/ExtensionButton";
 import { Logo } from "./Logo";
 import { NavItem } from "./NavItem";
 
@@ -58,7 +60,10 @@ export const NavBar = () => {
           <FaFileSignature size={25} /> Assignments
         </NavItem>
       </div>
-      <div className="flex items-center gap-4"></div>
+      <div className="flex items-center gap-2 font-light">
+        <ExtensionButton url={EXTENSION_URL} />
+        <p>Get extension</p>
+      </div>
     </div>
   );
 };
