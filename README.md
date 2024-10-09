@@ -81,3 +81,10 @@ bun install
 # this will run nodemon and watch for changes (generates the build in the `dist` folder, you can load the extension in chrome by going to `chrome://extensions/` and enabling developer mode)
 bun dev
 ```
+
+## Credits
+- [Chrome Extension Boilerplate](https://github.com/JohnBra/vite-web-extension)
+- [MCV Quiz AI Solver](https://github.com/leomotors/mcv-quiz-ai-solver)
+
+## Contributing
+Feel free to open PRs or raise issues!
