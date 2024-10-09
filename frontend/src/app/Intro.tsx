@@ -19,8 +19,8 @@ export const Intro = () => {
       <div className="flex flex-col gap-2 overflow-x-auto overflow-y-hidden pt-2 max-md:flex">
         <li>Tired of taking screenshots of assignments?</li>
         <li>
-          You can now "Share solution" of your assignment using our Chrome
-          extension
+          You can now &quot;Share solution&quot; of your assignment using our
+          Chrome extension
         </li>
         <li>Share once, learn anywhere</li>
         <li>
