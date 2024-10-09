@@ -16,7 +16,7 @@ export const Intro = () => {
         role="separator"
         className="border-disable h-px border-b"
       />
-      <div className="flex flex-col gap-2 overflow-x-auto pt-2 max-md:flex">
+      <div className="flex flex-col gap-2 overflow-x-auto overflow-y-hidden pt-2 max-md:flex">
         <li>Tired of taking screenshots of assignments?</li>
         <li>
           You can now "Share solution" of your assignment using our Chrome

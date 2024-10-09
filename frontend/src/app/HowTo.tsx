@@ -16,7 +16,7 @@ export const HowTo = () => {
         role="separator"
         className="border-disable h-px border-b"
       />
-      <div className="flex flex-col gap-2 overflow-x-auto pt-2 max-md:flex">
+      <div className="flex flex-col gap-2 overflow-x-auto overflow-y-hidden pt-2 max-md:flex">
         <li>Download and unzip the extension from this web</li>
         <li>
           Go to{" "}
