@@ -44,12 +44,15 @@ jobs:
         run: echo "Changed directory to extension"
   
       - name: Check working directory
+        working-directory: ./extension
         run: pwd
 
       - name: Install dependencies
+        working-directory: ./extension
         run: bun install # Install dependencies in "extension" directory
 
       - name: Build
+        working-directory: ./extension
         run: bun run build # Build from the "extension" directory
 
       - name: Upload extension artifacts
