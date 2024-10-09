@@ -1,9 +1,11 @@
 import { getRecordByID } from "@/src/api/record";
+import { AttachmentFile } from "@/src/components/AttachmentFile";
 import { Badge } from "@/src/components/Badge";
 import { CopyButton } from "@/src/components/CopyButton/CopyButton";
 import { Problem } from "@/src/types";
 import { formatTime } from "@/src/utils/formatTime";
 import { getPathname } from "@/src/utils/getPathname";
+import { isUrl } from "@/src/utils/isUrl";
 
 const RecordPage = async () => {
   const pathname = getPathname();
@@ -20,9 +22,13 @@ const RecordPage = async () => {
   const problemDiv = (p: Problem) => (
     <div className="flex flex-col gap-2 lg:gap-3">
       <div className="h6 lg:h5">{p.question}</div>
-      <div className="h6 lg:h5 border-default bg-light min-h-[44px] w-full cursor-not-allowed overflow-x-auto whitespace-pre-wrap rounded-lg border px-3 py-2 text-high">
-        {p.answer}
-      </div>
+      {isUrl(p.answer) ? (
+        <AttachmentFile url={p.answer} />
+      ) : (
+        <div className="h6 lg:h5 border-default bg-light min-h-[44px] w-full cursor-not-allowed overflow-x-auto whitespace-pre-wrap rounded-lg border px-3 py-2 text-high">
+          {p.answer}
+        </div>
+      )}
     </div>
   );
 
