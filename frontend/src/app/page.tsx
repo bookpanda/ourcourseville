@@ -1,6 +1,7 @@
 import { FaHouse } from "react-icons/fa6";
 import { getAllFaculty } from "../api/faculty";
 import { HowTo } from "./HowTo";
+import { Intro } from "./Intro";
 import { RecentCourses } from "./RecentCourses";
 
 const Home = async () => {
@@ -20,7 +21,14 @@ const Home = async () => {
             </div>
           </div>
           <RecentCourses faculties={faculties} />
-          <HowTo />
+          <div className="flex w-full flex-row items-center justify-between gap-4 max-lg:flex-col">
+            <div className="flex w-[calc(50%-4px)] flex-col gap-2 rounded-lg bg-white p-3 max-lg:w-full lg:min-h-[356px] lg:py-4">
+              <Intro />
+            </div>
+            <div className="h-full w-[calc(50%-4px)] max-lg:w-full">
+              <HowTo />
+            </div>
+          </div>
         </div>
       </div>
     </main>
