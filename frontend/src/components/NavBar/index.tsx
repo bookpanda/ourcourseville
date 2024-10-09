@@ -6,9 +6,11 @@ import { FaFileSignature, FaGraduationCap, FaHouse } from "react-icons/fa6";
 import { usePathname } from "next/navigation";
 
 import { EXTENSION_URL } from "@/src/config/config";
+import { useIsUnderLargeViewport } from "@/src/hooks/useIsUnderLargeViewport";
 import { selectCurrentCourse } from "@/src/store/courseSlice";
 import { selectCurrentFaculty } from "@/src/store/facultySlice";
 import { useAppSelector } from "@/src/store/store";
+import clsx from "clsx";
 import { ExtensionButton } from "../IconButton/ExtensionButton";
 import { Logo } from "./Logo";
 import { NavItem } from "./NavItem";
@@ -44,8 +46,15 @@ export const NavBar = () => {
     (currentCourse?.code !== undefined || courseCode !== "");
   const assignmentsPath = `/faculty/${facultyCode_}/course/${courseCode_}/assignment`;
 
+  const { isUnderLarge } = useIsUnderLargeViewport();
+
   return (
-    <div className="sticky top-0 z-50 flex min-h-[62px] items-center justify-between bg-white px-10">
+    <div
+      className={clsx(
+        "pt-safe sticky top-0 z-50 flex items-center justify-between bg-white",
+        isUnderLarge ? "shadow-default min-h-[60px] px-5" : "min-h-[62px] px-10"
+      )}
+    >
       <Logo />
       <div className="flex items-center gap-4 font-light">
         <NavItem href="/" isSelected={pathname === "/"} isEnabled>
