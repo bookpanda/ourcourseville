@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { cache } from "../cache/localStoage";
+import { cache } from "../cache/localStorage";
 import { selectRecentCourses, setRecentCourses } from "../store/courseSlice";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { Course } from "../types";
