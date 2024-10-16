@@ -23,7 +23,7 @@ export const fillin = async (record: RecordDTO) => {
     const answer =
       solutions.find((solution) => solution.question === question)?.answer ??
       "No answer found";
-    console.log(`answer for question ${i + 1}`, answer);
+    console.log(`answer for question ${question} (${i + 1}):`, answer);
     const inputs = p.querySelectorAll("input");
 
     inputs.forEach((input) => {
