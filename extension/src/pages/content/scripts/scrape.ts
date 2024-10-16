@@ -54,7 +54,7 @@ export const scrape = (url: string): ScrapeRecord => {
   const courseIconImg = document.querySelector(
     'img[alt="desktop course icon"]'
   );
-  let courseIcon = (courseIconImg as HTMLImageElement).src ?? "null";
+  const courseIcon = (courseIconImg as HTMLImageElement).src ?? "null";
   let courseCode = "null";
   let course = "null";
   if (courseIconImg) {

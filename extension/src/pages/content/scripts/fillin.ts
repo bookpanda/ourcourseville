@@ -10,14 +10,21 @@ export const fillin = async (record: RecordDTO) => {
     (child) => child.tagName === "DIV"
   );
 
-  problems.forEach((div, i) => {
-    if (i >= record.problems.length) {
-      console.error("No answer found for question", i + 1);
-      return;
-    }
-    const answer = record.problems[i].answer;
+  const solutions = record.problems;
+
+  problems.forEach((p, i) => {
+    const questionDiv = p.children[0].children[0];
+    const questionP = questionDiv.getElementsByTagName("p");
+    const textArray = Array.from(questionP).map((para) =>
+      para.textContent?.trim()
+    );
+    const question = textArray.join(" ");
+
+    const answer =
+      solutions.find((solution) => solution.question === question)?.answer ??
+      "No answer found";
     console.log(`answer for question ${i + 1}`, answer);
-    const inputs = div.querySelectorAll("input");
+    const inputs = p.querySelectorAll("input");
 
     inputs.forEach((input) => {
       if (input.type === "text") {
@@ -29,7 +36,7 @@ export const fillin = async (record: RecordDTO) => {
       }
     });
 
-    const buttons = div.querySelectorAll("button");
+    const buttons = p.querySelectorAll("button");
     buttons.forEach((button) => {
       if (button.value === answer) {
         button.click();
