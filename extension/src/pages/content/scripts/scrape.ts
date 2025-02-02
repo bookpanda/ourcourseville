@@ -31,7 +31,8 @@ export const scrape = (url: string): ScrapeRecord => {
     const checkedButton = answerDiv.querySelector(
       'button[data-state="checked"]'
     );
-    const label = document.querySelector(`label[for="${checkedButton?.id}"]`);
+    const escapedID = checkedButton?.id?.replace(/"/g, `\\"`);
+    const label = document.querySelector(`label[for="${escapedID}"]`);
     const choiceAnswer = label?.textContent?.trim();
     if (choiceAnswer)
       return {
